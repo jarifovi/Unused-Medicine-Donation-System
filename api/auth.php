@@ -1,4 +1,5 @@
 <?php
+session_start();
 header('Content-Type: application/json');
 require_once 'db_config.php';
 
@@ -32,7 +33,6 @@ if ($action === 'login') {
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
-        session_start();
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['user_type'] = $user['type'];
@@ -48,4 +48,3 @@ if ($action === 'login') {
         echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
     }
 }
-?>
