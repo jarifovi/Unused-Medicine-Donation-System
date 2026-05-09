@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedDonate - Advanced Medicine Donation System</title>
+    <title>MedDonate - Elite Medicine Donation Management</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/style.css">
@@ -12,24 +12,29 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
         .page-container { min-height: 80vh; padding: 2rem 0; }
-        .form-card { max-width: 500px; margin: 0 auto; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 1.2rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; }
-        .medicine-card { border: 1px solid #eee; padding: 1.5rem; border-radius: 10px; background: #fff; transition: transform 0.2s; }
-        .medicine-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .badge { display: inline-block; padding: 0.25rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-bottom: 0.5rem; }
-        .badge-tablet { background: #e3f2fd; color: #1976d2; }
-        .badge-syrup { background: #f3e5f5; color: #7b1fa2; }
-        .badge-injection { background: #fff3e0; color: #f57c00; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .form-card { max-width: 600px; margin: 0 auto; padding: 2.5rem; background: white; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.6rem; font-weight: 600; color: #333; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 1rem; border: 1px solid #e0e0e0; border-radius: 8px; transition: border-color 0.3s; }
+        .form-group input:focus { border-color: #1976d2; outline: none; }
+        .medicine-card { border: none; padding: 2rem; border-radius: 12px; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+        .expiry-warning { border: 2px solid #ff5252; }
+        .expiry-tag { position: absolute; top: 0; right: 0; background: #ff5252; color: white; padding: 0.2rem 0.8rem; font-size: 0.7rem; font-weight: bold; border-bottom-left-radius: 10px; }
+        .badge { padding: 0.3rem 0.8rem; border-radius: 30px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .section-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 3rem; gap: 1rem; }
+        .search-bar { flex-grow: 1; max-width: 400px; position: relative; }
+        .search-bar input { width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; border-radius: 25px; border: 1px solid #ddd; }
+        .search-bar i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #999; }
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: white; border-radius: 8px; overflow: hidden; }
+        .admin-table th, .admin-table td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
+        .admin-table th { background: #f8f9fa; font-weight: 600; }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useMemo } = React;
 
         function App() {
             const [page, setPage] = useState('home');
@@ -49,6 +54,7 @@
                         <nav className="nav-links">
                             <ul>
                                 <li><a onClick={() => setPage('home')}>Home</a></li>
+                                <li><a onClick={() => setPage('contact')}>Contact</a></li>
                                 {!user ? (
                                     <>
                                         <li><a onClick={() => setPage('login')} className="btn-secondary">Login</a></li>
@@ -65,6 +71,46 @@
                     </div>
                 </header>
             );
+
+            const Contact = () => {
+                const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
+                const [sent, setSent] = useState(false);
+
+                const handleSubmit = async (e) => {
+                    e.preventDefault();
+                    const res = await fetch('api/contact.php?action=send', {
+                        method: 'POST',
+                        body: JSON.stringify(form)
+                    });
+                    const data = await res.json();
+                    if (data.success) setSent(true);
+                    else alert(data.message);
+                };
+
+                return (
+                    <div className="form-card">
+                        {sent ? (
+                            <div style={{textAlign:'center'}}>
+                                <i className="fas fa-check-circle" style={{fontSize:'4rem', color:'#4caf50', marginBottom:'1rem'}}></i>
+                                <h2>Message Sent!</h2>
+                                <p>Thank you for reaching out. Our team will contact you soon.</p>
+                                <button onClick={()=>setPage('home')} className="btn btn-primary" style={{marginTop:'1rem'}}>Back to Home</button>
+                            </div>
+                        ) : (
+                            <>
+                                <h2>Contact Us</h2>
+                                <form onSubmit={handleSubmit}>
+                                    <div className="form-group"><label>Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name: e.target.value})} required /></div>
+                                    <div className="form-group"><label>Email</label><input type="email" value={form.email} onChange={e=>setForm({...form, email: e.target.value})} required /></div>
+                                    <div className="form-group"><label>Subject</label><input type="text" value={form.subject} onChange={e=>setForm({...form, subject: e.target.value})} /></div>
+                                    <div className="form-group"><label>Message</label><textarea value={form.message} onChange={e=>setForm({...form, message: e.target.value})} required rows="4" /></div>
+                                    <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Send Message</button>
+                                </form>
+                            </>
+                        )}
+                    </div>
+                );
+            };
 
             const Login = () => {
                 const [email, setEmail] = useState('');
@@ -85,11 +131,12 @@
 
                 return (
                     <div className="form-card">
-                        <h2>Login</h2>
+                        <h2>Welcome Back</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group"><label>Email</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
                             <div className="form-group"><label>Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
                             <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Login</button>
+                            <p style={{marginTop:'1.5rem', textAlign:'center'}}>Admin login: admin@meddonate.com / admin123</p>
                         </form>
                     </div>
                 );
@@ -105,15 +152,13 @@
                         body: JSON.stringify(form)
                     });
                     const data = await res.json();
-                    if (data.success) {
-                        alert('Registration successful!');
-                        setPage('login');
-                    } else alert(data.message);
+                    if (data.success) { alert('Success!'); setPage('login'); }
+                    else alert(data.message);
                 };
 
                 return (
                     <div className="form-card">
-                        <h2>Create Account</h2>
+                        <h2>Join the Mission</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group"><label>Full Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name: e.target.value})} required /></div>
                             <div className="form-group"><label>Email</label><input type="email" value={form.email} onChange={e=>setForm({...form, email: e.target.value})} required /></div>
@@ -126,7 +171,7 @@
                                 </select>
                             </div>
                             <div className="form-group"><label>Address</label><textarea value={form.address} onChange={e=>setForm({...form, address: e.target.value})} required /></div>
-                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Sign Up</button>
+                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Create Account</button>
                         </form>
                     </div>
                 );
@@ -134,12 +179,13 @@
 
             const Dashboard = () => {
                 const [medicines, setMedicines] = useState([]);
-                const [myRequests, setMyRequests] = useState([]);
-                const [view, setView] = useState('inventory'); // inventory, my_donations, my_requests
+                const [adminRequests, setAdminRequests] = useState([]);
+                const [search, setSearch] = useState('');
+                const [view, setView] = useState(user.type === 'Admin' ? 'admin' : 'inventory');
 
                 useEffect(() => {
                     fetchInventory();
-                    if (user.type === 'NGO') fetchMyRequests();
+                    if (user.type === 'Admin') fetchAdminRequests();
                 }, []);
 
                 const fetchInventory = async () => {
@@ -148,59 +194,84 @@
                     if (data.success) setMedicines(data.medicines);
                 };
 
-                const fetchMyRequests = async () => {
-                    const res = await fetch('api/medicines.php?action=my_requests');
+                const fetchAdminRequests = async () => {
+                    const res = await fetch('api/medicines.php?action=admin_requests');
                     const data = await res.json();
-                    if (data.success) setMyRequests(data.requests);
+                    if (data.success) setAdminRequests(data.requests);
                 };
 
-                const handleRequest = async (id) => {
-                    const res = await fetch('api/medicines.php?action=request', {
+                const handleAdminAction = async (requestId, status) => {
+                    const res = await fetch('api/medicines.php?action=approve_request', {
                         method: 'POST',
-                        body: JSON.stringify({ medicine_id: id })
+                        body: JSON.stringify({ request_id: requestId, status })
                     });
                     const data = await res.json();
-                    if (data.success) {
-                        alert('Request submitted!');
-                        fetchInventory();
-                        fetchMyRequests();
-                    } else alert(data.message);
+                    if (data.success) { fetchAdminRequests(); fetchInventory(); }
+                    else alert(data.message);
+                };
+
+                const filteredMeds = useMemo(() => {
+                    return medicines.filter(m => m.name.toLowerCase().includes(search.toLowerCase()) || m.category.toLowerCase().includes(search.toLowerCase()));
+                }, [medicines, search]);
+
+                const isNearExpiry = (date) => {
+                    const exp = new Date(date);
+                    const now = new Date();
+                    const diff = exp - now;
+                    return diff < (1000 * 60 * 60 * 24 * 30); // 30 days
                 };
 
                 return (
                     <div className="container">
                         <div className="section-header">
-                            <h2>Welcome, {user.name}</h2>
+                            <h2>{user.type} Console</h2>
+                            <div className="search-bar">
+                                <i className="fas fa-search"></i>
+                                <input type="text" placeholder="Search medicines by name or category..." value={search} onChange={e=>setSearch(e.target.value)} />
+                            </div>
                             <div style={{display:'flex', gap:'0.5rem'}}>
+                                {user.type === 'Admin' && <button onClick={() => setView('admin')} className={`btn ${view==='admin'?'btn-primary':'btn-secondary'}`}>Admin</button>}
                                 <button onClick={() => setView('inventory')} className={`btn ${view==='inventory'?'btn-primary':'btn-secondary'}`}>Inventory</button>
-                                {user.type === 'NGO' && <button onClick={() => setView('my_requests')} className={`btn ${view==='my_requests'?'btn-primary':'btn-secondary'}`}>My Requests</button>}
                                 <button onClick={() => setView('donate')} className={`btn ${view==='donate'?'btn-primary':'btn-secondary'}`}>Donate</button>
                             </div>
                         </div>
 
+                        {view === 'admin' && user.type === 'Admin' && (
+                            <div className="admin-console">
+                                <h3>Pending NGO Requests</h3>
+                                <table className="admin-table">
+                                    <thead>
+                                        <tr><th>Medicine</th><th>NGO</th><th>Date</th><th>Actions</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {adminRequests.map(r => (
+                                            <tr key={r.id}>
+                                                <td>{r.medicine_name}</td>
+                                                <td>{r.ngo_name}</td>
+                                                <td>{new Date(r.request_date).toLocaleDateString()}</td>
+                                                <td>
+                                                    <button onClick={()=>handleAdminAction(r.id, 'Approved')} className="btn btn-primary" style={{padding:'0.4rem 0.8rem', marginRight:'0.5rem'}}>Approve</button>
+                                                    <button onClick={()=>handleAdminAction(r.id, 'Rejected')} className="btn btn-secondary" style={{padding:'0.4rem 0.8rem', background:'#ff5252', borderColor:'#ff5252'}}>Reject</button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        {adminRequests.length === 0 && <tr><td colSpan="4" style={{textAlign:'center'}}>No pending requests.</td></tr>}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+
                         {view === 'inventory' && (
                             <div className="cards-grid">
-                                {medicines.map(m => (
-                                    <div key={m.id} className="medicine-card">
+                                {filteredMeds.map(m => (
+                                    <div key={m.id} className={`medicine-card ${isNearExpiry(m.expiry_date) ? 'expiry-warning' : ''}`}>
+                                        {isNearExpiry(m.expiry_date) && <span className="expiry-tag">Expiring Soon!</span>}
                                         <span className={`badge badge-${m.category.toLowerCase()}`}>{m.category}</span>
                                         <h4>{m.name}</h4>
                                         <p>{m.description}</p>
                                         <p><small><i className="fas fa-calendar-alt"></i> Expires: {m.expiry_date}</small></p>
                                         <p><small><i className="fas fa-user"></i> Donor: {m.donor_name}</small></p>
                                         <p><strong>Qty: {m.quantity}</strong></p>
-                                        {user.type === 'NGO' && <button onClick={() => handleRequest(m.id)} className="btn btn-secondary" style={{width:'100%', marginTop:'1rem'}}>Request</button>}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        {view === 'my_requests' && (
-                            <div className="cards-grid">
-                                {myRequests.map(r => (
-                                    <div key={r.id} className="medicine-card">
-                                        <h4>{r.medicine_name}</h4>
-                                        <p>Status: <strong>{r.status}</strong></p>
-                                        <p><small>Requested on: {new Date(r.request_date).toLocaleDateString()}</small></p>
                                     </div>
                                 ))}
                             </div>
@@ -213,46 +284,29 @@
 
             const DonateForm = ({ onComplete }) => {
                 const [form, setForm] = useState({ name: '', category: 'Tablet', description: '', expiry_date: '', quantity: 1 });
-
                 const handleSubmit = async (e) => {
                     e.preventDefault();
-                    const res = await fetch('api/medicines.php?action=donate', {
-                        method: 'POST',
-                        body: JSON.stringify(form)
-                    });
+                    const res = await fetch('api/medicines.php?action=donate', { method:'POST', body: JSON.stringify(form) });
                     const data = await res.json();
-                    if (data.success) {
-                        alert('Thank you for your donation!');
-                        onComplete();
-                    } else alert(data.message);
+                    if (data.success) { alert('Donated!'); onComplete(); }
+                    else alert(data.message);
                 };
-
                 return (
-                    <div className="form-card" style={{maxWidth:'800px'}}>
+                    <div className="form-card">
                         <h3>Donate Medicine</h3>
-                        <form onSubmit={handleSubmit} style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1.5rem'}}>
-                            <div className="form-group"><label>Medicine Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name: e.target.value})} required /></div>
-                            <div className="form-group"><label>Category</label>
-                                <select value={form.category} onChange={e=>setForm({...form, category: e.target.value})}>
-                                    <option value="Tablet">Tablet</option>
-                                    <option value="Syrup">Syrup</option>
-                                    <option value="Injection">Injection</option>
-                                    <option value="Ointment">Ointment</option>
-                                </select>
-                            </div>
-                            <div className="form-group" style={{gridColumn:'span 2'}}><label>Description</label><textarea value={form.description} onChange={e=>setForm({...form, description: e.target.value})} required /></div>
-                            <div className="form-group"><label>Expiry Date</label><input type="date" value={form.expiry_date} onChange={e=>setForm({...form, expiry_date: e.target.value})} required /></div>
-                            <div className="form-group"><label>Quantity</label><input type="number" value={form.quantity} onChange={e=>setForm({...form, quantity: e.target.value})} required /></div>
-                            <button type="submit" className="btn btn-primary" style={{gridColumn:'span 2'}}>Submit Donation</button>
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group"><label>Medicine Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} required /></div>
+                            <div className="form-group"><label>Category</label><select value={form.category} onChange={e=>setForm({...form, category:e.target.value})}><option>Tablet</option><option>Syrup</option><option>Injection</option><option>Ointment</option></select></div>
+                            <div className="form-group"><label>Description</label><textarea value={form.description} onChange={e=>setForm({...form, description:e.target.value})} required /></div>
+                            <div className="form-group"><label>Expiry Date</label><input type="date" value={form.expiry_date} onChange={e=>setForm({...form, expiry_date:e.target.value})} required /></div>
+                            <div className="form-group"><label>Quantity</label><input type="number" value={form.quantity} onChange={e=>setForm({...form, quantity:e.target.value})} required /></div>
+                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Donate Now</button>
                         </form>
                     </div>
                 );
             };
 
-            const logout = () => {
-                setUser(null);
-                setPage('home');
-            };
+            const logout = () => { setUser(null); setPage('home'); };
 
             return (
                 <div className="app">
@@ -262,24 +316,23 @@
                             <main className="main-content">
                                 <section className="hero">
                                     <div className="container">
-                                        <h1>Save Lives, Donate Medicine.</h1>
-                                        <p>A bridge between individual donors and NGOs in need.</p>
-                                        {!user && <a onClick={() => setPage('register')} className="btn btn-primary" style={{cursor:'pointer'}}>Join Us Today</a>}
+                                        <h1>Save Lives, Share Health.</h1>
+                                        <p>The most advanced platform for unused medicine donation and management.</p>
+                                        {!user && <a onClick={() => setPage('register')} className="btn btn-primary">Join the Mission</a>}
                                     </div>
                                 </section>
                             </main>
                         )}
+                        {page === 'contact' && <Contact />}
                         {page === 'login' && <Login />}
                         {page === 'register' && <Register />}
                         {page === 'dashboard' && <Dashboard />}
                     </div>
-                    <footer className="footer"><div className="container"><p>&copy; 2025 MedDonate. All rights reserved.</p></div></footer>
+                    <footer className="footer"><div className="container"><p>&copy; 2025 MedDonate Elite. All rights reserved.</p></div></footer>
                 </div>
             );
         }
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
     </script>
 </body>
 </html>

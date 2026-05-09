@@ -10,6 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $action = $_GET['action'] ?? '';
 $user_id = $_SESSION['user_id'];
+$user_type = $_SESSION['user_type'];
 
 if ($action === 'donate') {
     $data = json_decode(file_get_contents('php://input'), true);
@@ -39,7 +40,7 @@ if ($action === 'request') {
     $data = json_decode(file_get_contents('php://input'), true);
     $medicine_id = $data['medicine_id'];
 
-    if ($_SESSION['user_type'] !== 'NGO') {
+    if ($user_type !== 'NGO') {
         echo json_encode(['success' => false, 'message' => 'Only NGOs can request medicines']);
         exit;
     }
@@ -57,6 +58,39 @@ if ($action === 'request') {
     } catch (PDOException $e) {
         $pdo->rollBack();
         echo json_encode(['success' => false, 'message' => 'Request failed: ' . $e->getMessage()]);
+    }
+}
+
+// Admin Actions
+if ($action === 'admin_requests' && $user_type === 'Admin') {
+    $stmt = $pdo->prepare("SELECT r.*, m.name as medicine_name, u.name as ngo_name FROM requests r JOIN medicines m ON r.medicine_id = m.id JOIN users u ON r.ngo_id = u.id WHERE r.status = 'Pending'");
+    $stmt->execute();
+    echo json_encode(['success' => true, 'requests' => $stmt->fetchAll()]);
+}
+
+if ($action === 'approve_request' && $user_type === 'Admin') {
+    $data = json_decode(file_get_contents('php://input'), true);
+    $request_id = $data['request_id'];
+    $status = $data['status']; // Approved or Rejected
+
+    try {
+        $pdo->beginTransaction();
+        $stmt = $pdo->prepare("UPDATE requests SET status = ? WHERE id = ?");
+        $stmt->execute([$status, $request_id]);
+
+        $reqStmt = $pdo->prepare("SELECT medicine_id FROM requests WHERE id = ?");
+        $reqStmt->execute([$request_id]);
+        $medicine_id = $reqStmt->fetchColumn();
+
+        $medStatus = ($status === 'Approved') ? 'Approved' : 'Available';
+        $stmt = $pdo->prepare("UPDATE medicines SET status = ? WHERE id = ?");
+        $stmt->execute([$medStatus, $medicine_id]);
+
+        $pdo->commit();
+        echo json_encode(['success' => true, 'message' => "Request $status successfully"]);
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        echo json_encode(['success' => false, 'message' => 'Operation failed: ' . $e->getMessage()]);
     }
 }
 
