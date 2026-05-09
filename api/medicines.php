@@ -12,97 +12,90 @@ $action = $_GET['action'] ?? '';
 $user_id = $_SESSION['user_id'];
 $user_type = $_SESSION['user_type'];
 
-if ($action === 'donate') {
-    $data = json_decode(file_get_contents('php://input'), true);
-    $name = $data['name'];
-    $category = $data['category'] ?? 'Tablet';
-    $desc = $data['description'];
-    $expiry = $data['expiry_date'];
-    $qty = $data['quantity'];
-
-    try {
-        $stmt = $pdo->prepare("INSERT INTO medicines (name, category, description, expiry_date, quantity, donor_id, status) VALUES (?, ?, ?, ?, ?, ?, 'Available')");
-        $stmt->execute([$name, $category, $desc, $expiry, $qty, $user_id]);
-        echo json_encode(['success' => true, 'message' => 'Medicine donated successfully']);
-    } catch (PDOException $e) {
-        echo json_encode(['success' => false, 'message' => 'Donation failed: ' . $e->getMessage()]);
-    }
+function notify($pdo, $uid, $msg) {
+    $stmt = $pdo->prepare("INSERT INTO notifications (user_id, message) VALUES (?, ?)");
+    $stmt->execute([$uid, $msg]);
 }
 
-if ($action === 'list') {
-    $stmt = $pdo->prepare("SELECT m.*, u.name as donor_name FROM medicines m JOIN users u ON m.donor_id = u.id WHERE m.status = 'Available'");
-    $stmt->execute();
-    $medicines = $stmt->fetchAll();
-    echo json_encode(['success' => true, 'medicines' => $medicines]);
+if ($action === 'donate') {
+    $data = json_decode(file_get_contents('php://input'), true);
+    try {
+        $pdo->beginTransaction();
+        $stmt = $pdo->prepare("INSERT INTO medicines (name, category, description, expiry_date, quantity, donor_id, status) VALUES (?, ?, ?, ?, ?, ?, 'Available')");
+        $stmt->execute([$data['name'], $data['category'], $data['description'], $data['expiry_date'], $data['quantity'], $user_id]);
+        
+        $stmt = $pdo->prepare("UPDATE users SET donations_made = donations_made + 1 WHERE id = ?");
+        $stmt->execute([$user_id]);
+        
+        $pdo->commit();
+        echo json_encode(['success' => true, 'message' => 'Donation recorded']);
+    } catch (Exception $e) { $pdo->rollBack(); echo json_encode(['success' => false, 'message' => $e->getMessage()]); }
 }
 
 if ($action === 'request') {
     $data = json_decode(file_get_contents('php://input'), true);
-    $medicine_id = $data['medicine_id'];
-
-    if ($user_type !== 'NGO') {
-        echo json_encode(['success' => false, 'message' => 'Only NGOs can request medicines']);
-        exit;
-    }
-
     try {
         $pdo->beginTransaction();
         $stmt = $pdo->prepare("INSERT INTO requests (medicine_id, ngo_id, status) VALUES (?, ?, 'Pending')");
-        $stmt->execute([$medicine_id, $user_id]);
+        $stmt->execute([$data['medicine_id'], $user_id]);
         
         $stmt = $pdo->prepare("UPDATE medicines SET status = 'Requested' WHERE id = ?");
-        $stmt->execute([$medicine_id]);
+        $stmt->execute([$data['medicine_id']]);
         
-        $pdo->commit();
-        echo json_encode(['success' => true, 'message' => 'Request submitted successfully']);
-    } catch (PDOException $e) {
-        $pdo->rollBack();
-        echo json_encode(['success' => false, 'message' => 'Request failed: ' . $e->getMessage()]);
-    }
-}
+        // Notify Donor
+        $medStmt = $pdo->prepare("SELECT donor_id, name FROM medicines WHERE id = ?");
+        $medStmt->execute([$data['medicine_id']]);
+        $med = $medStmt->fetch();
+        notify($pdo, $med['donor_id'], "An NGO has requested your donation: " . $med['name']);
 
-// Admin Actions
-if ($action === 'admin_requests' && $user_type === 'Admin') {
-    $stmt = $pdo->prepare("SELECT r.*, m.name as medicine_name, u.name as ngo_name FROM requests r JOIN medicines m ON r.medicine_id = m.id JOIN users u ON r.ngo_id = u.id WHERE r.status = 'Pending'");
-    $stmt->execute();
-    echo json_encode(['success' => true, 'requests' => $stmt->fetchAll()]);
+        $pdo->commit();
+        echo json_encode(['success' => true]);
+    } catch (Exception $e) { $pdo->rollBack(); echo json_encode(['success' => false]); }
 }
 
 if ($action === 'approve_request' && $user_type === 'Admin') {
     $data = json_decode(file_get_contents('php://input'), true);
-    $request_id = $data['request_id'];
-    $status = $data['status']; // Approved or Rejected
-
     try {
         $pdo->beginTransaction();
         $stmt = $pdo->prepare("UPDATE requests SET status = ? WHERE id = ?");
-        $stmt->execute([$status, $request_id]);
+        $stmt->execute([$data['status'], $data['request_id']]);
 
-        $reqStmt = $pdo->prepare("SELECT medicine_id FROM requests WHERE id = ?");
-        $reqStmt->execute([$request_id]);
-        $medicine_id = $reqStmt->fetchColumn();
+        $reqStmt = $pdo->prepare("SELECT medicine_id, ngo_id FROM requests WHERE id = ?");
+        $reqStmt->execute([$data['request_id']]);
+        $req = $reqStmt->fetch();
 
-        $medStatus = ($status === 'Approved') ? 'Approved' : 'Available';
-        $stmt = $pdo->prepare("UPDATE medicines SET status = ? WHERE id = ?");
-        $stmt->execute([$medStatus, $medicine_id]);
+        if ($data['status'] === 'Approved') {
+            $stmt = $pdo->prepare("UPDATE medicines SET status = 'Approved' WHERE id = ?");
+            $stmt->execute([$req['medicine_id']]);
+            $stmt = $pdo->prepare("UPDATE users SET requests_completed = requests_completed + 1 WHERE id = ?");
+            $stmt->execute([$req['ngo_id']]);
+            notify($pdo, $req['ngo_id'], "Your request has been approved!");
+        } else {
+            $stmt = $pdo->prepare("UPDATE medicines SET status = 'Available' WHERE id = ?");
+            $stmt->execute([$req['medicine_id']]);
+            notify($pdo, $req['ngo_id'], "Your request was rejected.");
+        }
 
         $pdo->commit();
-        echo json_encode(['success' => true, 'message' => "Request $status successfully"]);
-    } catch (PDOException $e) {
-        $pdo->rollBack();
-        echo json_encode(['success' => false, 'message' => 'Operation failed: ' . $e->getMessage()]);
-    }
+        echo json_encode(['success' => true]);
+    } catch (Exception $e) { $pdo->rollBack(); echo json_encode(['success' => false]); }
 }
 
-if ($action === 'my_donations') {
-    $stmt = $pdo->prepare("SELECT * FROM medicines WHERE donor_id = ?");
-    $stmt->execute([$user_id]);
+if ($action === 'list') {
+    $stmt = $pdo->prepare("SELECT m.*, u.name as donor_name, u.is_verified as donor_verified FROM medicines m JOIN users u ON m.donor_id = u.id WHERE m.status = 'Available'");
+    $stmt->execute();
     echo json_encode(['success' => true, 'medicines' => $stmt->fetchAll()]);
 }
 
-if ($action === 'my_requests') {
-    $stmt = $pdo->prepare("SELECT r.*, m.name as medicine_name, m.category FROM requests r JOIN medicines m ON r.medicine_id = m.id WHERE r.ngo_id = ?");
+if ($action === 'notifications') {
+    $stmt = $pdo->prepare("SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 10");
     $stmt->execute([$user_id]);
-    echo json_encode(['success' => true, 'requests' => $stmt->fetchAll()]);
+    echo json_encode(['success' => true, 'notifications' => $stmt->fetchAll()]);
+}
+
+if ($action === 'leaderboard') {
+    $donors = $pdo->query("SELECT name, donations_made FROM users WHERE type = 'Individual' ORDER BY donations_made DESC LIMIT 5")->fetchAll();
+    $ngos = $pdo->query("SELECT name, requests_completed FROM users WHERE type = 'NGO' ORDER BY requests_completed DESC LIMIT 5")->fetchAll();
+    echo json_encode(['success' => true, 'donors' => $donors, 'ngos' => $ngos]);
 }
 ?>

@@ -1,4 +1,4 @@
--- Advanced MySQL Dump for Unused Medicine Donation System
+-- Ultra-Advanced MySQL Dump for Unused Medicine Donation System
 CREATE DATABASE IF NOT EXISTS med_donate;
 USE med_donate;
 
@@ -11,6 +11,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `type` enum('Individual','NGO','Admin') DEFAULT 'Individual',
   `phone` varchar(20) DEFAULT NULL,
   `address` text DEFAULT NULL,
+  `is_verified` tinyint(1) DEFAULT 0,
+  `donations_made` int(11) DEFAULT 0,
+  `requests_completed` int(11) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
@@ -25,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `medicines` (
   `expiry_date` date NOT NULL,
   `quantity` int(11) NOT NULL,
   `status` enum('Available','Donated','Expired','Requested','Approved') DEFAULT 'Available',
+  `is_verified` tinyint(1) DEFAULT 0,
   `donor_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
@@ -47,19 +51,18 @@ CREATE TABLE IF NOT EXISTS `requests` (
   CONSTRAINT `requests_ibfk_2` FOREIGN KEY (`ngo_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Contacts Table
-CREATE TABLE IF NOT EXISTS `contacts` (
+-- Notifications Table
+CREATE TABLE IF NOT EXISTS `notifications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `subject` varchar(255) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
   `message` text NOT NULL,
-  `status` enum('New','Read','Replied') DEFAULT 'New',
+  `is_read` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Insert a default Admin for testing
--- Password is 'admin123'
-INSERT IGNORE INTO `users` (`name`, `email`, `password`, `type`) 
-VALUES ('System Admin', 'admin@meddonate.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Admin');
+-- Default Admin
+INSERT IGNORE INTO `users` (`name`, `email`, `password`, `type`, `is_verified`) 
+VALUES ('System Admin', 'admin@meddonate.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Admin', 1);

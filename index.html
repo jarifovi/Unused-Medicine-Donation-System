@@ -3,31 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedDonate - Elite Medicine Donation Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>MedDonate - Ultra Advanced platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/style.css">
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-        .page-container { min-height: 80vh; padding: 2rem 0; }
-        .form-card { max-width: 600px; margin: 0 auto; padding: 2.5rem; background: white; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.6rem; font-weight: 600; color: #333; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 1rem; border: 1px solid #e0e0e0; border-radius: 8px; transition: border-color 0.3s; }
-        .form-group input:focus { border-color: #1976d2; outline: none; }
-        .medicine-card { border: none; padding: 2rem; border-radius: 12px; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
-        .expiry-warning { border: 2px solid #ff5252; }
-        .expiry-tag { position: absolute; top: 0; right: 0; background: #ff5252; color: white; padding: 0.2rem 0.8rem; font-size: 0.7rem; font-weight: bold; border-bottom-left-radius: 10px; }
-        .badge { padding: 0.3rem 0.8rem; border-radius: 30px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
-        .section-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 3rem; gap: 1rem; }
-        .search-bar { flex-grow: 1; max-width: 400px; position: relative; }
-        .search-bar input { width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; border-radius: 25px; border: 1px solid #ddd; }
-        .search-bar i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #999; }
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: white; border-radius: 8px; overflow: hidden; }
-        .admin-table th, .admin-table td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
-        .admin-table th { background: #f8f9fa; font-weight: 600; }
+        :root { --primary: #1e88e5; --secondary: #26c6da; --accent: #ff7043; --dark: #263238; --glass: rgba(255, 255, 255, 0.9); }
+        body { font-family: 'Outfit', sans-serif; background: #f0f4f8; }
+        .glass-card { background: var(--glass); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 8px 32px rgba(31,38,135,0.1); }
+        .navbar { background: var(--dark); padding: 1rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .nav-links li a { color: #fff; font-weight: 500; transition: color 0.3s; }
+        .notification-bell { position: relative; cursor: pointer; color: #fff; font-size: 1.2rem; }
+        .notification-badge { position: absolute; top: -5px; right: -8px; background: var(--accent); color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 50%; }
+        .leaderboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+        .leaderboard-card { padding: 1.5rem; border-radius: 15px; background: white; border-left: 5px solid var(--primary); }
+        .verified-badge { color: #4caf50; margin-left: 0.5rem; font-size: 0.9rem; }
+        .impact-number { font-size: 2.5rem; font-weight: 700; color: var(--primary); }
+        .medicine-card { border: none; padding: 1.5rem; transition: transform 0.3s, box-shadow 0.3s; }
+        .medicine-card:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .map-mockup { height: 200px; background: #e0e0e0; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #777; font-style: italic; margin-top: 1rem; }
     </style>
 </head>
 <body>
@@ -39,245 +36,149 @@
         function App() {
             const [page, setPage] = useState('home');
             const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
+            const [notifications, setNotifications] = useState([]);
+            const [showNotifs, setShowNotifs] = useState(false);
 
             useEffect(() => {
-                if (user) localStorage.setItem('user', JSON.stringify(user));
-                else localStorage.removeItem('user');
+                if (user) {
+                    localStorage.setItem('user', JSON.stringify(user));
+                    fetchNotifications();
+                } else localStorage.removeItem('user');
             }, [user]);
+
+            const fetchNotifications = async () => {
+                const res = await fetch('api/medicines.php?action=notifications');
+                const data = await res.json();
+                if (data.success) setNotifications(data.notifications);
+            };
 
             const Navbar = () => (
                 <header className="navbar">
-                    <div className="container">
-                        <a onClick={() => setPage('home')} className="logo" style={{cursor:'pointer'}}>
-                            <i className="fas fa-heartbeat"></i> MedDonate
+                    <div className="container" style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                        <a onClick={() => setPage('home')} className="logo" style={{cursor:'pointer', color:'#fff', fontSize:'1.5rem', fontWeight:'700'}}>
+                            <i className="fas fa-hand-holding-heart" style={{color:var(--secondary)}}></i> MedDonate Elite
                         </a>
                         <nav className="nav-links">
-                            <ul>
+                            <ul style={{display:'flex', gap:'1.5rem', alignItems:'center', listStyle:'none'}}>
                                 <li><a onClick={() => setPage('home')}>Home</a></li>
-                                <li><a onClick={() => setPage('contact')}>Contact</a></li>
-                                {!user ? (
-                                    <>
-                                        <li><a onClick={() => setPage('login')} className="btn-secondary">Login</a></li>
-                                        <li><a onClick={() => setPage('register')} className="btn-primary">Sign Up</a></li>
-                                    </>
-                                ) : (
+                                {user && (
                                     <>
                                         <li><a onClick={() => setPage('dashboard')}>Dashboard</a></li>
-                                        <li><a onClick={logout} className="btn-secondary">Logout</a></li>
+                                        <li className="notification-bell" onClick={() => setShowNotifs(!showNotifs)}>
+                                            <i className="fas fa-bell"></i>
+                                            {notifications.filter(n=>!n.is_read).length > 0 && <span className="notification-badge">{notifications.filter(n=>!n.is_read).length}</span>}
+                                            {showNotifs && (
+                                                <div className="glass-card" style={{position:'absolute', top:'40px', right:'0', width:'300px', color:'#333', padding:'1rem', zIndex:100}}>
+                                                    <h5 style={{borderBottom:'1px solid #eee', paddingBottom:'0.5rem'}}>Notifications</h5>
+                                                    {notifications.map(n => <p key={n.id} style={{fontSize:'0.8rem', borderBottom:'1px solid #f9f9f9', padding:'0.5rem 0'}}>{n.message}</p>)}
+                                                    {notifications.length === 0 && <p style={{fontSize:'0.8rem'}}>No new updates.</p>}
+                                                </div>
+                                            )}
+                                        </li>
+                                        <li><a onClick={logout} className="btn-secondary" style={{padding:'0.4rem 1rem'}}>Logout</a></li>
                                     </>
                                 )}
+                                {!user && <li><a onClick={() => setPage('login')} className="btn-primary" style={{padding:'0.4rem 1rem'}}>Login</a></li>}
                             </ul>
                         </nav>
                     </div>
                 </header>
             );
 
-            const Contact = () => {
-                const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
-                const [sent, setSent] = useState(false);
-
-                const handleSubmit = async (e) => {
-                    e.preventDefault();
-                    const res = await fetch('api/contact.php?action=send', {
-                        method: 'POST',
-                        body: JSON.stringify(form)
-                    });
-                    const data = await res.json();
-                    if (data.success) setSent(true);
-                    else alert(data.message);
-                };
+            const Home = () => {
+                const [leaderboard, setLeaderboard] = useState({donors:[], ngos:[]});
+                useEffect(() => {
+                    fetch('api/medicines.php?action=leaderboard').then(r=>r.json()).then(d=>setLeaderboard(d));
+                }, []);
 
                 return (
-                    <div className="form-card">
-                        {sent ? (
-                            <div style={{textAlign:'center'}}>
-                                <i className="fas fa-check-circle" style={{fontSize:'4rem', color:'#4caf50', marginBottom:'1rem'}}></i>
-                                <h2>Message Sent!</h2>
-                                <p>Thank you for reaching out. Our team will contact you soon.</p>
-                                <button onClick={()=>setPage('home')} className="btn btn-primary" style={{marginTop:'1rem'}}>Back to Home</button>
+                    <main className="container" style={{padding:'3rem 0'}}>
+                        <section className="hero" style={{textAlign:'center', marginBottom:'4rem'}}>
+                            <h1 style={{fontSize:'3.5rem', marginBottom:'1rem'}}>Modern Medicine Donation</h1>
+                            <p style={{fontSize:'1.2rem', color:'#666', maxWidth:'700px', margin:'0 auto'}}>The most secure and transparent platform connecting donors with certified NGOs to reduce medicine waste and save lives.</p>
+                            {!user && <button onClick={()=>setPage('register')} className="btn btn-primary" style={{marginTop:'2rem', padding:'1rem 2.5rem', fontSize:'1.1rem'}}>Start Saving Lives</button>}
+                        </section>
+
+                        <div className="leaderboard-grid">
+                            <div className="leaderboard-card glass-card">
+                                <h3><i className="fas fa-trophy" style={{color:'#ffd700'}}></i> Top Donors</h3>
+                                {leaderboard.donors.map((d,i) => (
+                                    <div key={i} style={{display:'flex', justifyContent:'space-between', padding:'0.8rem 0', borderBottom:'1px solid #eee'}}>
+                                        <span>{d.name}</span>
+                                        <strong>{d.donations_made} Donations</strong>
+                                    </div>
+                                ))}
                             </div>
-                        ) : (
-                            <>
-                                <h2>Contact Us</h2>
-                                <form onSubmit={handleSubmit}>
-                                    <div className="form-group"><label>Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name: e.target.value})} required /></div>
-                                    <div className="form-group"><label>Email</label><input type="email" value={form.email} onChange={e=>setForm({...form, email: e.target.value})} required /></div>
-                                    <div className="form-group"><label>Subject</label><input type="text" value={form.subject} onChange={e=>setForm({...form, subject: e.target.value})} /></div>
-                                    <div className="form-group"><label>Message</label><textarea value={form.message} onChange={e=>setForm({...form, message: e.target.value})} required rows="4" /></div>
-                                    <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Send Message</button>
-                                </form>
-                            </>
-                        )}
-                    </div>
-                );
-            };
-
-            const Login = () => {
-                const [email, setEmail] = useState('');
-                const [password, setPassword] = useState('');
-
-                const handleSubmit = async (e) => {
-                    e.preventDefault();
-                    const res = await fetch('api/auth.php?action=login', {
-                        method: 'POST',
-                        body: JSON.stringify({ email, password })
-                    });
-                    const data = await res.json();
-                    if (data.success) {
-                        setUser(data.user);
-                        setPage('dashboard');
-                    } else alert(data.message);
-                };
-
-                return (
-                    <div className="form-card">
-                        <h2>Welcome Back</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-group"><label>Email</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
-                            <div className="form-group"><label>Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
-                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Login</button>
-                            <p style={{marginTop:'1.5rem', textAlign:'center'}}>Admin login: admin@meddonate.com / admin123</p>
-                        </form>
-                    </div>
-                );
-            };
-
-            const Register = () => {
-                const [form, setForm] = useState({ name: '', email: '', password: '', type: 'Individual', phone: '', address: '' });
-
-                const handleSubmit = async (e) => {
-                    e.preventDefault();
-                    const res = await fetch('api/auth.php?action=register', {
-                        method: 'POST',
-                        body: JSON.stringify(form)
-                    });
-                    const data = await res.json();
-                    if (data.success) { alert('Success!'); setPage('login'); }
-                    else alert(data.message);
-                };
-
-                return (
-                    <div className="form-card">
-                        <h2>Join the Mission</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-group"><label>Full Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name: e.target.value})} required /></div>
-                            <div className="form-group"><label>Email</label><input type="email" value={form.email} onChange={e=>setForm({...form, email: e.target.value})} required /></div>
-                            <div className="form-group"><label>Password</label><input type="password" value={form.password} onChange={e=>setForm({...form, password: e.target.value})} required /></div>
-                            <div className="form-group"><label>Phone</label><input type="text" value={form.phone} onChange={e=>setForm({...form, phone: e.target.value})} required /></div>
-                            <div className="form-group"><label>User Type</label>
-                                <select value={form.type} onChange={e=>setForm({...form, type: e.target.value})}>
-                                    <option value="Individual">Individual Donor</option>
-                                    <option value="NGO">NGO Receiver</option>
-                                </select>
+                            <div className="leaderboard-card glass-card">
+                                <h3><i className="fas fa-hands-helping" style={{color:var(--primary)}}></i> Active NGOs</h3>
+                                {leaderboard.ngos.map((d,i) => (
+                                    <div key={i} style={{display:'flex', justifyContent:'space-between', padding:'0.8rem 0', borderBottom:'1px solid #eee'}}>
+                                        <span>{d.name}</span>
+                                        <strong>{d.requests_completed} Requests</strong>
+                                    </div>
+                                ))}
                             </div>
-                            <div className="form-group"><label>Address</label><textarea value={form.address} onChange={e=>setForm({...form, address: e.target.value})} required /></div>
-                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Create Account</button>
-                        </form>
-                    </div>
+                        </div>
+
+                        <section style={{marginTop:'4rem', textAlign:'center'}}>
+                            <h3>Real-Time Tracking (Mockup)</h3>
+                            <div className="map-mockup">
+                                <i className="fas fa-map-marker-alt" style={{marginRight:'0.5rem'}}></i>
+                                Interactive map showing nearby donors and collection points...
+                            </div>
+                        </section>
+                    </main>
                 );
             };
 
             const Dashboard = () => {
                 const [medicines, setMedicines] = useState([]);
-                const [adminRequests, setAdminRequests] = useState([]);
+                const [view, setView] = useState('inventory');
                 const [search, setSearch] = useState('');
-                const [view, setView] = useState(user.type === 'Admin' ? 'admin' : 'inventory');
 
-                useEffect(() => {
-                    fetchInventory();
-                    if (user.type === 'Admin') fetchAdminRequests();
-                }, []);
-
+                useEffect(() => { fetchInventory(); }, []);
                 const fetchInventory = async () => {
                     const res = await fetch('api/medicines.php?action=list');
                     const data = await res.json();
                     if (data.success) setMedicines(data.medicines);
                 };
 
-                const fetchAdminRequests = async () => {
-                    const res = await fetch('api/medicines.php?action=admin_requests');
-                    const data = await res.json();
-                    if (data.success) setAdminRequests(data.requests);
-                };
-
-                const handleAdminAction = async (requestId, status) => {
-                    const res = await fetch('api/medicines.php?action=approve_request', {
-                        method: 'POST',
-                        body: JSON.stringify({ request_id: requestId, status })
-                    });
-                    const data = await res.json();
-                    if (data.success) { fetchAdminRequests(); fetchInventory(); }
-                    else alert(data.message);
-                };
-
-                const filteredMeds = useMemo(() => {
-                    return medicines.filter(m => m.name.toLowerCase().includes(search.toLowerCase()) || m.category.toLowerCase().includes(search.toLowerCase()));
-                }, [medicines, search]);
-
-                const isNearExpiry = (date) => {
-                    const exp = new Date(date);
-                    const now = new Date();
-                    const diff = exp - now;
-                    return diff < (1000 * 60 * 60 * 24 * 30); // 30 days
-                };
+                const filteredMeds = useMemo(() => medicines.filter(m => m.name.toLowerCase().includes(search.toLowerCase())), [medicines, search]);
 
                 return (
-                    <div className="container">
-                        <div className="section-header">
-                            <h2>{user.type} Console</h2>
-                            <div className="search-bar">
-                                <i className="fas fa-search"></i>
-                                <input type="text" placeholder="Search medicines by name or category..." value={search} onChange={e=>setSearch(e.target.value)} />
-                            </div>
-                            <div style={{display:'flex', gap:'0.5rem'}}>
-                                {user.type === 'Admin' && <button onClick={() => setView('admin')} className={`btn ${view==='admin'?'btn-primary':'btn-secondary'}`}>Admin</button>}
-                                <button onClick={() => setView('inventory')} className={`btn ${view==='inventory'?'btn-primary':'btn-secondary'}`}>Inventory</button>
-                                <button onClick={() => setView('donate')} className={`btn ${view==='donate'?'btn-primary':'btn-secondary'}`}>Donate</button>
+                    <div className="container" style={{padding:'2rem 0'}}>
+                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem'}}>
+                            <h2>{user.name}'s Dashboard</h2>
+                            <div style={{display:'flex', gap:'1rem'}}>
+                                <input type="text" placeholder="Search medicines..." value={search} onChange={e=>setSearch(e.target.value)} style={{padding:'0.5rem 1rem', borderRadius:'20px', border:'1px solid #ddd'}} />
+                                <button onClick={()=>setView('inventory')} className="btn btn-secondary">Inventory</button>
+                                <button onClick={()=>setView('donate')} className="btn btn-primary">Donate Now</button>
                             </div>
                         </div>
-
-                        {view === 'admin' && user.type === 'Admin' && (
-                            <div className="admin-console">
-                                <h3>Pending NGO Requests</h3>
-                                <table className="admin-table">
-                                    <thead>
-                                        <tr><th>Medicine</th><th>NGO</th><th>Date</th><th>Actions</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {adminRequests.map(r => (
-                                            <tr key={r.id}>
-                                                <td>{r.medicine_name}</td>
-                                                <td>{r.ngo_name}</td>
-                                                <td>{new Date(r.request_date).toLocaleDateString()}</td>
-                                                <td>
-                                                    <button onClick={()=>handleAdminAction(r.id, 'Approved')} className="btn btn-primary" style={{padding:'0.4rem 0.8rem', marginRight:'0.5rem'}}>Approve</button>
-                                                    <button onClick={()=>handleAdminAction(r.id, 'Rejected')} className="btn btn-secondary" style={{padding:'0.4rem 0.8rem', background:'#ff5252', borderColor:'#ff5252'}}>Reject</button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                        {adminRequests.length === 0 && <tr><td colSpan="4" style={{textAlign:'center'}}>No pending requests.</td></tr>}
-                                    </tbody>
-                                </table>
-                            </div>
-                        )}
 
                         {view === 'inventory' && (
                             <div className="cards-grid">
                                 {filteredMeds.map(m => (
-                                    <div key={m.id} className={`medicine-card ${isNearExpiry(m.expiry_date) ? 'expiry-warning' : ''}`}>
-                                        {isNearExpiry(m.expiry_date) && <span className="expiry-tag">Expiring Soon!</span>}
-                                        <span className={`badge badge-${m.category.toLowerCase()}`}>{m.category}</span>
-                                        <h4>{m.name}</h4>
-                                        <p>{m.description}</p>
-                                        <p><small><i className="fas fa-calendar-alt"></i> Expires: {m.expiry_date}</small></p>
-                                        <p><small><i className="fas fa-user"></i> Donor: {m.donor_name}</small></p>
-                                        <p><strong>Qty: {m.quantity}</strong></p>
+                                    <div key={m.id} className="medicine-card glass-card">
+                                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'start'}}>
+                                            <span className="badge" style={{background: '#e3f2fd', color: '#1976d2'}}>{m.category}</span>
+                                            {m.donor_verified && <i className="fas fa-check-circle verified-badge" title="Verified Donor"></i>}
+                                        </div>
+                                        <h4 style={{marginTop:'1rem'}}>{m.name}</h4>
+                                        <p style={{fontSize:'0.9rem', color:'#666'}}>{m.description}</p>
+                                        <hr style={{margin:'1rem 0', opacity:0.1}} />
+                                        <div style={{fontSize:'0.8rem', display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.5rem'}}>
+                                            <span><i className="fas fa-calendar-times"></i> {m.expiry_date}</span>
+                                            <span><i className="fas fa-boxes"></i> Qty: {m.quantity}</span>
+                                            <span style={{gridColumn:'span 2'}}><i className="fas fa-user-circle"></i> {m.donor_name}</span>
+                                        </div>
+                                        {user.type === 'NGO' && <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem', fontSize:'0.8rem'}}>Request Collection</button>}
                                     </div>
                                 ))}
                             </div>
                         )}
 
-                        {view === 'donate' && <DonateForm onComplete={() => setView('inventory')} />}
+                        {view === 'donate' && <DonateForm onComplete={()=>{setView('inventory'); fetchInventory();}} />}
                     </div>
                 );
             };
@@ -288,19 +189,41 @@
                     e.preventDefault();
                     const res = await fetch('api/medicines.php?action=donate', { method:'POST', body: JSON.stringify(form) });
                     const data = await res.json();
-                    if (data.success) { alert('Donated!'); onComplete(); }
+                    if (data.success) { alert('Donation recorded! You earned Impact Points.'); onComplete(); }
                     else alert(data.message);
                 };
                 return (
-                    <div className="form-card">
+                    <div className="form-card glass-card">
                         <h3>Donate Medicine</h3>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group"><label>Medicine Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} required /></div>
-                            <div className="form-group"><label>Category</label><select value={form.category} onChange={e=>setForm({...form, category:e.target.value})}><option>Tablet</option><option>Syrup</option><option>Injection</option><option>Ointment</option></select></div>
+                            <div className="form-group"><label>Category</label><select value={form.category} onChange={e=>setForm({...form, category:e.target.value})}><option>Tablet</option><option>Syrup</option><option>Injection</option></select></div>
                             <div className="form-group"><label>Description</label><textarea value={form.description} onChange={e=>setForm({...form, description:e.target.value})} required /></div>
                             <div className="form-group"><label>Expiry Date</label><input type="date" value={form.expiry_date} onChange={e=>setForm({...form, expiry_date:e.target.value})} required /></div>
                             <div className="form-group"><label>Quantity</label><input type="number" value={form.quantity} onChange={e=>setForm({...form, quantity:e.target.value})} required /></div>
-                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Donate Now</button>
+                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Confirm Donation</button>
+                        </form>
+                    </div>
+                );
+            };
+
+            const Login = () => {
+                const [email, setEmail] = useState('');
+                const [password, setPassword] = useState('');
+                const handleSubmit = async (e) => {
+                    e.preventDefault();
+                    const res = await fetch('api/auth.php?action=login', { method:'POST', body: JSON.stringify({email, password}) });
+                    const data = await res.json();
+                    if (data.success) { setUser(data.user); setPage('dashboard'); }
+                    else alert(data.message);
+                };
+                return (
+                    <div className="form-card glass-card" style={{marginTop:'5rem'}}>
+                        <h2>Login to Elite</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group"><label>Email</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
+                            <div className="form-group"><label>Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
+                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Access Dashboard</button>
                         </form>
                     </div>
                 );
@@ -312,23 +235,10 @@
                 <div className="app">
                     <Navbar />
                     <div className="page-container">
-                        {page === 'home' && (
-                            <main className="main-content">
-                                <section className="hero">
-                                    <div className="container">
-                                        <h1>Save Lives, Share Health.</h1>
-                                        <p>The most advanced platform for unused medicine donation and management.</p>
-                                        {!user && <a onClick={() => setPage('register')} className="btn btn-primary">Join the Mission</a>}
-                                    </div>
-                                </section>
-                            </main>
-                        )}
-                        {page === 'contact' && <Contact />}
+                        {page === 'home' && <Home />}
                         {page === 'login' && <Login />}
-                        {page === 'register' && <Register />}
                         {page === 'dashboard' && <Dashboard />}
                     </div>
-                    <footer className="footer"><div className="container"><p>&copy; 2025 MedDonate Elite. All rights reserved.</p></div></footer>
                 </div>
             );
         }
