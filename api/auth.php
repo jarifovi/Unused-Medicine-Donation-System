@@ -48,3 +48,8 @@ if ($action === 'login') {
         echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
     }
 }
+
+if ($action === 'logout') {
+    session_destroy();
+    echo json_encode(['success' => true]);
+}

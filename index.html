@@ -247,7 +247,11 @@
                 );
             };
 
-            const logout = () => { setUser(null); setPage('home'); };
+            const logout = async () => { 
+                await fetch('api/auth.php?action=logout');
+                setUser(null); 
+                setPage('home'); 
+            };
 
             return (
                 <div className="app">
