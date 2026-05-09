@@ -10,11 +10,13 @@ if ($action === 'register') {
     $email = $data['email'];
     $password = password_hash($data['password'], PASSWORD_DEFAULT);
     $type = $data['type'];
+    $phone = $data['phone'] ?? '';
+    $address = $data['address'] ?? '';
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO users (name, email, password, type) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$name, $email, $password, $type]);
-        echo json_json_encode(['success' => true, 'message' => 'User registered successfully']);
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password, type, phone, address) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$name, $email, $password, $type, $phone, $address]);
+        echo json_encode(['success' => true, 'message' => 'User registered successfully']);
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'message' => 'Registration failed: ' . $e->getMessage()]);
     }

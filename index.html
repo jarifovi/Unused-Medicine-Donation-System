@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unused Medicine Donation System</title>
+    <title>MedDonate - Advanced Medicine Donation System</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/style.css">
-    <!-- React & Babel CDNs -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-        .page-container { min-height: 80vh; padding-top: 2rem; }
-        .nav-links { list-style: none; display: flex; gap: 1rem; }
-        .nav-links a { cursor: pointer; }
-        .form-card { max-width: 400px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; }
-        .form-group input, .form-group select { width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; }
+        .page-container { min-height: 80vh; padding: 2rem 0; }
+        .form-card { max-width: 500px; margin: 0 auto; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; }
+        .medicine-card { border: 1px solid #eee; padding: 1.5rem; border-radius: 10px; background: #fff; transition: transform 0.2s; }
+        .medicine-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .badge { display: inline-block; padding: 0.25rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-bottom: 0.5rem; }
+        .badge-tablet { background: #e3f2fd; color: #1976d2; }
+        .badge-syrup { background: #f3e5f5; color: #7b1fa2; }
+        .badge-injection { background: #fff3e0; color: #f57c00; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
     </style>
 </head>
 <body>
@@ -29,45 +33,37 @@
 
         function App() {
             const [page, setPage] = useState('home');
-            const [user, setUser] = useState(null);
+            const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
 
-            // Components
+            useEffect(() => {
+                if (user) localStorage.setItem('user', JSON.stringify(user));
+                else localStorage.removeItem('user');
+            }, [user]);
+
             const Navbar = () => (
-                <header class="navbar">
-                    <div class="container">
-                        <a onClick={() => setPage('home')} class="logo" style={{cursor:'pointer'}}>
-                            <i class="fas fa-heartbeat"></i> MedDonate
+                <header className="navbar">
+                    <div className="container">
+                        <a onClick={() => setPage('home')} className="logo" style={{cursor:'pointer'}}>
+                            <i className="fas fa-heartbeat"></i> MedDonate
                         </a>
-                        <nav class="nav-links">
+                        <nav className="nav-links">
                             <ul>
-                                <li><a onClick={() => setPage('home')}><i class="fas fa-home"></i> Home</a></li>
+                                <li><a onClick={() => setPage('home')}>Home</a></li>
                                 {!user ? (
                                     <>
-                                        <li><a onClick={() => setPage('login')} class="btn-secondary"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                                        <li><a onClick={() => setPage('register')} class="btn-primary"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                                        <li><a onClick={() => setPage('login')} className="btn-secondary">Login</a></li>
+                                        <li><a onClick={() => setPage('register')} className="btn-primary">Sign Up</a></li>
                                     </>
                                 ) : (
                                     <>
-                                        <li><a onClick={() => setPage('dashboard')}><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                                        <li><a onClick={logout} class="btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                        <li><a onClick={() => setPage('dashboard')}>Dashboard</a></li>
+                                        <li><a onClick={logout} className="btn-secondary">Logout</a></li>
                                     </>
                                 )}
                             </ul>
                         </nav>
                     </div>
                 </header>
-            );
-
-            const Home = () => (
-                <main class="main-content">
-                    <section class="hero">
-                        <div class="container">
-                            <h1>Unused Medicine Donation System</h1>
-                            <p>Donate or request unused medicines to help those in need</p>
-                            {!user && <a onClick={() => setPage('register')} class="btn btn-primary" style={{cursor:'pointer'}}>Get Started</a>}
-                        </div>
-                    </section>
-                </main>
             );
 
             const Login = () => {
@@ -84,74 +80,53 @@
                     if (data.success) {
                         setUser(data.user);
                         setPage('dashboard');
-                    } else {
-                        alert(data.message);
-                    }
+                    } else alert(data.message);
                 };
 
                 return (
                     <div className="form-card">
                         <h2>Login</h2>
                         <form onSubmit={handleSubmit}>
-                            <div className="form-group">
-                                <label>Email</label>
-                                <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-                            </div>
-                            <div className="form-group">
-                                <label>Password</label>
-                                <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-                            </div>
-                            <button type="submit" className="btn btn-primary">Login</button>
+                            <div className="form-group"><label>Email</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
+                            <div className="form-group"><label>Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
+                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Login</button>
                         </form>
                     </div>
                 );
             };
 
             const Register = () => {
-                const [name, setName] = useState('');
-                const [email, setEmail] = useState('');
-                const [password, setPassword] = useState('');
-                const [type, setType] = useState('Individual');
+                const [form, setForm] = useState({ name: '', email: '', password: '', type: 'Individual', phone: '', address: '' });
 
                 const handleSubmit = async (e) => {
                     e.preventDefault();
                     const res = await fetch('api/auth.php?action=register', {
                         method: 'POST',
-                        body: JSON.stringify({ name, email, password, type })
+                        body: JSON.stringify(form)
                     });
                     const data = await res.json();
                     if (data.success) {
-                        alert('Registration successful! Please login.');
+                        alert('Registration successful!');
                         setPage('login');
-                    } else {
-                        alert(data.message);
-                    }
+                    } else alert(data.message);
                 };
 
                 return (
                     <div className="form-card">
-                        <h2>Register</h2>
+                        <h2>Create Account</h2>
                         <form onSubmit={handleSubmit}>
-                            <div className="form-group">
-                                <label>Full Name</label>
-                                <input type="text" value={name} onChange={e => setName(e.target.value)} required />
-                            </div>
-                            <div className="form-group">
-                                <label>Email</label>
-                                <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-                            </div>
-                            <div className="form-group">
-                                <label>Password</label>
-                                <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-                            </div>
-                            <div className="form-group">
-                                <label>User Type</label>
-                                <select value={type} onChange={e => setType(e.target.value)}>
-                                    <option value="Individual">Individual</option>
-                                    <option value="NGO">NGO</option>
+                            <div className="form-group"><label>Full Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name: e.target.value})} required /></div>
+                            <div className="form-group"><label>Email</label><input type="email" value={form.email} onChange={e=>setForm({...form, email: e.target.value})} required /></div>
+                            <div className="form-group"><label>Password</label><input type="password" value={form.password} onChange={e=>setForm({...form, password: e.target.value})} required /></div>
+                            <div className="form-group"><label>Phone</label><input type="text" value={form.phone} onChange={e=>setForm({...form, phone: e.target.value})} required /></div>
+                            <div className="form-group"><label>User Type</label>
+                                <select value={form.type} onChange={e=>setForm({...form, type: e.target.value})}>
+                                    <option value="Individual">Individual Donor</option>
+                                    <option value="NGO">NGO Receiver</option>
                                 </select>
                             </div>
-                            <button type="submit" className="btn btn-primary">Sign Up</button>
+                            <div className="form-group"><label>Address</label><textarea value={form.address} onChange={e=>setForm({...form, address: e.target.value})} required /></div>
+                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Sign Up</button>
                         </form>
                     </div>
                 );
@@ -159,73 +134,116 @@
 
             const Dashboard = () => {
                 const [medicines, setMedicines] = useState([]);
-                const [showDonateForm, setShowDonateForm] = useState(false);
+                const [myRequests, setMyRequests] = useState([]);
+                const [view, setView] = useState('inventory'); // inventory, my_donations, my_requests
 
                 useEffect(() => {
-                    fetchMedicines();
+                    fetchInventory();
+                    if (user.type === 'NGO') fetchMyRequests();
                 }, []);
 
-                const fetchMedicines = async () => {
+                const fetchInventory = async () => {
                     const res = await fetch('api/medicines.php?action=list');
                     const data = await res.json();
                     if (data.success) setMedicines(data.medicines);
                 };
 
+                const fetchMyRequests = async () => {
+                    const res = await fetch('api/medicines.php?action=my_requests');
+                    const data = await res.json();
+                    if (data.success) setMyRequests(data.requests);
+                };
+
+                const handleRequest = async (id) => {
+                    const res = await fetch('api/medicines.php?action=request', {
+                        method: 'POST',
+                        body: JSON.stringify({ medicine_id: id })
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        alert('Request submitted!');
+                        fetchInventory();
+                        fetchMyRequests();
+                    } else alert(data.message);
+                };
+
                 return (
-                    <div className="container" style={{padding: '2rem 0'}}>
-                        <h2>Welcome, {user.name} ({user.type})</h2>
-                        <div style={{display: 'flex', gap: '1rem', margin: '1rem 0'}}>
-                            <button onClick={() => setShowDonateForm(!showDonateForm)} className="btn btn-primary">
-                                {showDonateForm ? 'Cancel' : 'Donate Medicine'}
-                            </button>
+                    <div className="container">
+                        <div className="section-header">
+                            <h2>Welcome, {user.name}</h2>
+                            <div style={{display:'flex', gap:'0.5rem'}}>
+                                <button onClick={() => setView('inventory')} className={`btn ${view==='inventory'?'btn-primary':'btn-secondary'}`}>Inventory</button>
+                                {user.type === 'NGO' && <button onClick={() => setView('my_requests')} className={`btn ${view==='my_requests'?'btn-primary':'btn-secondary'}`}>My Requests</button>}
+                                <button onClick={() => setView('donate')} className={`btn ${view==='donate'?'btn-primary':'btn-secondary'}`}>Donate</button>
+                            </div>
                         </div>
 
-                        {showDonateForm && <DonateForm onComplete={() => {setShowDonateForm(false); fetchMedicines();}} />}
+                        {view === 'inventory' && (
+                            <div className="cards-grid">
+                                {medicines.map(m => (
+                                    <div key={m.id} className="medicine-card">
+                                        <span className={`badge badge-${m.category.toLowerCase()}`}>{m.category}</span>
+                                        <h4>{m.name}</h4>
+                                        <p>{m.description}</p>
+                                        <p><small><i className="fas fa-calendar-alt"></i> Expires: {m.expiry_date}</small></p>
+                                        <p><small><i className="fas fa-user"></i> Donor: {m.donor_name}</small></p>
+                                        <p><strong>Qty: {m.quantity}</strong></p>
+                                        {user.type === 'NGO' && <button onClick={() => handleRequest(m.id)} className="btn btn-secondary" style={{width:'100%', marginTop:'1rem'}}>Request</button>}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
 
-                        <h3>Available Medicines</h3>
-                        <div className="cards-grid">
-                            {medicines.map(m => (
-                                <div key={m.id} className="card">
-                                    <h4>{m.name}</h4>
-                                    <p>{m.description}</p>
-                                    <p><small>Expires: {m.expiry_date}</small></p>
-                                    <p>Qty: {m.quantity}</p>
-                                </div>
-                            ))}
-                        </div>
+                        {view === 'my_requests' && (
+                            <div className="cards-grid">
+                                {myRequests.map(r => (
+                                    <div key={r.id} className="medicine-card">
+                                        <h4>{r.medicine_name}</h4>
+                                        <p>Status: <strong>{r.status}</strong></p>
+                                        <p><small>Requested on: {new Date(r.request_date).toLocaleDateString()}</small></p>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {view === 'donate' && <DonateForm onComplete={() => setView('inventory')} />}
                     </div>
                 );
             };
 
             const DonateForm = ({ onComplete }) => {
-                const [name, setName] = useState('');
-                const [desc, setDesc] = useState('');
-                const [expiry, setExpiry] = useState('');
-                const [qty, setQty] = useState(1);
+                const [form, setForm] = useState({ name: '', category: 'Tablet', description: '', expiry_date: '', quantity: 1 });
 
                 const handleSubmit = async (e) => {
                     e.preventDefault();
                     const res = await fetch('api/medicines.php?action=donate', {
                         method: 'POST',
-                        body: JSON.stringify({ name, description: desc, expiry_date: expiry, quantity: qty })
+                        body: JSON.stringify(form)
                     });
                     const data = await res.json();
                     if (data.success) {
+                        alert('Thank you for your donation!');
                         onComplete();
-                    } else {
-                        alert(data.message);
-                    }
+                    } else alert(data.message);
                 };
 
                 return (
-                    <div className="form-card" style={{margin: '1rem 0', maxWidth: '100%'}}>
-                        <h4>Donate Medicine</h4>
-                        <form onSubmit={handleSubmit} style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
-                            <div className="form-group"><label>Medicine Name</label><input type="text" value={name} onChange={e=>setName(e.target.value)} required /></div>
-                            <div className="form-group"><label>Expiry Date</label><input type="date" value={expiry} onChange={e=>setExpiry(e.target.value)} required /></div>
-                            <div className="form-group" style={{gridColumn: 'span 2'}}><label>Description</label><input type="text" value={desc} onChange={e=>setDesc(e.target.value)} required /></div>
-                            <div className="form-group"><label>Quantity</label><input type="number" value={qty} onChange={e=>setQty(e.target.value)} required /></div>
-                            <button type="submit" className="btn btn-primary">Submit Donation</button>
+                    <div className="form-card" style={{maxWidth:'800px'}}>
+                        <h3>Donate Medicine</h3>
+                        <form onSubmit={handleSubmit} style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1.5rem'}}>
+                            <div className="form-group"><label>Medicine Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name: e.target.value})} required /></div>
+                            <div className="form-group"><label>Category</label>
+                                <select value={form.category} onChange={e=>setForm({...form, category: e.target.value})}>
+                                    <option value="Tablet">Tablet</option>
+                                    <option value="Syrup">Syrup</option>
+                                    <option value="Injection">Injection</option>
+                                    <option value="Ointment">Ointment</option>
+                                </select>
+                            </div>
+                            <div className="form-group" style={{gridColumn:'span 2'}}><label>Description</label><textarea value={form.description} onChange={e=>setForm({...form, description: e.target.value})} required /></div>
+                            <div className="form-group"><label>Expiry Date</label><input type="date" value={form.expiry_date} onChange={e=>setForm({...form, expiry_date: e.target.value})} required /></div>
+                            <div className="form-group"><label>Quantity</label><input type="number" value={form.quantity} onChange={e=>setForm({...form, quantity: e.target.value})} required /></div>
+                            <button type="submit" className="btn btn-primary" style={{gridColumn:'span 2'}}>Submit Donation</button>
                         </form>
                     </div>
                 );
@@ -240,14 +258,22 @@
                 <div className="app">
                     <Navbar />
                     <div className="page-container">
-                        {page === 'home' && <Home />}
+                        {page === 'home' && (
+                            <main className="main-content">
+                                <section className="hero">
+                                    <div className="container">
+                                        <h1>Save Lives, Donate Medicine.</h1>
+                                        <p>A bridge between individual donors and NGOs in need.</p>
+                                        {!user && <a onClick={() => setPage('register')} className="btn btn-primary" style={{cursor:'pointer'}}>Join Us Today</a>}
+                                    </div>
+                                </section>
+                            </main>
+                        )}
                         {page === 'login' && <Login />}
                         {page === 'register' && <Register />}
                         {page === 'dashboard' && <Dashboard />}
                     </div>
-                    <footer className="footer">
-                        <div className="container"><p>&copy; 2025 MedDonate. All rights reserved.</p></div>
-                    </footer>
+                    <footer className="footer"><div className="container"><p>&copy; 2025 MedDonate. All rights reserved.</p></div></footer>
                 </div>
             );
         }
