@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedDonate - Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+    <!-- FIXED NAVBAR – EXACTLY LIKE YOUR MAIN SITE -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-heartbeat"></i> MedDonate
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="register.html" class="active"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content - 100% YOUR ORIGINAL -->
+    <main class="main-content">
+        <section class="form-section">
+            <div class="container">
+                <h2>Register as NGO or Individual</h2>
+                <form id="registerForm" class="registration-form" novalidate>
+                    <div class="form-group">
+                        <label>User Type:</label>
+                        <div class="form-group radio-group">
+                            <label><input type="radio" name="userType" value="individual" checked> Individual</label>
+                            <label><input type="radio" name="userType" value="ngo"> NGO</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fullName">Full Name:</label>
+                        <input type="text" id="fullName" placeholder="Enter your full name" required>
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password:</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" id="phone" placeholder="Enter your phone number" required>
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="division">Division:</label>
+                        <select id="division" required>
+                            <option value="">Select Division</option>
+                            <option value="Dhaka">Dhaka</option>
+                            <option value="Chattogram">Chattogram</option>
+                            <option value="Khulna">Khulna</option>
+                            <option value="Rajshahi">Rajshahi</option>
+                            <option value="Barishal">Barishal</option>
+                            <option value="Sylhet">Sylhet</option>
+                            <option value="Rangpur">Rangpur</option>
+                            <option value="Mymensingh">Mymensingh</option>
+                        </select>
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="district">District:</label>
+                        <select id="district" required>
+                            <option value="">Select District</option>
+                        </select>
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Detailed Address:</label>
+                        <textarea id="address" placeholder="House/Road/Village, Area, Thana etc." required></textarea>
+                        <span class="error"></span>
+                    </div>
+
+                    <!-- NGO Fields -->
+                    <div class="form-group ngo-only">
+                        <label for="orgName">Organization Name:</label>
+                        <input type="text" id="orgName" placeholder="Enter organization name">
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group ngo-only">
+                        <label for="regProof">Registration Proof (PDF/Image):</label>
+                        <input type="file" id="regProof" accept=".pdf,.jpg,.jpeg,.png">
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="terms" required>
+                            I agree to the <a href="terms.html" target="_blank" style="color:#2196F3; text-decoration: underline;">terms and conditions</a>.
+                        </label>
+                        <span class="error"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit Registration</button>
+                </form>
+
+                <p class="form-link">Already have an account? <a href="login.html">Login</a></p>
+
+                <!-- Success Toast -->
+                <div id="successToast" class="success-toast">
+                    Account created! Redirecting to login...
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer - YOUR ORIGINAL -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 MedDonate. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button id="backToTop" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- YOUR FULL ORIGINAL SCRIPT - UNCHANGED -->
+    <script>
+        const districtsByDivision = {
+            "Dhaka": ["Dhaka", "Faridpur", "Gazipur", "Gopalganj", "Kishoreganj", "Madaripur", "Manikganj", "Munshiganj", "Narayanganj", "Narsingdi", "Rajbari", "Shariatpur", "Tangail"],
+            "Chattogram": ["Bandarban", "Brahmanbaria", "Chandpur", "Chattogram", "Cumilla", "Cox's Bazar", "Feni", "Khagrachhari", "Lakshmipur", "Noakhali", "Rangamati"],
+            "Khulna": ["Bagerhat", "Chuadanga", "Jashore", "Jhenaidah", "Khulna", "Kushtia", "Magura", "Meherpur", "Narail", "Satkhira"],
+            "Rajshahi": ["Bogura", "Chapainawabganj", "Joypurhat", "Naogaon", "Natore", "Pabna", "Rajshahi", "Sirajganj"],
+            "Barishal": ["Barguna", "Barishal", "Bhola", "Jhalokati", "Patuakhali", "Pirojpur"],
+            "Sylhet": ["Habiganj", "Moulvibazar", "Sunamganj", "Sylhet"],
+            "Rangpur": ["Dinajpur", "Gaibandha", "Kurigram", "Lalmonirhat", "Nilphamari", "Panchagarh", "Rangpur", "Thakurgaon"],
+            "Mymensingh": ["Jamalpur", "Mymensingh", "Netrokona", "Sherpur"]
+        };
+
+        document.getElementById('division').addEventListener('change', function() {
+            const div = this.value;
+            const dist = document.getElementById('district');
+            dist.innerHTML = '<option value="">Select District</option>';
+            if (div && districtsByDivision[div]) {
+                districtsByDivision[div].sort().forEach(d => {
+                    const opt = document.createElement('option');
+                    opt.value = d;
+                    opt.textContent = d;
+                    dist.appendChild(opt);
+                });
+            }
+        });
+
+        const toggleBtn = document.querySelector('.nav-toggle-btn');
+        const navLinks = document.querySelector('.nav-links');
+        toggleBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+            toggleBtn.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            toggleBtn.classList.remove('open');
+        }));
+
+        document.querySelectorAll('input[name="userType"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                document.querySelectorAll('.ngo-only').forEach(f => f.style.display = radio.value === 'ngo' ? 'flex' : 'none');
+            });
+        });
+
+        const form = document.getElementById('registerForm');
+        const toast = document.getElementById('successToast');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            let valid = true;
+            document.querySelectorAll('.error').forEach(e => e.textContent = '');
+
+            const fullName = document.getElementById('fullName');
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const phone = document.getElementById('phone');
+            const division = document.getElementById('division');
+            const district = document.getElementById('district');
+            const address = document.getElementById('address');
+            const terms = document.getElementById('terms');
+
+            if (fullName.value.trim().length < 2) { showError(fullName, 'Name too short'); valid = false; }
+            if (!/^\S+@\S+\.\S+$/.test(email.value)) { showError(email, 'Invalid email'); valid = false; }
+            if (password.value.length < 6) { showError(password, 'Password too short'); valid = false; }
+            if (password.value !== confirmPassword.value) { showError(confirmPassword, "Passwords don't match"); valid = false; }
+            if (!/^\d{10,11}$/.test(phone.value)) { showError(phone, 'Invalid phone'); valid = false; }
+            if (!division.value) { showError(division, 'Select division'); valid = false; }
+            if (!district.value) { showError(district, 'Select district'); valid = false; }
+            if (address.value.trim().length < 10) { showError(address, 'Address too short'); valid = false; }
+            if (!terms.checked) { showError(terms, 'Accept terms'); valid = false; }
+
+            if (valid) {
+                const fullAddress = `${address.value.trim()}, ${district.value}, ${division.value} Division`;
+                const newUser = {
+                    name: fullName.value.trim(),
+                    email: email.value,
+                    password: password.value,
+                    phone: phone.value,
+                    address: fullAddress,
+                    type: document.querySelector('input[name="userType"]:checked').value,
+                    joined: new Date().toLocaleDateString('en-GB')
+                };
+
+                let users = JSON.parse(localStorage.getItem('users') || '[]');
+                if (users.some(u => u.email === email.value)) {
+                    showError(email, 'Email already registered');
+                    return;
+                }
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+                toast.classList.add('show');
+                setTimeout(() => location.href = 'login.html', 2000);
+            }
+        });
+
+        function showError(input, msg) {
+            input.parentElement.querySelector('.error').textContent = msg;
+        }
+
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => backToTop.style.display = window.scrollY > 300 ? 'block' : 'none');
+        backToTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.form-section').style.opacity = '1';
+        });
+    </script>
+</body>
+</html>

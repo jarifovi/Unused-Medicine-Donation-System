@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedDonate - Available Medicines</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="inventory.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-heartbeat"></i> MedDonate
+            </a>
+            <button class="nav-toggle-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="#" id="logoutBtn" class="btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="donate.html"><i class="fas fa-gift"></i> Donate Medicine</a></li>
+                <li><a href="request.html"><i class="fas fa-hand-holding-medical"></i> Request Medicine</a></li>
+                <li><a href="status.html"><i class="fas fa-clipboard-list"></i> Status</a></li>
+                <li><a href="inventory.html" class="active"><i class="fas fa-box-open"></i> Inventory</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content dashboard-content">
+            <section class="inventory-section">
+                <div class="container">
+                    <h2>Available Medicines</h2>
+
+                    <div class="search-group">
+                        <label for="medicineSearch">Search:</label>
+                        <input type="text" id="medicineSearch" placeholder="Medicine name">
+
+                        <label for="locationFilter">Location:</label>
+                        <input type="text" id="locationFilter" placeholder="City or area">
+
+                        <button id="searchBtn" class="btn btn-primary">Search</button>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="inventory-table">
+                            <thead>
+                                <tr>
+                                    <th>Medicine Name</th>
+                                    <th>Expiry Date</th>
+                                    <th>Quantity</th>
+                                    <th style="text-align: right;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryBody">
+                                <!-- Filled by JavaScript -->
+                            </tbody>
+                        </table>
+
+                        <p id="noResults" style="display:none; text-align:center; color:#666; margin-top:20px;">
+                            No medicines found matching your search.
+                        </p>
+                    </div>
+
+                    <a href="dashboard.html" class="btn btn-secondary">Back to Dashboard</a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 MedDonate. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <button id="backToTop" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // === Mobile Menu ===
+        const toggleBtn = document.querySelector('.nav-toggle-btn');
+        const navLinks = document.querySelector('.nav-links');
+        toggleBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+            toggleBtn.classList.toggle('open');
+        });
+
+        // === Load Inventory ===
+        const tbody = document.getElementById('inventoryBody');
+        const noResults = document.getElementById('noResults');
+
+        function renderTable(data) {
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                noResults.style.display = 'block';
+                return;
+            }
+            noResults.style.display = 'none';
+
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${item.medicine}</strong></td>
+                    <td>${item.expiry}</td>
+                    <td><span class="quantity-badge">${item.qty}</span></td>
+                    <td style="text-align:right;">
+                        <button class="btn btn-primary request-btn" data-id="${item.id}">
+                            Request
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Request button
+            document.querySelectorAll('.request-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.id;
+                    const item = data.find(i => i.id == id);
+                    sessionStorage.setItem('preFillRequest', JSON.stringify({
+                        name: item.medicine,
+                        qty: item.qty
+                    }));
+                    window.location.href = 'request.html';
+                });
+            });
+        }
+
+        // === Fake Data (Replace with API later) ===
+        let inventory = [
+            { id: 1, medicine: "Paracetamol", qty: 50, expiry: "12/2026" },
+            { id: 2, medicine: "Aspirin", qty: 20, expiry: "06/2026" },
+            { id: 3, medicine: "Amoxicillin", qty: 30, expiry: "08/2027" },
+            { id: 4, medicine: "Ibuprofen", qty: 100, expiry: "03/2028" },
+            { id: 5, medicine: "Ciprofloxacin", qty: 15, expiry: "11/2026" }
+        ];
+
+        renderTable(inventory);
+
+        // === Search & Filter ===
+        const searchInput = document.getElementById('medicineSearch');
+        const locationInput = document.getElementById('locationFilter');
+
+        function filterInventory() {
+            const search = searchInput.value.toLowerCase().trim();
+            const filtered = inventory.filter(item => 
+                item.medicine.toLowerCase().includes(search)
+            );
+            renderTable(filtered);
+        }
+
+        document.getElementById('searchBtn').addEventListener('click', filterInventory);
+        searchInput.addEventListener('input', filterInventory);
+        locationInput.addEventListener('input', filterInventory);
+
+        // === Back to Top ===
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
+        });
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // Fade-in
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.inventory-section').style.opacity = '1';
+        });
+    </script>
+</body>
+</html>

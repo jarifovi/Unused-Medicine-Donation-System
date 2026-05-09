@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unused Medicine Donation System - Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="profile.css">
+</head>
+	body 
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+    <i class="fas fa-heartbeat"></i> MedDonate
+</a>
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="index.html" class="btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+            <label for="nav-toggle" class="nav-toggle-label">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </div>
+    </header>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="donate.html"><i class="fas fa-gift"></i> Donate Medicine</a></li>
+                <li><a href="request.html"><i class="fas fa-hand-holding-medical"></i> Request Medicine</a></li>
+                <li><a href="status.html"><i class="fas fa-clipboard-list"></i> Status</a></li>
+                <li><a href="inventory.html"><i class="fas fa-box-open"></i> Inventory</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content dashboard-content">
+            <section class="form-section">
+                <div class="container">
+                    <h2>Your Profile</h2>
+                    <div class="profile-display">
+                        <p><strong>Name:</strong> [User Name]</p>
+                        <p><strong>Email:</strong> [Email]</p>
+                        <p><strong>Phone:</strong> [Phone]</p>
+                        <p><strong>Address:</strong> [Address]</p>
+                        <p><strong>User Type:</strong> [Individual/NGO]</p>
+                    </div>
+                    <h3>Edit Profile</h3>
+                    <form class="profile-form">
+                        <div class="form-group">
+                            <label for="newPassword">New Password:</label>
+                            <input type="password" id="newPassword" placeholder="Enter new password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmNewPassword">Confirm New Password:</label>
+                            <input type="password" id="confirmNewPassword" placeholder="Confirm new password">
+                        </div>
+                        <div class="form-group">
+                            <label for="newAddress">Update Address:</label>
+                            <textarea id="newAddress" placeholder="Enter new address"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                    <h3>Donation/Request History</h3>
+                    <div class="history-list cards-grid">
+                        <div class="card">
+                            <p>Donation #1: Paracetamol, 50 tablets, Donated on 10/15/2025</p>
+                        </div>
+                        <div class="card">
+                            <p>Request #1: Aspirin, 20 tablets, Requested on 10/10/2025</p>
+                        </div>
+                    </div>
+                    <a href="dashboard.html" class="btn btn-secondary">Back to Dashboard</a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Unused Medicine Donation System. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#" class="social-icon"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i> Instagram</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedDonate - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-heartbeat"></i> MedDonate
+            </a>
+
+            <!-- Hamburger Button -->
+            <button class="nav-toggle-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="login.html" class="btn-secondary active"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="register.html" class="btn-primary"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="form-section">
+            <div class="container form-container">
+                <h2>Login to Your Account</h2>
+                <form id="loginForm" class="login-form" novalidate>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="remember">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+
+                <p class="form-link"><a href="forgotpassword.html">Forgot password?</a></p>
+                <p class="form-link">New user? <a href="register.html">Register</a></p>
+
+                <!-- Error Toast -->
+                <div id="errorToast" class="error-toast">
+                    <i class="fas fa-exclamation-circle"></i> <span id="errorMsg"></span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 MedDonate. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#" class="social-icon"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i> Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button id="backToTop" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // === 1. Mobile Menu (No Checkbox) ===
+        const toggleBtn = document.querySelector('.nav-toggle-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        toggleBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+            toggleBtn.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                toggleBtn.classList.remove('open');
+            });
+        });
+
+        // === 2. Login Form ===
+        const form = document.getElementById('loginForm');
+        const errorToast = document.getElementById('errorToast');
+        const errorMsg = document.getElementById('errorMsg');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            let valid = true;
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+
+            // Validation
+            if (!/^\S+@\S+\.\S+$/.test(email.value)) {
+                showError(email, 'Invalid email');
+                valid = false;
+            }
+            if (password.value.length < 6) {
+                showError(password, 'Password too short');
+                valid = false;
+            }
+
+            if (!valid) return;
+
+            // Check user
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email.value && u.password === password.value);
+
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                // Optional: Remember me
+                if (document.getElementById('remember').checked) {
+                    localStorage.setItem('rememberUser', email.value);
+                } else {
+                    localStorage.removeItem('rememberUser');
+                }
+                window.location.href = 'dashboard.html';
+            } else {
+                showToast('Invalid email or password');
+            }
+        });
+
+        function showError(input, msg) {
+            const error = input.parentElement.querySelector('.error');
+            error.textContent = msg;
+            error.style.color = '#e74c3c';
+            error.style.fontSize = '0.85rem';
+        }
+
+        function showToast(message) {
+            errorMsg.textContent = message;
+            errorToast.classList.add('show');
+            setTimeout(() => errorToast.classList.remove('show'), 3000);
+        }
+
+        // === 3. Auto-fill if "Remember me" was checked ===
+        document.addEventListener('DOMContentLoaded', () => {
+            const remembered = localStorage.getItem('rememberUser');
+            if (remembered) {
+                document.getElementById('email').value = remembered;
+                document.getElementById('remember').checked = true;
+            }
+            document.querySelector('.form-section').style.opacity = '1';
+        });
+
+        // === 4. Back to Top ===
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
+        });
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    </script>
+</body>
+</html>

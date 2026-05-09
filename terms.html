@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions - MedDonate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="terms.css">
+</head>
+<body>
+
+    <!-- Navbar – NOW 100% IDENTICAL TO YOUR MAIN SITE -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-heartbeat"></i> MedDonate
+            </a>
+
+            <button class="nav-toggle-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="terms-section">
+            <div class="container">
+                <h1>Terms & Conditions</h1>
+                <p class="last-updated">Last updated: December 04, 2025</p>
+
+                <div class="terms-content">
+                    <h2>1. Acceptance of Terms</h2>
+                    <p>By accessing or using <strong>MedDonate</strong> ("the Platform"), you agree to be bound by these Terms & Conditions. If you do not agree, please do not use this platform.</p>
+
+                    <h2>2. Purpose of the Platform</h2>
+                    <p>MedDonate is a non-profit initiative that facilitates the donation and distribution of unused, unexpired medicines from individuals and organizations to verified NGOs, hospitals, and needy patients across Bangladesh.</p>
+
+                    <h2>3. Eligibility</h2>
+                    <p>You must be at least 18 years old or registering on behalf of a registered NGO/charitable organization in Bangladesh to use this platform.</p>
+
+                    <h2>4. Medicine Donation Rules</h2>
+                    <ul>
+                        <li>Only sealed, unexpired, and properly stored medicines are accepted.</li>
+                        <li>Donors must provide accurate expiry dates, batch numbers, and storage conditions.</li>
+                        <li>We do <strong>NOT</strong> accept: expired medicines, opened strips, syringes, needles, refrigerated items, or controlled drugs.</li>
+                        <li>MedDonate reserves the right to reject any donation without explanation.</li>
+                    </ul>
+
+                    <!-- ... rest of your content ... -->
+                </div>
+
+                <div class="back-btn">
+                    <a href="register.html">Back to Registration</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 MedDonate. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <button id="backToTop" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+    <script>
+        const toggleBtn = document.querySelector('.nav-toggle-btn');
+        const navLinks = document.querySelector('.nav-links');
+        toggleBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+            toggleBtn.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                toggleBtn.classList.remove('open');
+            });
+        });
+
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
+        });
+        backToTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    </script>
+</body>
+</html>

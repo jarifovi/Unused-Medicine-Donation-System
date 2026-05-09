@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unused Medicine Donation System - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-heartbeat"></i> MedDonate
+            </a>
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="#" id="logoutBtn" class="btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+            <label for="nav-toggle" class="nav-toggle-label">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </div>
+    </header>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="donate.html"><i class="fas fa-gift"></i> Donate Medicine</a></li>
+                <li><a href="request.html"><i class="fas fa-hand-holding-medical"></i> Request Medicine</a></li>
+                <li><a href="status.html"><i class="fas fa-clipboard-list"></i> Status</a></li>
+                <li><a href="inventory.html"><i class="fas fa-box-open"></i> Inventory</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content dashboard-content">
+            <section>
+                <div class="container">
+                    <h2 id="welcomeMessage">Welcome, User! You are logged in as Individual.</h2>
+                    <div class="overview-cards">
+                        <div class="card">
+                            <h3>Your Donations</h3>
+                            <p id="donationCount">0</p>
+                        </div>
+                        <div class="card">
+                            <h3>Your Requests</h3>
+                            <p id="requestCount">0</p>
+                        </div>
+                    </div>
+                    <div class="recent-activity">
+                        <h3>Recent Activity</h3>
+                        <ul id="activityList">
+                            <li>No recent activity.</li>
+                        </ul>
+                    </div>
+                    <div class="cta">
+                        <a href="donate.html" class="btn btn-primary">Donate Medicine</a>
+                        <a href="request.html" class="btn btn-secondary">Request Medicine</a>
+                        <a href="profile.html" class="btn btn-secondary">View Profile</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Unused Medicine Donation System. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#" class="social-icon"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i> Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // === 1. Mobile Menu Toggle ===
+        const navToggle = document.getElementById('nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('change', () => {
+            navLinks.style.display = navToggle.checked ? 'block' : 'none';
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 767) {
+                    navToggle.checked = false;
+                    navLinks.style.display = 'none';
+                }
+            });
+        });
+
+        // === 2. Active Sidebar & Nav Highlight ===
+        const currentPage = window.location.pathname.split('/').pop();
+        document.querySelectorAll('.sidebar a, .nav-links a').forEach(link => {
+            const href = link.getAttribute('href').split('/').pop();
+            if (href === currentPage) {
+                link.classList.add('active');
+            }
+        });
+
+        // === 3. Back to Top Button ===
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backToTop.style.display = (window.scrollY > 300) ? 'block' : 'none';
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // === 4. Load User Data from localStorage ===
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            const defaultUser = { name: 'User', type: 'Individual' };
+
+            const { name = defaultUser.name, type = defaultUser.type } = user;
+
+            document.getElementById('welcomeMessage').textContent = 
+                `Welcome, ${name}! You are logged in as ${type}.`;
+
+            // Simulate stats
+            const donations = parseInt(localStorage.getItem('donations') || '0');
+            const requests = parseInt(localStorage.getItem('requests') || '0');
+
+            document.getElementById('donationCount').textContent = donations;
+            document.getElementById('requestCount').textContent = requests;
+
+            // Recent Activity
+            const activities = JSON.parse(localStorage.getItem('activities') || '[]');
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = '';
+
+            if (activities.length === 0) {
+                activityList.innerHTML = '<li>No recent activity.</li>';
+            } else {
+                activities.forEach(act => {
+                    const li = document.createElement('li');
+                    li.textContent = act;
+                    activityList.appendChild(li);
+                });
+            }
+
+            // Fade-in
+            document.querySelector('.dashboard-content').style.opacity = '1';
+        });
+
+        // === 5. Logout with Confirmation ===
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('donations');
+                localStorage.removeItem('requests');
+                localStorage.removeItem('activities');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // === 6. Simulate Activity (for demo) ===
+        // Remove this in production — just for testing
+        if (!localStorage.getItem('activities')) {
+            const demoActivities = [
+                'Donated Paracetamol on 10/15/2025',
+                'Requested Aspirin on 10/10/2025'
+            ];
+            localStorage.setItem('activities', JSON.stringify(demoActivities));
+            localStorage.setItem('donations', '1');
+            localStorage.setItem('requests', '1');
+        }
+    </script>
+</body>
+</html>

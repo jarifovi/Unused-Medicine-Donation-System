@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unused Medicine Donation System - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-heartbeat"></i> MedDonate
+            </a>
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="login.html" class="btn-secondary"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="register.html" class="btn-primary"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                </ul>
+            </nav>
+            <label for="nav-toggle" class="nav-toggle-label">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="hero">
+            <div class="container">
+                <h1>Unused Medicine Donation System</h1>
+                <p>Donate or request unused medicines to help those in need</p>
+                <p class="description">Connect NGOs and individuals to reduce medicine waste. Register as NGO or Individual to start donating or requesting.</p>
+            </div>
+        </section>
+
+        <section class="user-types">
+            <div class="container">
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>Individuals</h3>
+                        <p>Donate your unused meds safely</p>
+                    </div>
+                    <div class="card">
+                        <h3>NGOs</h3>
+                        <p>Request medicines for your cause</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="container">
+                <a href="register.html" class="btn btn-primary">Register Now</a>
+                <a href="login.html" class="btn btn-secondary">Login</a>
+                <a href="about.html" class="btn btn-secondary">Learn More</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Unused Medicine Donation System. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#" class="social-icon"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i> Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('change', () => {
+            navLinks.style.display = navToggle.checked ? 'block' : 'none';
+        });
+
+        // Close mobile menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 767) {
+                    navToggle.checked = false;
+                    navLinks.style.display = 'none';
+                }
+            });
+        });
+
+        // Smooth Scroll for Buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const href = button.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

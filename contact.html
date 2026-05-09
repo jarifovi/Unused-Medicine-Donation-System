@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedDonate - Contact Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-heartbeat"></i> MedDonate
+            </a>
+
+            <!-- Hamburger Button (Visible on Mobile) -->
+            <button class="nav-toggle-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Nav Links -->
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="contact.html" class="active"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="login.html" class="btn-primary"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="register.html" class="btn-secondary"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="contact-section">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <p class="note">We’d love to hear from you! Reach out for support, partnerships, or feedback.</p>
+
+                <div class="contact-grid">
+                    <!-- Contact Info -->
+                    <div class="contact-info">
+                        <h3>Get in Touch</h3>
+                        <p><i class="fas fa-envelope"></i> <strong>Email:</strong> support@meddonate.org</p>
+                        <p><i class="fas fa-phone"></i> <strong>Phone:</strong> +88017819896**</p>
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> Bashundhara R/A, Dhaka, Bangladesh</p>
+                        <div class="social-links">
+                            <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="contact-form">
+                        <form id="contactForm" novalidate>
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" placeholder="Your name" required>
+                                <span class="error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" placeholder="your@email.com" required>
+                                <span class="error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject" placeholder="How can we help?" required>
+                                <span class="error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" rows="5" placeholder="Write your message..." required></textarea>
+                                <span class="error"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+
+                        <!-- Success Message -->
+                        <div id="successMessage" class="success-toast">
+                            <i class="fas fa-check-circle"></i> Thank you! Your message has been sent.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 MedDonate. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#" class="social-icon"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i> Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button id="backToTop" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Mobile Menu Toggle (No Checkbox!)
+        const toggleBtn = document.querySelector('.nav-toggle-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        toggleBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+            toggleBtn.classList.toggle('open');
+        });
+
+        // Close menu when link is clicked (mobile)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                toggleBtn.classList.remove('open');
+            });
+        });
+
+        // Back to Top
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
+        });
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // Contact Form
+        const form = document.getElementById('contactForm');
+        const toast = document.getElementById('successMessage');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            let valid = true;
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const subject = document.getElementById('subject');
+            const message = document.getElementById('message');
+
+            if (name.value.trim().length < 2) {
+                showError(name, 'Name too short');
+                valid = false;
+            }
+            if (!/^\S+@\S+\.\S+$/.test(email.value)) {
+                showError(email, 'Invalid email');
+                valid = false;
+            }
+            if (subject.value.trim().length < 3) {
+                showError(subject, 'Subject too short');
+                valid = false;
+            }
+            if (message.value.trim().length < 10) {
+                showError(message, 'Message too short');
+                valid = false;
+            }
+
+            if (valid) {
+                const btn = form.querySelector('button');
+                btn.textContent = 'Sending...';
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    showToast();
+                    form.reset();
+                    btn.textContent = 'Send Message';
+                    btn.disabled = false;
+                }, 1000);
+            }
+        });
+
+        function showError(input, msg) {
+            const error = input.nextElementSibling;
+            error.textContent = msg;
+            error.style.color = '#e74c3c';
+            error.style.fontSize = '0.85rem';
+        }
+
+        function showToast() {
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Fade-in
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.contact-section').style.opacity = '1';
+        });
+    </script>
+</body>
+</html>

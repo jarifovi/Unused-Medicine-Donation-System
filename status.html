@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedDonate - Status</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="status.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-heartbeat"></i> MedDonate
+            </a>
+            <button class="nav-toggle-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="#" id="logoutBtn" class="btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="donate.html"><i class="fas fa-gift"></i> Donate Medicine</a></li>
+                <li><a href="request.html"><i class="fas fa-hand-holding-medical"></i> Request Medicine</a></li>
+                <li><a href="status.html" class="active"><i class="fas fa-clipboard-list"></i> Status</a></li>
+                <li><a href="inventory.html"><i class="fas fa-box-open"></i> Inventory</a></li>
+            </ul>
+        </aside>
+
+        <!-- Rest of your page (table, filters, etc.) remains 100% the same -->
+        <main class="main-content dashboard-content">
+            <section class="status-section">
+                <div class="container">
+                    <h2>Donation & Request Status</h2>
+
+                    <div class="filter-group">
+                        <div>
+                            <label for="typeFilter">Type:</label>
+                            <select id="typeFilter">
+                                <option value="all">All</option>
+                                <option value="donation">Donations</option>
+                                <option value="request">Requests</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="statusFilter">Status:</label>
+                            <select id="statusFilter">
+                                <option value="all">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="approved">Approved</option>
+                                <option value="matched">Matched</option>
+                                <option value="delivered">Delivered</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                        <button id="filterBtn" class="btn btn-primary">Apply Filter</button>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="status-table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Medicine</th>
+                                    <th>Qty</th>
+                                    <th>Submitted</th>
+                                    <th>Status</th>
+                                    <th style="text-align: right;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="statusBody">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+
+                        <p id="noResults" style="display:none; text-align:center; color:#666; margin:30px 0;">
+                            No records found matching your filters.
+                        </p>
+                    </div>
+
+                    <a href="dashboard.html" class="btn btn-secondary">Back to Dashboard</a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 MedDonate. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <button id="backToTop" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Same JS as before (no change needed) -->
+    <script>
+        const toggleBtn = document.querySelector('.nav-toggle-btn');
+        const navLinks = document.querySelector('.nav-links');
+        toggleBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+            toggleBtn.classList.toggle('open');
+        });
+
+        let records = [
+            { id: 1, type: "donation", medicine: "Paracetamol", qty: 50, date: "15 Oct 2025", status: "pending" },
+            { id: 2, type: "request", medicine: "Aspirin", qty: 20, date: "12 Oct 2025", status: "approved" },
+            { id: 3, type: "donation", medicine: "Amoxicillin", qty: 30, date: "10 Oct 2025", status: "matched" },
+            { id: 4, type: "request", medicine: "Ibuprofen", qty: 100, date: "08 Oct 2025", status: "delivered" },
+            { id: 5, type: "donation", medicine: "Crocin", qty: 40, date: "05 Oct 2025", status: "rejected" }
+        ];
+
+        const tbody = document.getElementById('statusBody');
+        const noResults = document.getElementById('noResults');
+
+        function getStatusBadge(status) {
+            const badges = {
+                pending: '<span class="status-badge pending">Pending</span>',
+                approved: '<span class="status-badge approved">Approved</span>',
+                matched: '<span class="status-badge matched">Matched</span>',
+                delivered: '<span class="status-badge delivered">Delivered</span>',
+                rejected: '<span class="status-badge rejected">Rejected</span>'
+            };
+            return badges[status] || status;
+        }
+
+        function renderTable(data) {
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                noResults.style.display = 'block';
+                return;
+            }
+            noResults.style.display = 'none';
+
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${item.type === 'donation' ? 'Donation' : 'Request'}</strong></td>
+                    <td>${item.medicine}</td>
+                    <td><strong>${item.qty}</strong></td>
+                    <td>${item.date}</td>
+                    <td>${getStatusBadge(item.status)}</td>
+                    <td style="text-align:right;">
+                        <button class="btn btn-secondary view-btn" data-id="${item.id}">View Details</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const record = data.find(r => r.id == btn.dataset.id);
+                    alert(`Details:\nType: ${record.type}\nMedicine: ${record.medicine}\nQty: ${record.qty}\nStatus: ${record.status.toUpperCase()}`);
+                });
+            });
+        }
+
+        renderTable(records);
+
+        document.getElementById('filterBtn').addEventListener('click', () => {
+            const type = document.getElementById('typeFilter').value;
+            const status = document.getElementById('statusFilter').value;
+
+            let filtered = records;
+            if (type !== 'all') filtered = filtered.filter(r => r.type === type);
+            if (status !== 'all') filtered = filtered.filter(r => r.status === status);
+
+            renderTable(filtered);
+        });
+
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
+        });
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.status-section').style.opacity = '1';
+        });
+    </script>
+</body>
+</html>

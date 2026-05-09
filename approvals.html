@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests & Donations Approval</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="approvals.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo"><i class="fas fa-heartbeat"></i> MedDonate Admin</a>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="admin.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="approvals.html" class="active"><i class="fas fa-clipboard-check"></i> Requests & Donations</a></li>
+                <li><a href="ngo-approval.html"><i class="fas fa-building"></i> NGO Approval</a></li>
+                <li><a href="manageusers.html"><i class="fas fa-users-cog"></i> Manage Users</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="container">
+                <h2>Requests & Donations Approval</h2>
+
+                <!-- Pending Donations -->
+                <div class="approval-card">
+                    <h3><i class="fas fa-gift"></i> Pending Donations</h3>
+                    <table class="approval-table">
+                        <thead><tr><th>Medicine</th><th>Quantity</th><th>Donor</th><th>Photo</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>Paracetamol 500mg</td><td>50 strips</td><td>Rahim Khan</td>
+                                <td><i class="fas fa-image text-blue"></i></td>
+                                <td class="actions">
+                                    <button class="btn-approve">Approve</button>
+                                    <button class="btn-reject">Reject</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Insulin Pen</td><td>12 units</td><td>Ayesha Siddika</td>
+                                <td><i class="fas fa-image text-blue"></i></td>
+                                <td class="actions">
+                                    <button class="btn-approve">Approve</button>
+                                    <button class="btn-reject">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pending Requests -->
+                <div class="approval-card">
+                    <h3><i class="fas fa-hand-holding-medical"></i> Pending Requests</h3>
+                    <table class="approval-table">
+                        <thead><tr><th>Medicine</th><th>Quantity</th><th>Requester</th><th>Reason</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>Antibiotic</td><td>100 tabs</td><td>BRAC Clinic</td><td>Flood victims</td>
+                                <td class="actions">
+                                    <button class="btn-approve">Approve</button>
+                                    <button class="btn-reject">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="back-btn">
+                    <a href="admin.html">← Back to Dashboard</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 MedDonate. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

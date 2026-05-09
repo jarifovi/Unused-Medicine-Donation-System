@@ -1,0 +1,74 @@
+/* approvals.css - Used by approvals.html & ngo-approval.html */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body { font-family:'Roboto',sans-serif; background:#f5f7fa; color:#333; min-height:100vh; display:flex; flex-direction:column; }
+.container { max-width:1300px; margin:0 auto; padding:0 20px; }
+
+/* Reuse exact same navbar, sidebar, footer from admin.css */
+.navbar { background:linear-gradient(135deg,#4CAF50,#2196F3); position:fixed; top:0; left:0; right:0; z-index:1000; box-shadow:0 4px 15px rgba(0,0,0,0.12); }
+.navbar .container { height:70px; display:flex; justify-content:space-between; align-items:center; }
+.logo { color:#fff; font-size:1.9rem; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:10px; }
+.logo i { font-size:2.2rem; }
+.nav-links ul { display:flex; gap:32px; list-style:none; }
+.nav-links a { color:#fff; text-decoration:none; font-weight:500; font-size:1.05rem; padding:10px 20px; border-radius:30px; display:flex; align-items:center; gap:8px; transition:all 0.3s; }
+.nav-links a:hover { background:rgba(255,255,255,0.2); }
+
+.sidebar { width:280px; background:white; padding:35px 20px; position:fixed; top:70px; height:calc(100vh - 70px); box-shadow:3px 0 15px rgba(0,0,0,0.08); }
+.sidebar a { display:flex; align-items:center; gap:15px; padding:16px 22px; color:#333; text-decoration:none; font-weight:500; border-radius:14px; margin-bottom:10px; transition:all 0.3s; }
+.sidebar a:hover { background:#e8f5e8; color:#2e7d32; }
+.sidebar a.active { background:#4CAF50; color:white; font-weight:600; }
+
+.main-content { margin-left:280px; margin-top:70px; padding:40px 20px; flex:1; }
+h2 { text-align:center; font-size:2.5rem; color:#2e7d32; margin-bottom:40px; }
+
+.approval-card {
+    background:white; border-radius:18px; padding:30px; margin-bottom:45px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+.approval-card h3 {
+    font-size:1.55rem; color:#1976d2; margin-bottom:22px;
+    display:flex; align-items:center; gap:12px;
+}
+
+.approval-table {
+    width:100%; border-collapse:collapse; font-size:0.98rem;
+}
+.approval-table th, .approval-table td {
+    padding:16px 12px; text-align:left; border-bottom:1px solid #eee;
+}
+.approval-table th {
+    background:#f8f9fa; font-weight:600; color:#444; text-transform:uppercase; font-size:0.88rem;
+}
+.approval-table tr:hover { background:#f0f8f0; }
+.text-blue { color:#1976d2; font-size:1.4rem; }
+
+/* SAME SIZE BUTTONS - PERFECT */
+.actions { white-space:nowrap; }
+.btn-approve, .btn-reject {
+    padding:10px 26px !important; min-width:108px;
+    border:none; border-radius:8px; color:white; font-size:0.95rem; font-weight:600;
+    cursor:pointer; margin:0 6px; transition:all 0.3s;
+}
+.btn-approve { background:#4CAF50; }
+.btn-approve:hover { background:#388e3c; }
+.btn-reject { background:#e74c3c; }
+.btn-reject:hover { background:#c0392b; }
+
+.back-btn { text-align:center; margin:60px 0; }
+.back-btn a {
+    display:inline-block; background:#666; color:white; padding:15px 44px;
+    border-radius:50px; text-decoration:none; font-weight:600; font-size:1.1rem;
+}
+.back-btn a:hover { background:#444; }
+
+.footer {
+    background:linear-gradient(135deg,#4CAF50,#2196F3);
+    color:white; text-align:center; padding:42px 20px; margin-top:auto;
+}
+.footer p { font-size:1.02rem; font-weight:500; }
+
+@media (max-width:992px) {
+    .sidebar { position:static; width:100%; height:auto; }
+    .main-content { margin-left:0; padding:20px 15px; }
+    .approval-table { font-size:0.9rem; }
+}
