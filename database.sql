@@ -1,4 +1,4 @@
--- Ultra-Advanced MySQL Dump for Unused Medicine Donation System
+-- Production-Grade MySQL Dump for Unused Medicine Donation System
 CREATE DATABASE IF NOT EXISTS med_donate;
 USE med_donate;
 
@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `type` enum('Individual','NGO','Admin') DEFAULT 'Individual',
   `phone` varchar(20) DEFAULT NULL,
   `address` text DEFAULT NULL,
+  `certificate_path` varchar(255) DEFAULT NULL, -- For NGO Verification
   `is_verified` tinyint(1) DEFAULT 0,
   `donations_made` int(11) DEFAULT 0,
   `requests_completed` int(11) DEFAULT 0,
@@ -27,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `medicines` (
   `description` text DEFAULT NULL,
   `expiry_date` date NOT NULL,
   `quantity` int(11) NOT NULL,
+  `image_path` varchar(255) DEFAULT NULL, -- For medicine photo
   `status` enum('Available','Donated','Expired','Requested','Approved') DEFAULT 'Available',
   `is_verified` tinyint(1) DEFAULT 0,
   `donor_id` int(11) DEFAULT NULL,
@@ -42,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `requests` (
   `medicine_id` int(11) NOT NULL,
   `ngo_id` int(11) NOT NULL,
   `status` enum('Pending','Approved','Rejected','Collected') DEFAULT 'Pending',
+  `collection_code` varchar(10) DEFAULT NULL, -- For QR Collection
   `request_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `admin_comment` text DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -49,6 +52,17 @@ CREATE TABLE IF NOT EXISTS `requests` (
   KEY `ngo_id` (`ngo_id`),
   CONSTRAINT `requests_ibfk_1` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`id`),
   CONSTRAINT `requests_ibfk_2` FOREIGN KEY (`ngo_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Wishlist Table
+CREATE TABLE IF NOT EXISTS `wishlist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ngo_id` int(11) NOT NULL,
+  `medicine_name` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `ngo_id` (`ngo_id`),
+  CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`ngo_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Notifications Table
