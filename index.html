@@ -24,7 +24,21 @@
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <div id="root">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; text-align: center; padding: 20px;">
+            <div id="loading-spinner" style="border: 4px solid #f3f3f3; border-top: 4px solid #007bff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 20px;"></div>
+            <h2 id="status-msg">Initializing MedDonate PRO...</h2>
+            <p id="error-msg" style="color: #dc3545; max-width: 500px; margin-top: 10px;"></p>
+            <script>
+                if (window.location.protocol === 'file:') {
+                    document.getElementById('loading-spinner').style.display = 'none';
+                    document.getElementById('status-msg').innerText = 'Access Denied: Local File Detected';
+                    document.getElementById('error-msg').innerHTML = 'You cannot run this project by double-clicking the file. <br><br> Please move the folder to <b>xampp/htdocs</b> and access it via <b>http://localhost/Unused-Medicine-Donation-System-main/</b>';
+                }
+            </script>
+            <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+        </div>
+    </div>
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
