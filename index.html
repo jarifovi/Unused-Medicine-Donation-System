@@ -3,67 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedDonate - Elite Medicine Donation Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>MedDonate Pro - Ultra World Class</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/style.css">
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        .page-container { min-height: 80vh; padding: 2rem 0; }
-        .form-card { max-width: 600px; margin: 0 auto; padding: 2.5rem; background: white; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.6rem; font-weight: 600; color: #333; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 1rem; border: 1px solid #e0e0e0; border-radius: 8px; transition: border-color 0.3s; }
-        .form-group input:focus { border-color: #1976d2; outline: none; }
-        .medicine-card { border: none; padding: 2rem; border-radius: 12px; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
-        .expiry-warning { border: 2px solid #ff5252; }
-        .expiry-tag { position: absolute; top: 0; right: 0; background: #ff5252; color: white; padding: 0.2rem 0.8rem; font-size: 0.7rem; font-weight: bold; border-bottom-left-radius: 10px; }
-        .badge { padding: 0.3rem 0.8rem; border-radius: 30px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
-        .section-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 3rem; gap: 1rem; }
-        .search-bar { flex-grow: 1; max-width: 400px; position: relative; }
-        .search-bar input { width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; border-radius: 25px; border: 1px solid #ddd; }
-        .search-bar i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #999; }
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: white; border-radius: 8px; overflow: hidden; }
-        .admin-table th, .admin-table td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
-        .admin-table th { background: #f8f9fa; font-weight: 600; }
+        :root { --primary: #43a047; --primary-dark: #2e7d32; --success: #2e7d32; --warning: #ffa000; --danger: #d32f2f; --bg: #f1f8e9; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); margin: 0; }
+        .glass-card { background: rgba(255,255,255,0.98); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 2.5rem; border: 1px solid #e0e0e0; }
+        .navbar { background: #fff; padding: 1rem 0; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .btn { padding: 0.8rem 1.5rem; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; transition: all 0.3s; font-family: inherit; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn-secondary { background: #e0e0e0; color: #333; }
+        .form-group { margin-bottom: 1.2rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #444; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.8rem; border-radius: 10px; border: 1px solid #ddd; font-family: inherit; box-sizing: border-box; }
+        .form-group input:focus { border-color: var(--primary); outline: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .medicine-card { position: relative; overflow: hidden; }
+        .badge { padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <div id="root">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif;">
+            <div style="border: 4px solid #f3f3f3; border-top: 4px solid #43a047; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;"></div>
+            <p style="margin-top: 15px; color: #666;">Loading MedDonate Pro...</p>
+        </div>
+    </div>
 
     <script type="text/babel">
-        const { useState, useEffect, useMemo } = React;
+        const { useState, useEffect, useRef } = React;
 
         function App() {
             const [page, setPage] = useState('home');
             const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
+            const [notifications, setNotifications] = useState([]);
 
             useEffect(() => {
-                if (user) localStorage.setItem('user', JSON.stringify(user));
-                else localStorage.removeItem('user');
+                if (user) {
+                    localStorage.setItem('user', JSON.stringify(user));
+                    fetchNotifications();
+                } else {
+                    localStorage.removeItem('user');
+                }
             }, [user]);
+
+            const fetchNotifications = async () => {
+                try {
+                    const res = await fetch('api/medicines.php?action=notifications');
+                    const data = await res.json();
+                    if (data.success) setNotifications(data.notifications);
+                } catch(e) {}
+            };
 
             const Navbar = () => (
                 <header className="navbar">
-                    <div className="container">
+                    <div className="container" style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
                         <a onClick={() => setPage('home')} className="logo" style={{cursor:'pointer'}}>
-                            <i className="fas fa-heartbeat"></i> MedDonate
+                            <i className="fas fa-leaf"></i> MedDonate PRO
                         </a>
-                        <nav className="nav-links">
-                            <ul>
-                                <li><a onClick={() => setPage('home')}>Home</a></li>
-                                <li><a onClick={() => setPage('contact')}>Contact</a></li>
-                                {!user ? (
+                        <nav>
+                            <ul style={{display:'flex', gap:'1.5rem', alignItems:'center', listStyle:'none', margin:0}}>
+                                <li><a onClick={() => setPage('home')} style={{cursor:'pointer', textDecoration:'none', color:'#333'}}>Home</a></li>
+                                {user ? (
                                     <>
-                                        <li><a onClick={() => setPage('login')} className="btn-secondary">Login</a></li>
-                                        <li><a onClick={() => setPage('register')} className="btn-primary">Sign Up</a></li>
+                                        <li><a onClick={() => setPage('dashboard')} style={{cursor:'pointer', textDecoration:'none', color:'#333'}}>Dashboard</a></li>
+                                        <li><button onClick={logout} className="btn btn-secondary" style={{padding:'0.5rem 1rem'}}>Logout</button></li>
                                     </>
                                 ) : (
                                     <>
-                                        <li><a onClick={() => setPage('dashboard')}>Dashboard</a></li>
-                                        <li><a onClick={logout} className="btn-secondary">Logout</a></li>
+                                        <li><a onClick={() => setPage('login')} style={{cursor:'pointer', textDecoration:'none', color:'#333'}}>Login</a></li>
+                                        <li><button onClick={() => setPage('register')} className="btn btn-primary">Join Now</button></li>
                                     </>
                                 )}
                             </ul>
@@ -72,121 +92,62 @@
                 </header>
             );
 
-            const Contact = () => {
-                const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
-                const [sent, setSent] = useState(false);
+            const logout = async () => {
+                await fetch('api/auth.php?action=logout');
+                setUser(null);
+                setPage('home');
+            };
 
-                const handleSubmit = async (e) => {
-                    e.preventDefault();
-                    const res = await fetch('api/contact.php?action=send', {
-                        method: 'POST',
-                        body: JSON.stringify(form)
+            const Home = () => {
+                const [stats, setStats] = useState(null);
+                const chartRef = useRef(null);
+
+                useEffect(() => {
+                    fetch('api/medicines.php?action=stats').then(r=>r.json()).then(d => {
+                        if(d.success) {
+                            setStats(d.stats);
+                            const ctx = chartRef.current.getContext('2d');
+                            new Chart(ctx, {
+                                type: 'doughnut',
+                                data: {
+                                    labels: d.stats.categories.map(c => c.category),
+                                    datasets: [{
+                                        data: d.stats.categories.map(c => c.count),
+                                        backgroundColor: ['#43a047', '#fb8c00', '#1e88e5', '#e53935', '#8e24aa']
+                                    }]
+                                },
+                                options: { responsive: true, maintainAspectRatio: false }
+                            });
+                        }
                     });
-                    const data = await res.json();
-                    if (data.success) setSent(true);
-                    else alert(data.message);
-                };
+                }, []);
 
                 return (
-                    <div className="form-card">
-                        {sent ? (
-                            <div style={{textAlign:'center'}}>
-                                <i className="fas fa-check-circle" style={{fontSize:'4rem', color:'#4caf50', marginBottom:'1rem'}}></i>
-                                <h2>Message Sent!</h2>
-                                <p>Thank you for reaching out. Our team will contact you soon.</p>
-                                <button onClick={()=>setPage('home')} className="btn btn-primary" style={{marginTop:'1rem'}}>Back to Home</button>
+                    <div className="container" style={{padding:'3rem 0', textAlign:'center'}}>
+                        <h1 style={{fontSize:'3.5rem', color:var(--primary-dark)}}>Giving Medicine, <br/>Growing Hope.</h1>
+                        <p style={{fontSize:'1.2rem', color:'#666', maxWidth:'700px', margin:'1rem auto'}}>Join the world's most trusted network for medicine donation and redistribution.</p>
+                        
+                        {stats && (
+                            <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'1.5rem', margin:'3rem 0'}}>
+                                <div className="glass-card" style={{padding:'1.5rem'}}><h3>{stats.total}</h3><p>Donations</p></div>
+                                <div className="glass-card" style={{padding:'1.5rem'}}><h3>{stats.users}</h3><p>Members</p></div>
+                                <div className="glass-card" style={{padding:'1.5rem'}}><h3>{stats.total * 5}+</h3><p>Lives Impacted</p></div>
                             </div>
-                        ) : (
-                            <>
-                                <h2>Contact Us</h2>
-                                <form onSubmit={handleSubmit}>
-                                    <div className="form-group"><label>Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name: e.target.value})} required /></div>
-                                    <div className="form-group"><label>Email</label><input type="email" value={form.email} onChange={e=>setForm({...form, email: e.target.value})} required /></div>
-                                    <div className="form-group"><label>Subject</label><input type="text" value={form.subject} onChange={e=>setForm({...form, subject: e.target.value})} /></div>
-                                    <div className="form-group"><label>Message</label><textarea value={form.message} onChange={e=>setForm({...form, message: e.target.value})} required rows="4" /></div>
-                                    <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Send Message</button>
-                                </form>
-                            </>
                         )}
-                    </div>
-                );
-            };
 
-            const Login = () => {
-                const [email, setEmail] = useState('');
-                const [password, setPassword] = useState('');
-
-                const handleSubmit = async (e) => {
-                    e.preventDefault();
-                    const res = await fetch('api/auth.php?action=login', {
-                        method: 'POST',
-                        body: JSON.stringify({ email, password })
-                    });
-                    const data = await res.json();
-                    if (data.success) {
-                        setUser(data.user);
-                        setPage('dashboard');
-                    } else alert(data.message);
-                };
-
-                return (
-                    <div className="form-card">
-                        <h2>Welcome Back</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-group"><label>Email</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
-                            <div className="form-group"><label>Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
-                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Login</button>
-                            <p style={{marginTop:'1.5rem', textAlign:'center'}}>Admin login: admin@meddonate.com / admin123</p>
-                        </form>
-                    </div>
-                );
-            };
-
-            const Register = () => {
-                const [form, setForm] = useState({ name: '', email: '', password: '', type: 'Individual', phone: '', address: '' });
-
-                const handleSubmit = async (e) => {
-                    e.preventDefault();
-                    const res = await fetch('api/auth.php?action=register', {
-                        method: 'POST',
-                        body: JSON.stringify(form)
-                    });
-                    const data = await res.json();
-                    if (data.success) { alert('Success!'); setPage('login'); }
-                    else alert(data.message);
-                };
-
-                return (
-                    <div className="form-card">
-                        <h2>Join the Mission</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-group"><label>Full Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name: e.target.value})} required /></div>
-                            <div className="form-group"><label>Email</label><input type="email" value={form.email} onChange={e=>setForm({...form, email: e.target.value})} required /></div>
-                            <div className="form-group"><label>Password</label><input type="password" value={form.password} onChange={e=>setForm({...form, password: e.target.value})} required /></div>
-                            <div className="form-group"><label>Phone</label><input type="text" value={form.phone} onChange={e=>setForm({...form, phone: e.target.value})} required /></div>
-                            <div className="form-group"><label>User Type</label>
-                                <select value={form.type} onChange={e=>setForm({...form, type: e.target.value})}>
-                                    <option value="Individual">Individual Donor</option>
-                                    <option value="NGO">NGO Receiver</option>
-                                </select>
-                            </div>
-                            <div className="form-group"><label>Address</label><textarea value={form.address} onChange={e=>setForm({...form, address: e.target.value})} required /></div>
-                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Create Account</button>
-                        </form>
+                        <div className="glass-card" style={{marginTop:'3rem'}}>
+                            <h3>Current Resource Distribution</h3>
+                            <div style={{height:'300px'}}><canvas ref={chartRef}></canvas></div>
+                        </div>
                     </div>
                 );
             };
 
             const Dashboard = () => {
+                const [view, setView] = useState('inventory');
                 const [medicines, setMedicines] = useState([]);
-                const [adminRequests, setAdminRequests] = useState([]);
-                const [search, setSearch] = useState('');
-                const [view, setView] = useState(user.type === 'Admin' ? 'admin' : 'inventory');
 
-                useEffect(() => {
-                    fetchInventory();
-                    if (user.type === 'Admin') fetchAdminRequests();
-                }, []);
+                useEffect(() => { if(view==='inventory') fetchInventory(); }, [view]);
 
                 const fetchInventory = async () => {
                     const res = await fetch('api/medicines.php?action=list');
@@ -194,144 +155,164 @@
                     if (data.success) setMedicines(data.medicines);
                 };
 
-                const fetchAdminRequests = async () => {
-                    const res = await fetch('api/medicines.php?action=admin_requests');
-                    const data = await res.json();
-                    if (data.success) setAdminRequests(data.requests);
-                };
-
-                const handleAdminAction = async (requestId, status) => {
-                    const res = await fetch('api/medicines.php?action=approve_request', {
-                        method: 'POST',
-                        body: JSON.stringify({ request_id: requestId, status })
-                    });
-                    const data = await res.json();
-                    if (data.success) { fetchAdminRequests(); fetchInventory(); }
-                    else alert(data.message);
-                };
-
-                const filteredMeds = useMemo(() => {
-                    return medicines.filter(m => m.name.toLowerCase().includes(search.toLowerCase()) || m.category.toLowerCase().includes(search.toLowerCase()));
-                }, [medicines, search]);
-
-                const isNearExpiry = (date) => {
-                    const exp = new Date(date);
-                    const now = new Date();
-                    const diff = exp - now;
-                    return diff < (1000 * 60 * 60 * 24 * 30); // 30 days
-                };
-
                 return (
-                    <div className="container">
-                        <div className="section-header">
-                            <h2>{user.type} Console</h2>
-                            <div className="search-bar">
-                                <i className="fas fa-search"></i>
-                                <input type="text" placeholder="Search medicines by name or category..." value={search} onChange={e=>setSearch(e.target.value)} />
-                            </div>
-                            <div style={{display:'flex', gap:'0.5rem'}}>
-                                {user.type === 'Admin' && <button onClick={() => setView('admin')} className={`btn ${view==='admin'?'btn-primary':'btn-secondary'}`}>Admin</button>}
-                                <button onClick={() => setView('inventory')} className={`btn ${view==='inventory'?'btn-primary':'btn-secondary'}`}>Inventory</button>
-                                <button onClick={() => setView('donate')} className={`btn ${view==='donate'?'btn-primary':'btn-secondary'}`}>Donate</button>
+                    <div className="container" style={{padding:'2rem 0'}}>
+                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem'}}>
+                            <h2>Dashboard <span style={{fontSize:'1rem', color:'#666'}}>| {user.type}</span></h2>
+                            <div style={{display:'flex', gap:'0.8rem'}}>
+                                <button onClick={()=>setView('inventory')} className={`btn ${view==='inventory'?'btn-primary':'btn-secondary'}`}>View Inventory</button>
+                                {user.type === 'Individual' && <button onClick={()=>setView('donate')} className={`btn ${view==='donate'?'btn-primary':'btn-secondary'}`}>Donate</button>}
+                                {user.type === 'Admin' && <button onClick={()=>setView('admin')} className={`btn ${view==='admin'?'btn-primary':'btn-secondary'}`}>Admin Console</button>}
                             </div>
                         </div>
-
-                        {view === 'admin' && user.type === 'Admin' && (
-                            <div className="admin-console">
-                                <h3>Pending NGO Requests</h3>
-                                <table className="admin-table">
-                                    <thead>
-                                        <tr><th>Medicine</th><th>NGO</th><th>Date</th><th>Actions</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {adminRequests.map(r => (
-                                            <tr key={r.id}>
-                                                <td>{r.medicine_name}</td>
-                                                <td>{r.ngo_name}</td>
-                                                <td>{new Date(r.request_date).toLocaleDateString()}</td>
-                                                <td>
-                                                    <button onClick={()=>handleAdminAction(r.id, 'Approved')} className="btn btn-primary" style={{padding:'0.4rem 0.8rem', marginRight:'0.5rem'}}>Approve</button>
-                                                    <button onClick={()=>handleAdminAction(r.id, 'Rejected')} className="btn btn-secondary" style={{padding:'0.4rem 0.8rem', background:'#ff5252', borderColor:'#ff5252'}}>Reject</button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                        {adminRequests.length === 0 && <tr><td colSpan="4" style={{textAlign:'center'}}>No pending requests.</td></tr>}
-                                    </tbody>
-                                </table>
-                            </div>
-                        )}
-
                         {view === 'inventory' && (
                             <div className="cards-grid">
-                                {filteredMeds.map(m => (
-                                    <div key={m.id} className={`medicine-card ${isNearExpiry(m.expiry_date) ? 'expiry-warning' : ''}`}>
-                                        {isNearExpiry(m.expiry_date) && <span className="expiry-tag">Expiring Soon!</span>}
-                                        <span className={`badge badge-${m.category.toLowerCase()}`}>{m.category}</span>
-                                        <h4>{m.name}</h4>
-                                        <p>{m.description}</p>
-                                        <p><small><i className="fas fa-calendar-alt"></i> Expires: {m.expiry_date}</small></p>
-                                        <p><small><i className="fas fa-user"></i> Donor: {m.donor_name}</small></p>
-                                        <p><strong>Qty: {m.quantity}</strong></p>
+                                {medicines.map(m => (
+                                    <div key={m.id} className="glass-card medicine-card">
+                                        <span className="badge" style={{background:'#e8f5e9', color:'#2e7d32'}}>{m.category}</span>
+                                        <h4 style={{marginTop:'1rem'}}>{m.name}</h4>
+                                        <p style={{fontSize:'0.9rem', color:'#666'}}>{m.description}</p>
+                                        <div style={{borderTop:'1px solid #eee', marginTop:'1rem', paddingTop:'1rem', fontSize:'0.8rem'}}>
+                                            <p><strong>Expiry:</strong> {m.expiry_date}</p>
+                                            <p><strong>Donor:</strong> {m.donor_name}</p>
+                                        </div>
+                                        {user.type === 'NGO' && <button onClick={async () => {
+                                            const res = await fetch('api/medicines.php?action=request', {method:'POST', body:JSON.stringify({medicine_id: m.id})});
+                                            const d = await res.json();
+                                            if(d.success) { alert('Request Sent!'); fetchInventory(); }
+                                        }} className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Request Now</button>}
                                     </div>
                                 ))}
                             </div>
                         )}
-
                         {view === 'donate' && <DonateForm onComplete={() => setView('inventory')} />}
+                        {view === 'admin' && <AdminConsole />}
+                    </div>
+                );
+            };
+
+            const AdminConsole = () => {
+                const [requests, setRequests] = useState([]);
+                useEffect(() => { fetchRequests(); }, []);
+                const fetchRequests = async () => {
+                    const res = await fetch('api/medicines.php?action=admin_requests');
+                    const d = await res.json();
+                    if(d.success) setRequests(d.requests);
+                };
+                const handleAction = async (id, status) => {
+                    const res = await fetch('api/medicines.php?action=approve_request', {method:'POST', body:JSON.stringify({request_id:id, status})});
+                    const d = await res.json();
+                    if(d.success) fetchRequests();
+                };
+                return (
+                    <div className="glass-card">
+                        <h3>Pending Approvals</h3>
+                        <div style={{overflowX:'auto'}}>
+                            <table style={{width:'100%', borderCollapse:'collapse'}}>
+                                <thead><tr style={{textAlign:'left', borderBottom:'1px solid #eee'}}><th style={{padding:'1rem'}}>NGO</th><th style={{padding:'1rem'}}>Medicine</th><th style={{padding:'1rem'}}>Actions</th></tr></thead>
+                                <tbody>
+                                    {requests.map(r => (
+                                        <tr key={r.id} style={{borderBottom:'1px solid #f9f9f9'}}>
+                                            <td style={{padding:'1rem'}}>{r.ngo_name}</td>
+                                            <td style={{padding:'1rem'}}>{r.medicine_name}</td>
+                                            <td style={{padding:'1rem'}}>
+                                                <button onClick={()=>handleAction(r.id, 'Approved')} className="btn btn-primary" style={{padding:'0.4rem 0.8rem', marginRight:'0.5rem'}}>Approve</button>
+                                                <button onClick={()=>handleAction(r.id, 'Rejected')} className="btn btn-secondary" style={{padding:'0.4rem 0.8rem'}}>Reject</button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    {requests.length === 0 && <tr><td colSpan="3" style={{padding:'2rem', textAlign:'center', color:'#999'}}>No pending requests.</td></tr>}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 );
             };
 
             const DonateForm = ({ onComplete }) => {
-                const [form, setForm] = useState({ name: '', category: 'Tablet', description: '', expiry_date: '', quantity: 1 });
-                const handleSubmit = async (e) => {
+                const [form, setForm] = useState({ name:'', category:'Tablet', description:'', expiry_date:'', quantity:1 });
+                const submit = async (e) => {
                     e.preventDefault();
-                    const res = await fetch('api/medicines.php?action=donate', { method:'POST', body: JSON.stringify(form) });
-                    const data = await res.json();
-                    if (data.success) { alert('Donated!'); onComplete(); }
-                    else alert(data.message);
+                    const res = await fetch('api/medicines.php?action=donate', {method:'POST', body:JSON.stringify(form)});
+                    const d = await res.json();
+                    if(d.success) onComplete();
                 };
                 return (
-                    <div className="form-card">
+                    <div className="glass-card" style={{maxWidth:'500px', margin:'0 auto'}}>
                         <h3>Donate Medicine</h3>
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={submit}>
                             <div className="form-group"><label>Medicine Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} required /></div>
-                            <div className="form-group"><label>Category</label><select value={form.category} onChange={e=>setForm({...form, category:e.target.value})}><option>Tablet</option><option>Syrup</option><option>Injection</option><option>Ointment</option></select></div>
-                            <div className="form-group"><label>Description</label><textarea value={form.description} onChange={e=>setForm({...form, description:e.target.value})} required /></div>
+                            <div className="form-group"><label>Category</label><select value={form.category} onChange={e=>setForm({...form, category:e.target.value})}><option>Tablet</option><option>Syrup</option><option>Injection</option></select></div>
                             <div className="form-group"><label>Expiry Date</label><input type="date" value={form.expiry_date} onChange={e=>setForm({...form, expiry_date:e.target.value})} required /></div>
-                            <div className="form-group"><label>Quantity</label><input type="number" value={form.quantity} onChange={e=>setForm({...form, quantity:e.target.value})} required /></div>
-                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Donate Now</button>
+                            <div className="form-group"><label>Description</label><textarea value={form.description} onChange={e=>setForm({...form, description:e.target.value})} required /></div>
+                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Confirm Donation</button>
                         </form>
                     </div>
                 );
             };
 
-            const logout = () => { setUser(null); setPage('home'); };
+            const Login = () => {
+                const [email, setEmail] = useState('');
+                const [password, setPassword] = useState('');
+                const submit = async (e) => {
+                    e.preventDefault();
+                    const res = await fetch('api/auth.php?action=login', {method:'POST', body:JSON.stringify({email, password})});
+                    const d = await res.json();
+                    if(d.success) { setUser(d.user); setPage('dashboard'); }
+                    else alert(d.message);
+                };
+                return (
+                    <div className="container" style={{padding:'5rem 0'}}>
+                        <div className="glass-card" style={{maxWidth:'400px', margin:'0 auto'}}>
+                            <h2>Welcome Back</h2>
+                            <form onSubmit={submit}>
+                                <div className="form-group"><label>Email</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
+                                <div className="form-group"><label>Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
+                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Login</button>
+                            </form>
+                        </div>
+                    </div>
+                );
+            };
+
+            const Register = () => {
+                const [form, setForm] = useState({ name:'', email:'', password:'', type:'Individual', phone:'', address:'' });
+                const submit = async (e) => {
+                    e.preventDefault();
+                    const res = await fetch('api/auth.php?action=register', {method:'POST', body:JSON.stringify(form)});
+                    const d = await res.json();
+                    if(d.success) setPage('login');
+                    else alert(d.message);
+                };
+                return (
+                    <div className="container" style={{padding:'3rem 0'}}>
+                        <div className="glass-card" style={{maxWidth:'500px', margin:'0 auto'}}>
+                            <h2>Create Account</h2>
+                            <form onSubmit={submit}>
+                                <div className="form-group"><label>Full Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} required /></div>
+                                <div className="form-group"><label>Email</label><input type="email" value={form.email} onChange={e=>setForm({...form, email:e.target.value})} required /></div>
+                                <div className="form-group"><label>Password</label><input type="password" value={form.password} onChange={e=>setForm({...form, password:e.target.value})} required /></div>
+                                <div className="form-group"><label>Phone Number</label><input type="text" value={form.phone} onChange={e=>setForm({...form, phone:e.target.value})} required /></div>
+                                <div className="form-group"><label>Account Type</label><select value={form.type} onChange={e=>setForm({...form, type:e.target.value})}><option value="Individual">Individual Donor</option><option value="NGO">NGO Receiver</option></select></div>
+                                <div className="form-group"><label>Full Address</label><textarea value={form.address} onChange={e=>setForm({...form, address:e.target.value})} required rows="3" /></div>
+                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem', background:'var(--primary)'}}>Create Account</button>
+                            </form>
+                        </div>
+                    </div>
+                );
+            };
 
             return (
                 <div className="app">
                     <Navbar />
-                    <div className="page-container">
-                        {page === 'home' && (
-                            <main className="main-content">
-                                <section className="hero">
-                                    <div className="container">
-                                        <h1>Save Lives, Share Health.</h1>
-                                        <p>The most advanced platform for unused medicine donation and management.</p>
-                                        {!user && <a onClick={() => setPage('register')} className="btn btn-primary">Join the Mission</a>}
-                                    </div>
-                                </section>
-                            </main>
-                        )}
-                        {page === 'contact' && <Contact />}
-                        {page === 'login' && <Login />}
-                        {page === 'register' && <Register />}
-                        {page === 'dashboard' && <Dashboard />}
-                    </div>
-                    <footer className="footer"><div className="container"><p>&copy; 2025 MedDonate Elite. All rights reserved.</p></div></footer>
+                    {page === 'home' && <Home />}
+                    {page === 'login' && <Login />}
+                    {page === 'register' && <Register />}
+                    {page === 'dashboard' && <Dashboard />}
                 </div>
             );
         }
+
         ReactDOM.createRoot(document.getElementById('root')).render(<App />);
     </script>
 </body>
