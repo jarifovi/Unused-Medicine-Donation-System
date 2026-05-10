@@ -75,9 +75,13 @@
                             <label for="contactInfo">Contact Info:</label>
                             <input type="text" id="contactInfo" placeholder="Enter contact info">
                         </div>
-                        <div class="form-group">
-                            <label for="photo">Upload Photo:</label>
-                            <input type="file" id="photo">
+                        <div class="form-group photo-upload-group">
+                            <label for="photo">Upload Photo & Verify:</label>
+                            <div class="input-with-action">
+                                <input type="file" id="photo">
+                                <button type="button" id="scanBtn" class="btn btn-ai"><i class="fas fa-robot"></i> SmartScan AI</button>
+                            </div>
+                            <div id="scanStatus" class="scan-status"></div>
                         </div>
                         <div class="form-group">
                             <label for="description">Additional Details:</label>
@@ -106,5 +110,28 @@
             </div>
         </div>
     </footer>
+    <script>
+        document.getElementById('scanBtn').addEventListener('click', function() {
+            const status = document.getElementById('scanStatus');
+            const btn = this;
+            
+            status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing medicine box...';
+            status.style.color = '#2196F3';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                status.innerHTML = '<i class="fas fa-check-circle"></i> AI Verification Success! Data auto-filled.';
+                status.style.color = '#4CAF50';
+                
+                // Simulate auto-fill
+                document.getElementById('medicineName').value = 'Amoxicillin 500mg';
+                document.getElementById('quantity').value = '15';
+                document.getElementById('expiryDate').value = '2026-12-30';
+                document.getElementById('description').value = 'Verified by MedDonate AI. Condition looks good. Expiry matches box.';
+                
+                btn.disabled = false;
+            }, 2500);
+        });
+    </script>
 </body>
 </html>

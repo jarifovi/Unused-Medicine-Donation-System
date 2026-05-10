@@ -19,7 +19,7 @@
             <nav class="nav-links">
                 <ul>
                     <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -63,8 +63,8 @@
                                     <td>02-9876543</td>
                                     <td><a href="#" class="proof-link"><i class="fas fa-file-pdf"></i> View PDF</a></td>
                                     <td class="actions">
-                                        <button class="btn-approve">Approve</button>
-                                        <button class="btn-reject">Reject</button>
+                                        <button class="btn-approve"><i class="fas fa-check"></i> Approve</button>
+                                        <button class="btn-reject"><i class="fas fa-times"></i> Reject</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -74,8 +74,8 @@
                                     <td>02-8765432</td>
                                     <td><a href="#" class="proof-link"><i class="fas fa-file-pdf"></i> View PDF</a></td>
                                     <td class="actions">
-                                        <button class="btn-approve">Approve</button>
-                                        <button class="btn-reject">Reject</button>
+                                        <button class="btn-approve"><i class="fas fa-check"></i> Approve</button>
+                                        <button class="btn-reject"><i class="fas fa-times"></i> Reject</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -85,8 +85,8 @@
                                     <td>02-7654321</td>
                                     <td><a href="#" class="proof-link"><i class="fas fa-file-pdf"></i> View PDF</a></td>
                                     <td class="actions">
-                                        <button class="btn-approve">Approve</button>
-                                        <button class="btn-reject">Reject</button>
+                                        <button class="btn-approve"><i class="fas fa-check"></i> Approve</button>
+                                        <button class="btn-reject"><i class="fas fa-times"></i> Reject</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -117,6 +117,15 @@
             btn.style.display = window.scrollY > 300 ? 'block' : 'none';
         });
         btn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Logout Logic
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        });
     </script>
 </body>
 </html>

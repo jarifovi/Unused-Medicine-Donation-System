@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="admin.css">
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -19,7 +21,7 @@
             <nav class="nav-links">
                 <ul>
                     <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -43,31 +45,61 @@
                 <p class="subtitle">Here’s what’s happening today</p>
 
                 <div class="stats-grid">
-                    <div class="stat-card">
-                        <i class="fas fa-gift"></i>
-                        <h4>Pending Donations</h4>
-                        <p class="big-num">18</p>
+                    <div class="stat-card" title="Medicines awaiting verification">
+                        <div class="stat-icon"><i class="fas fa-gift"></i></div>
+                        <div class="stat-info">
+                            <h4>Pending Donations</h4>
+                            <p class="big-num">18</p>
+                            <span class="trend up"><i class="fas fa-arrow-up"></i> 12% from last week</span>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <i class="fas fa-hand-holding-medical"></i>
-                        <h4>Pending Requests</h4>
-                        <p class="big-num">23</p>
+                    <div class="stat-card" title="NGO requests awaiting approval">
+                        <div class="stat-icon"><i class="fas fa-hand-holding-medical"></i></div>
+                        <div class="stat-info">
+                            <h4>Pending Requests</h4>
+                            <p class="big-num">23</p>
+                            <span class="trend down"><i class="fas fa-arrow-down"></i> 5% from yesterday</span>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <i class="fas fa-building"></i>
-                        <h4>Pending NGOs</h4>
-                        <p class="big-num">5</p>
+                    <div class="stat-card" title="New NGO applications">
+                        <div class="stat-icon"><i class="fas fa-building"></i></div>
+                        <div class="stat-info">
+                            <h4>Pending NGOs</h4>
+                            <p class="big-num">5</p>
+                            <span class="badge warning">Needs Review</span>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <i class="fas fa-users"></i>
-                        <h4>Total Users</h4>
-                        <p class="big-num">1,248</p>
+                    <div class="stat-card" title="Active platform members">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <h4>Total Users</h4>
+                            <p class="big-num">1,248</p>
+                            <span class="status-online">● 42 Online</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW: Analytics Section -->
+                <div class="analytics-row">
+                    <div class="chart-container">
+                        <h3>Donation vs Request Trends</h3>
+                        <canvas id="trendsChart"></canvas>
+                    </div>
+                    <div class="category-summary">
+                        <h3>Inventory Distribution</h3>
+                        <canvas id="categoryChart"></canvas>
                     </div>
                 </div>
 
                 <div class="quick-links">
-                    <a href="approvals.html" class="btn-large">Review Requests & Donations</a>
-                    <a href="ngo-approval.html" class="btn-large">Review NGO Applications</a>
+                    <div class="command-center">
+                        <h3>Admin Command Center</h3>
+                        <div class="btn-group">
+                            <a href="approvals.html" class="btn-large"><i class="fas fa-check-circle"></i> Review Submissions</a>
+                            <a href="ngo-approval.html" class="btn-large"><i class="fas fa-building"></i> NGO Applications</a>
+                            <button class="btn-large btn-broadcast" onclick="alert('System Broadcast Sent!')"><i class="fas fa-bullhorn"></i> Send Broadcast</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -82,9 +114,57 @@
     <button id="backToTop" title="Go to top"><i class="fas fa-arrow-up"></i></button>
 
     <script>
+        // Trends Chart
+        const trendsCtx = document.getElementById('trendsChart').getContext('2d');
+        new Chart(trendsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Donations',
+                    data: [12, 19, 3, 5, 2, 3, 15],
+                    borderColor: '#4CAF50',
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(76, 175, 80, 0.1)'
+                }, {
+                    label: 'Requests',
+                    data: [8, 11, 5, 8, 7, 10, 12],
+                    borderColor: '#2196F3',
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(33, 150, 243, 0.1)'
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        // Category Chart
+        const catCtx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(catCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Tablets', 'Syrup', 'Injectables', 'Ointment'],
+                datasets: [{
+                    data: [45, 25, 15, 15],
+                    backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#E91E63']
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'right' } } }
+        });
+
         document.getElementById('backToTop').onclick = () => window.scrollTo({top:0, behavior:'smooth'});
         window.addEventListener('scroll', () => {
             document.getElementById('backToTop').style.display = window.scrollY > 300 ? 'block' : 'none';
+        });
+
+        // Logout Logic
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
         });
     </script>
 </body>

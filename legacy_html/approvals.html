@@ -16,7 +16,7 @@
             <nav class="nav-links">
                 <ul>
                     <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -46,8 +46,8 @@
                                 <td>Paracetamol 500mg</td><td>50 strips</td><td>Rahim Khan</td>
                                 <td><i class="fas fa-image text-blue"></i></td>
                                 <td class="actions">
-                                    <button class="btn-approve">Approve</button>
-                                    <button class="btn-reject">Reject</button>
+                                    <button class="btn-approve"><i class="fas fa-check"></i> Approve</button>
+                                    <button class="btn-reject"><i class="fas fa-times"></i> Reject</button>
                                 </td>
                             </tr>
                             <tr>
@@ -71,8 +71,8 @@
                             <tr>
                                 <td>Antibiotic</td><td>100 tabs</td><td>BRAC Clinic</td><td>Flood victims</td>
                                 <td class="actions">
-                                    <button class="btn-approve">Approve</button>
-                                    <button class="btn-reject">Reject</button>
+                                    <button class="btn-approve"><i class="fas fa-check"></i> Approve</button>
+                                    <button class="btn-reject"><i class="fas fa-times"></i> Reject</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -91,5 +91,15 @@
             <p>© 2025 MedDonate. All rights reserved.</p>
         </div>
     </footer>
+    <script>
+        // Logout Logic
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
 </body>
 </html>

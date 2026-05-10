@@ -47,13 +47,48 @@
             <section>
                 <div class="container">
                     <h2 id="welcomeMessage">Welcome, User! You are logged in as Individual.</h2>
+                    
+                    <!-- NEW: Achievement Section -->
+                    <div class="achievement-banner">
+                        <div class="rank-card">
+                            <div class="rank-icon"><i class="fas fa-medal"></i></div>
+                            <div class="rank-info">
+                                <span class="label">Your Rank</span>
+                                <h4 class="rank-name">Elite Life Saver</h4>
+                                <div class="progress-bar"><div class="progress" style="width: 75%"></div></div>
+                                <span class="next-rank">250 points to 'Master Guardian'</span>
+                            </div>
+                        </div>
+                        <div class="badge-gallery">
+                            <div class="badge-item" title="First Donation"><i class="fas fa-seedling"></i></div>
+                            <div class="badge-item" title="10 Lives Saved"><i class="fas fa-heart"></i></div>
+                            <div class="badge-item active" title="Local Hero"><i class="fas fa-star"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Live Needs Ticker -->
+                    <div class="live-feed">
+                        <h3><i class="fas fa-satellite-dish"></i> Live Urgent Needs</h3>
+                        <div class="ticker-wrapper">
+                            <div class="ticker-item"><strong>URGENT:</strong> NGO 'Hope Foundation' needs Insulin (Dhaka)</div>
+                            <div class="ticker-item"><strong>NEEDED:</strong> 50 Strips of Paracetamol (Chattogram)</div>
+                            <div class="ticker-item"><strong>REQUEST:</strong> Pediatric Antibiotics for Flood Relief</div>
+                        </div>
+                    </div>
+
                     <div class="overview-cards">
                         <div class="card">
-                            <h3>Your Donations</h3>
+                            <div class="card-header">
+                                <h3>Your Donations</h3>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
                             <p id="donationCount">0</p>
                         </div>
                         <div class="card">
-                            <h3>Your Requests</h3>
+                            <div class="card-header">
+                                <h3>Your Requests</h3>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
                             <p id="requestCount">0</p>
                         </div>
                     </div>

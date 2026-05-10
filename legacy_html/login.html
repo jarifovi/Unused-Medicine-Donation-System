@@ -149,7 +149,13 @@
                 } else {
                     localStorage.removeItem('rememberUser');
                 }
-                window.location.href = 'dashboard.html';
+                
+                // Role-based redirection
+                if (user.type === 'Admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
             } else {
                 showToast('Invalid email or password');
             }
@@ -168,8 +174,21 @@
             setTimeout(() => errorToast.classList.remove('show'), 3000);
         }
 
-        // === 3. Auto-fill if "Remember me" was checked ===
+        // === 3. Initialize Default Admin & Auto-fill ===
         document.addEventListener('DOMContentLoaded', () => {
+            // Ensure default admin exists for testing
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            if (!users.some(u => u.email === 'admin@meddonate.com')) {
+                users.push({
+                    name: 'System Admin',
+                    email: 'admin@meddonate.com',
+                    password: 'admin123',
+                    type: 'Admin',
+                    joined: new Date().toLocaleDateString('en-GB')
+                });
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+
             const remembered = localStorage.getItem('rememberUser');
             if (remembered) {
                 document.getElementById('email').value = remembered;
