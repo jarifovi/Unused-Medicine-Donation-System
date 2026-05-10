@@ -54,8 +54,8 @@
                                 <td>Insulin Pen</td><td>12 units</td><td>Ayesha Siddika</td>
                                 <td><i class="fas fa-image text-blue"></i></td>
                                 <td class="actions">
-                                    <button class="btn-approve">Approve</button>
-                                    <button class="btn-reject">Reject</button>
+                                    <button class="btn-approve"><i class="fas fa-check"></i> Approve</button>
+                                    <button class="btn-reject"><i class="fas fa-times"></i> Reject</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -92,13 +92,24 @@
         </div>
     </footer>
     <script>
-        // Logout Logic
-        document.getElementById('logoutBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            if (confirm('Are you sure you want to logout?')) {
-                localStorage.removeItem('currentUser');
-                window.location.href = 'index.html';
-            }
+        // Approve/Reject Logic
+        document.querySelectorAll('.btn-approve, .btn-reject').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.classList.contains('btn-approve') ? 'approve' : 'reject';
+                const row = this.closest('tr');
+                const itemName = row.cells[0].innerText;
+
+                if (confirm(`Are you sure you want to ${action} "${itemName}"?`)) {
+                    row.style.transition = 'all 0.5s ease';
+                    row.style.opacity = '0';
+                    row.style.transform = 'translateX(20px)';
+                    
+                    setTimeout(() => {
+                        row.remove();
+                        alert(`Successfully ${action}d: ${itemName}`);
+                    }, 500);
+                }
+            });
         });
     </script>
 </body>

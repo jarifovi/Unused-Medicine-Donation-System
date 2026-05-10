@@ -118,6 +118,26 @@
         });
         btn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
+        // NGO Approval Logic
+        document.querySelectorAll('.btn-approve, .btn-reject').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.classList.contains('btn-approve') ? 'approve' : 'reject';
+                const row = this.closest('tr');
+                const ngoName = row.cells[0].innerText;
+
+                if (confirm(`Are you sure you want to ${action} the application for "${ngoName}"?`)) {
+                    row.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                    row.style.opacity = '0';
+                    row.style.transform = 'scale(0.95) translateY(10px)';
+                    
+                    setTimeout(() => {
+                        row.remove();
+                        alert(`NGO ${action === 'approve' ? 'Approved' : 'Rejected'}: ${ngoName}`);
+                    }, 500);
+                }
+            });
+        });
+
         // Logout Logic
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();

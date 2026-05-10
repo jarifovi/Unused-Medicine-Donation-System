@@ -183,10 +183,29 @@
             ngoRows.forEach(r => r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none');
         });
 
-        // Back to top
-        const btn = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => btn.style.display = window.scrollY > 300 ? 'block' : 'none');
         btn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // User Management Logic
+        document.querySelectorAll('.btn-reject, .btn-approve').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.innerText.trim();
+                const row = this.closest('tr');
+                const userName = row.cells[0].innerText;
+
+                if (confirm(`Are you sure you want to ${action} "${userName}"?`)) {
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                    
+                    setTimeout(() => {
+                        alert(`${userName} has been successfully ${action}ed.`);
+                        this.innerHTML = action === 'Approve' ? 'Approved' : 'Blocked';
+                        this.style.background = '#666';
+                        this.style.cursor = 'default';
+                        row.style.opacity = '0.5';
+                    }, 1000);
+                }
+            });
+        });
 
         // Logout Logic
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
