@@ -1,0 +1,211 @@
+
+/* ==========================================================================
+   TITAN-GRADE GLASSMORPHISM THEME
+   ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+:root {
+    /* Modern Frost Glass Theme (Light) */
+    --bg-space: #f8fafc;
+    --bg-glass: rgba(255, 255, 255, 0.65);
+    --bg-glass-hover: rgba(255, 255, 255, 0.85);
+    --border-glass: rgba(255, 255, 255, 0.6);
+    --border-outline: rgba(0, 0, 0, 0.05);
+    --glow-primary: 0 10px 40px rgba(79, 70, 229, 0.15);
+    --glow-success: 0 10px 40px rgba(16, 185, 129, 0.15);
+    
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    
+    --accent-blue: #4f46e5; /* Deep Indigo */
+    --accent-blue-hover: #4338ca;
+    --accent-green: #059669; /* Emerald */
+    --accent-green-hover: #047857;
+    --accent-red: #e11d48; /* Rose */
+    
+    --font-main: "Inter", sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-main) !important;
+    background: radial-gradient(circle at top right, #e0e7ff, #f8fafc, #f1f5f9) !important;
+    background-attachment: fixed !important;
+    color: var(--text-primary) !important;
+    min-height: 100vh;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em;
+}
+
+p, span, label, td, th {
+    color: var(--text-secondary);
+}
+
+/* Glass Cards & Containers */
+.card, .stat-card, .approval-card, .form-container, .profile-display, .contact-info, .users-card {
+    background: var(--bg-glass) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid var(--border-glass) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before, .stat-card::before, .approval-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 16px;
+    box-shadow: inset 0 0 0 1px var(--border-outline);
+    pointer-events: none;
+}
+
+.card:hover, .stat-card:hover {
+    transform: translateY(-5px) scale(1.02) !important;
+    box-shadow: var(--glow-primary) !important;
+    background: var(--bg-glass-hover) !important;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid var(--border-outline) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03) !important;
+}
+
+.navbar .logo {
+    background: linear-gradient(to right, #4f46e5, #0d9488);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+.nav-links a {
+    color: var(--text-secondary) !important;
+    transition: color 0.3s, background 0.3s !important;
+    border-radius: 8px !important;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: var(--accent-blue) !important;
+    background: rgba(79, 70, 229, 0.08) !important;
+}
+
+/* Sidebar */
+.sidebar {
+    background: rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(10px) !important;
+    border-right: 1px solid var(--border-outline) !important;
+}
+
+.sidebar a {
+    color: var(--text-secondary) !important;
+    border-radius: 8px !important;
+    transition: all 0.3s !important;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background: rgba(79, 70, 229, 0.1) !important;
+    color: var(--accent-blue) !important;
+    border-left: 4px solid var(--accent-blue) !important;
+}
+
+/* Buttons */
+.btn, .btn-primary, .btn-secondary, button[type="submit"], .btn-large {
+    background: linear-gradient(135deg, var(--accent-blue), #6366f1) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3) !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.5px;
+}
+
+.btn-secondary {
+    background: rgba(79, 70, 229, 0.1) !important;
+    color: var(--accent-blue) !important;
+    box-shadow: none !important;
+}
+
+.btn:hover, .btn-primary:hover, button[type="submit"]:hover, .btn-large:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: var(--glow-primary) !important;
+    filter: brightness(1.1);
+}
+
+.btn-secondary:hover {
+    background: rgba(79, 70, 229, 0.15) !important;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.1) !important;
+}
+
+/* Inputs & Forms */
+input, textarea, select {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid var(--border-outline) !important;
+    color: var(--text-primary) !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none !important;
+    border-color: var(--accent-blue) !important;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2) !important;
+    background: #fff !important;
+}
+
+/* Tables */
+table th {
+    background: rgba(0, 0, 0, 0.02) !important;
+    color: var(--text-primary) !important;
+    border-bottom: 1px solid var(--border-outline) !important;
+}
+table td {
+    border-bottom: 1px solid var(--border-outline) !important;
+    color: var(--text-secondary) !important;
+}
+tr:hover td {
+    background: rgba(79, 70, 229, 0.02) !important;
+}
+
+/* Footer */
+.footer {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-top: 1px solid var(--border-outline) !important;
+    box-shadow: none !important;
+}
+
+/* Specific Adjustments */
+.hero { background: none !important; position: relative; }
+.hero::before {
+    content: "";
+    position: absolute;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, rgba(255,255,255,0) 50%);
+    z-index: -1;
+}
+
+.big-num { color: var(--text-primary) !important; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-space); }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.25); }
+
+/* Remove old gradients */
+.achievement-banner .rank-card { background: var(--bg-glass) !important; border: 1px solid var(--border-glass); }
+
