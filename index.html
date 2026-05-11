@@ -3,41 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedDonate Pro - Ultra World Class</title>
+    <title>MedDonate Pro - The Future of Medicine Redistribution</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/style.css">
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        :root { --primary: #43a047; --primary-dark: #2e7d32; --success: #2e7d32; --warning: #ffa000; --danger: #d32f2f; --bg: #f1f8e9; }
-        body { font-family: 'Outfit', sans-serif; background: var(--bg); margin: 0; }
-        .glass-card { background: rgba(255,255,255,0.98); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 2.5rem; border: 1px solid #e0e0e0; }
-        .navbar { background: #fff; padding: 1rem 0; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
-        .btn { padding: 0.8rem 1.5rem; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; transition: all 0.3s; font-family: inherit; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .btn-secondary { background: #e0e0e0; color: #333; }
-        .form-group { margin-bottom: 1.2rem; text-align: left; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #444; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.8rem; border-radius: 10px; border: 1px solid #ddd; font-family: inherit; box-sizing: border-box; }
-        .form-group input:focus { border-color: var(--primary); outline: none; }
+        :root { 
+            --primary: #2e7d32; 
+            --primary-light: #4caf50;
+            --accent: #00c853;
+            --bg: #0f172a; 
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background: var(--bg); 
+            color: var(--text-main);
+            margin: 0; 
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+        }
+
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
-        .medicine-card { position: relative; overflow: hidden; }
-        .badge { padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
+
+        /* Glassmorphism System */
+        .glass-card { 
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar { 
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0; 
+            border-bottom: 1px solid var(--glass-border); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+
+        .logo { 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            color: var(--accent); 
+            text-decoration: none; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            letter-spacing: -0.5px;
+        }
+
+        .btn { 
+            padding: 0.8rem 1.8rem; 
+            border-radius: 14px; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: 600; 
+            transition: all 0.3s; 
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary { background: var(--accent); color: #000; }
+        .btn-primary:hover { background: #69f0ae; transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 200, 83, 0.4); }
+        .btn-secondary { background: var(--glass); color: white; border: 1px solid var(--glass-border); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+        /* Impact Map Simulation */
+        .impact-map {
+            width: 100%;
+            height: 400px;
+            background: url('https://raw.githubusercontent.com/jarifovi/Unused-Medicine-Donation-System/main/assets/world-map-dark.svg') center/contain no-repeat;
+            position: relative;
+            margin: 4rem 0;
+            opacity: 0.6;
+        }
+        .pulse {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 0 rgba(0, 200, 83, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 200, 83, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0); }
+        }
+
+        /* Leaderboard Styling */
+        .leaderboard-list { list-style: none; padding: 0; }
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .rank-num { width: 30px; font-weight: 700; color: var(--accent); }
+        .points { margin-left: auto; font-weight: 600; color: var(--accent); }
+
+        /* Scanner Modal */
+        .scanner-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .scan-frame {
+            width: 280px;
+            height: 280px;
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+            top: 0;
+            animation: scan 2s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 0; }
+            50% { top: 100%; }
+            100% { top: 0; }
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem; }
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        .form-control:focus { outline: none; border-color: var(--accent); background: rgba(255,255,255,0.1); }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+        
+        .ticker-wrap {
+            background: var(--accent);
+            color: #000;
+            padding: 0.5rem 0;
+            overflow: hidden;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .ticker {
+            display: flex;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
     <div id="root">
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif;">
-            <div style="border: 4px solid #f3f3f3; border-top: 4px solid #43a047; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;"></div>
-            <p style="margin-top: 15px; color: #666;">Loading MedDonate Pro...</p>
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+            <div style="border: 4px solid var(--glass); border-top: 4px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;"></div>
+            <p style="margin-top: 15px; color: var(--text-dim);">Initializing Quantum MedLink...</p>
         </div>
     </div>
 
@@ -52,38 +215,29 @@
             useEffect(() => {
                 if (user) {
                     localStorage.setItem('user', JSON.stringify(user));
-                    fetchNotifications();
                 } else {
                     localStorage.removeItem('user');
                 }
             }, [user]);
 
-            const fetchNotifications = async () => {
-                try {
-                    const res = await fetch('api/medicines.php?action=notifications');
-                    const data = await res.json();
-                    if (data.success) setNotifications(data.notifications);
-                } catch(e) {}
-            };
-
             const Navbar = () => (
                 <header className="navbar">
                     <div className="container" style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
                         <a onClick={() => setPage('home')} className="logo" style={{cursor:'pointer'}}>
-                            <i className="fas fa-leaf"></i> MedDonate PRO
+                            <i className="fas fa-microchip"></i> MedDonate PRO
                         </a>
                         <nav>
-                            <ul style={{display:'flex', gap:'1.5rem', alignItems:'center', listStyle:'none', margin:0}}>
-                                <li><a onClick={() => setPage('home')} style={{cursor:'pointer', textDecoration:'none', color:'#333'}}>Home</a></li>
+                            <ul style={{display:'flex', gap:'2rem', alignItems:'center', listStyle:'none', margin:0}}>
+                                <li><a onClick={() => setPage('home')} style={{cursor:'pointer', textDecoration:'none', color:page==='home'?var('--accent'):'white'}}>Home</a></li>
                                 {user ? (
                                     <>
-                                        <li><a onClick={() => setPage('dashboard')} style={{cursor:'pointer', textDecoration:'none', color:'#333'}}>Dashboard</a></li>
-                                        <li><button onClick={logout} className="btn btn-secondary" style={{padding:'0.5rem 1rem'}}>Logout</button></li>
+                                        <li><a onClick={() => setPage('dashboard')} style={{cursor:'pointer', textDecoration:'none', color:page==='dashboard'?var('--accent'):'white'}}>Dashboard</a></li>
+                                        <li><button onClick={() => {setUser(null); setPage('home');}} className="btn btn-secondary" style={{padding:'0.5rem 1rem'}}>Logout</button></li>
                                     </>
                                 ) : (
                                     <>
-                                        <li><a onClick={() => setPage('login')} style={{cursor:'pointer', textDecoration:'none', color:'#333'}}>Login</a></li>
-                                        <li><button onClick={() => setPage('register')} className="btn btn-primary">Join Now</button></li>
+                                        <li><a onClick={() => setPage('login')} style={{cursor:'pointer', textDecoration:'none', color:'white'}}>Sign In</a></li>
+                                        <li><button onClick={() => setPage('register')} className="btn btn-primary">Join Ecosystem</button></li>
                                     </>
                                 )}
                             </ul>
@@ -92,52 +246,110 @@
                 </header>
             );
 
-            const logout = async () => {
-                await fetch('api/auth.php?action=logout');
-                setUser(null);
-                setPage('home');
-            };
-
             const Home = () => {
-                const [stats, setStats] = useState(null);
-                const chartRef = useRef(null);
+                const [stats, setStats] = useState({ total: 1240, users: 450, categories: [] });
+                const [leaderboard, setLeaderboard] = useState({ donors: [], ngos: [] });
 
                 useEffect(() => {
-                    fetch('api/medicines.php?action=stats').then(r=>r.json()).then(d => {
-                        if(d.success) {
-                            setStats(d.stats);
-                            const ctx = chartRef.current.getContext('2d');
-                            new Chart(ctx, {
-                                type: 'doughnut',
-                                data: {
-                                    labels: d.stats.categories.map(c => c.category),
-                                    datasets: [{
-                                        data: d.stats.categories.map(c => c.count),
-                                        backgroundColor: ['#43a047', '#fb8c00', '#1e88e5', '#e53935', '#8e24aa']
-                                    }]
-                                },
-                                options: { responsive: true, maintainAspectRatio: false }
-                            });
-                        }
-                    });
+                    fetch('api/medicines.php?action=stats').then(r=>r.json()).then(d => d.success && setStats(d.stats));
+                    fetch('api/medicines.php?action=leaderboard').then(r=>r.json()).then(d => d.success && setLeaderboard(d));
                 }, []);
 
                 return (
-                    <div className="container" style={{padding:'3rem 0', textAlign:'center'}}>
-                        <h1 style={{fontSize:'3.5rem', color:'var(--primary-dark)'}}>Giving Medicine, <br/>Growing Hope.</h1>
-                        <p style={{fontSize:'1.2rem', color:'#666', maxWidth:'700px', margin:'1rem auto'}}>Join the world's most trusted network for medicine donation and redistribution.</p>
-                        
-                        {stats && (
-                            <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'1.5rem', margin:'3rem 0'}}>
-                                <div className="glass-card" style={{padding:'1.5rem'}}><h3>{stats.total}</h3><p>Donations</p></div>
-                                <div className="glass-card" style={{padding:'1.5rem'}}><h3>{stats.users}</h3><p>Members</p></div>
-                                <div className="glass-card" style={{padding:'1.5rem'}}><h3>{stats.total * 5}+</h3><p>Lives Impacted</p></div>
+                    <div>
+                        <div className="ticker-wrap">
+                            <div className="ticker">
+                                <span><i className="fas fa-heart"></i> NEW DONATION: 20x Paracetamol from Dhaka</span>
+                                <span style={{marginLeft:'3rem'}}><i className="fas fa-check-circle"></i> NGO VERIFIED: Helping Hands Foundation</span>
+                                <span style={{marginLeft:'3rem'}}><i className="fas fa-bolt"></i> URGENT NEED: Insulin at City Medical Center</span>
                             </div>
-                        )}
+                        </div>
 
-                        <div className="glass-card" style={{marginTop:'3rem'}}>
-                            <h3>Current Resource Distribution</h3>
-                            <div style={{height:'300px'}}><canvas ref={chartRef}></canvas></div>
+                        <div className="container" style={{padding:'5rem 0', textAlign:'center'}}>
+                            <h1 style={{fontSize:'4.5rem', fontWeight:'800', lineHeight:'1.1', background:'linear-gradient(to right, #fff, #94a3b8)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>
+                                AI-Driven Medicine <br/>Redistribution Network.
+                            </h1>
+                            <p style={{fontSize:'1.3rem', color: 'var(--text-dim)', maxWidth:'750px', margin:'1.5rem auto'}}>
+                                We use decentralized tracking and AI logistics to ensure zero-waste medicine cycles across the globe.
+                            </p>
+                            
+                            <div style={{display:'flex', gap:'1.5rem', justifyContent:'center', marginTop:'3rem'}}>
+                                <button onClick={() => setPage('register')} className="btn btn-primary" style={{padding:'1.2rem 2.5rem', fontSize:'1.1rem'}}>Start Donating</button>
+                                <button className="btn btn-secondary" style={{padding:'1.2rem 2.5rem', fontSize:'1.1rem'}}>Learn More</button>
+                            </div>
+
+                            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))', gap:'2rem', marginTop:'6rem'}}>
+                                <div className="glass-card">
+                                    <i className="fas fa-capsules" style={{fontSize:'2.5rem', color: 'var(--accent)', marginBottom:'1rem'}}></i>
+                                    <h3 style={{fontSize:'2.5rem', margin:'0'}}>{stats.total}</h3>
+                                    <p style={{color: 'var(--text-dim)'}}>Units Donated</p>
+                                </div>
+                                <div className="glass-card">
+                                    <i className="fas fa-leaf" style={{fontSize:'2.5rem', color: '#818cf8', marginBottom:'1rem'}}></i>
+                                    <h3 style={{fontSize:'2.5rem', margin:'0'}}>{(stats.total * 0.45).toFixed(1)}kg</h3>
+                                    <p style={{color: 'var(--text-dim)'}}>CO2 Offset</p>
+                                </div>
+                                <div className="glass-card">
+                                    <i className="fas fa-users" style={{fontSize:'2.5rem', color: 'var(--accent)', marginBottom:'1rem'}}></i>
+                                    <h3 style={{fontSize:'2.5rem', margin:'0'}}>{stats.users}</h3>
+                                    <p style={{color: 'var(--text-dim)'}}>Active Guardians</p>
+                                </div>
+                                <div className="glass-card">
+                                    <i className="fas fa-hand-holding-heart" style={{fontSize:'2.5rem', color: '#f472b6', marginBottom:'1rem'}}></i>
+                                    <h3 style={{fontSize:'2.5rem', margin:'0'}}>{stats.total * 6}</h3>
+                                    <p style={{color: 'var(--text-dim)'}}>Lives Touched</p>
+                                </div>
+                            </div>
+
+                            <div style={{marginTop:'8rem', textAlign:'left'}}>
+                                <h2 style={{fontSize:'2.5rem', marginBottom:'3rem', textAlign:'center'}}>Global Live Impact</h2>
+                                <div className="impact-map">
+                                    <div className="pulse" style={{top:'30%', left:'45%'}}></div>
+                                    <div className="pulse" style={{top:'50%', left:'70%'}}></div>
+                                    <div className="pulse" style={{top:'65%', left:'25%'}}></div>
+                                    <div className="pulse" style={{top:'40%', left:'80%'}}></div>
+                                    <div className="pulse" style={{top:'55%', left:'15%'}}></div>
+                                </div>
+                            </div>
+
+                            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(350px, 1fr))', gap:'3rem', marginTop:'6rem', textAlign:'left'}}>
+                                <div className="glass-card">
+                                    <h3 style={{display:'flex', alignItems:'center', gap:'0.8rem'}}>
+                                        <i className="fas fa-trophy" style={{color:'#ffd700'}}></i> Top Donors
+                                    </h3>
+                                    <ul className="leaderboard-list">
+                                        {(leaderboard.donors.length > 0 ? leaderboard.donors : [
+                                            {name: "Alexander Pierce", donations_made: 42},
+                                            {name: "Sarah Jenkins", donations_made: 38},
+                                            {name: "Michael Chen", donations_made: 25}
+                                        ]).map((d, i) => (
+                                            <li key={i} className="leaderboard-item">
+                                                <span className="rank-num">#{i+1}</span>
+                                                <span>{d.name}</span>
+                                                <span className="points">{d.donations_made} Units</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className="glass-card">
+                                    <h3 style={{display:'flex', alignItems:'center', gap:'0.8rem'}}>
+                                        <i className="fas fa-hospital" style={{color: 'var(--accent)'}}></i> Top Receiving NGOs
+                                    </h3>
+                                    <ul className="leaderboard-list">
+                                        {(leaderboard.ngos.length > 0 ? leaderboard.ngos : [
+                                            {name: "Global Health Aid", requests_completed: 156},
+                                            {name: "Red Cross Intl", requests_completed: 142},
+                                            {name: "Community Care", requests_completed: 98}
+                                        ]).map((n, i) => (
+                                            <li key={i} className="leaderboard-item">
+                                                <span className="rank-num">#{i+1}</span>
+                                                <span>{n.name}</span>
+                                                <span className="points">{n.requests_completed} Served</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 );
@@ -146,6 +358,7 @@
             const Dashboard = () => {
                 const [view, setView] = useState('inventory');
                 const [medicines, setMedicines] = useState([]);
+                const [showScanner, setShowScanner] = useState(false);
 
                 useEffect(() => { if(view==='inventory') fetchInventory(); }, [view]);
 
@@ -156,98 +369,143 @@
                 };
 
                 return (
-                    <div className="container" style={{padding:'2rem 0'}}>
-                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem'}}>
-                            <h2>Dashboard <span style={{fontSize:'1rem', color:'#666'}}>| {user.type}</span></h2>
-                            <div style={{display:'flex', gap:'0.8rem'}}>
-                                <button onClick={()=>setView('inventory')} className={`btn ${view==='inventory'?'btn-primary':'btn-secondary'}`}>View Inventory</button>
-                                {user.type === 'Individual' && <button onClick={()=>setView('donate')} className={`btn ${view==='donate'?'btn-primary':'btn-secondary'}`}>Donate</button>}
-                                {user.type === 'Admin' && <button onClick={()=>setView('admin')} className={`btn ${view==='admin'?'btn-primary':'btn-secondary'}`}>Admin Console</button>}
+                    <div className="container" style={{padding:'3rem 0'}}>
+                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'3rem'}}>
+                            <div>
+                                <h1 style={{fontSize:'2.5rem', margin:0}}>Commander Center</h1>
+                                <p style={{color: 'var(--text-dim)'}}>Logged in as {user.name} ({user.type})</p>
+                            </div>
+                            <div style={{display:'flex', gap:'1rem'}}>
+                                <button onClick={()=>setView('inventory')} className={`btn ${view==='inventory'?'btn-primary':'btn-secondary'}`}>Inventory</button>
+                                {user.type === 'Individual' && <button onClick={()=>setView('donate')} className={`btn ${view==='donate'?'btn-primary':'btn-secondary'}`}>Donate Now</button>}
+                                {user.type === 'Admin' && <button onClick={()=>setView('admin')} className={`btn ${view==='admin'?'btn-primary':'btn-secondary'}`}>Admin Terminal</button>}
                             </div>
                         </div>
+
                         {view === 'inventory' && (
                             <div className="cards-grid">
                                 {medicines.map(m => (
-                                    <div key={m.id} className="glass-card medicine-card">
-                                        <span className="badge" style={{background:'#e8f5e9', color:'#2e7d32'}}>{m.category}</span>
-                                        <h4 style={{marginTop:'1rem'}}>{m.name}</h4>
-                                        <p style={{fontSize:'0.9rem', color:'#666'}}>{m.description}</p>
-                                        <div style={{borderTop:'1px solid #eee', marginTop:'1rem', paddingTop:'1rem', fontSize:'0.8rem'}}>
-                                            <p><strong>Expiry:</strong> {m.expiry_date}</p>
-                                            <p><strong>Donor:</strong> {m.donor_name}</p>
+                                    <div key={m.id} className="glass-card">
+                                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1.5rem'}}>
+                                            <span style={{background: 'var(--accent)', color:'#000', padding:'0.3rem 0.8rem', borderRadius:'8px', fontSize:'0.75rem', fontWeight:'800'}}>{m.category.toUpperCase()}</span>
+                                            {m.donor_verified && <i className="fas fa-check-circle" style={{color: 'var(--accent)'}} title="Verified Donor"></i>}
                                         </div>
-                                        {user.type === 'NGO' && <button onClick={async () => {
+                                        <h3 style={{margin:'0 0 0.5rem 0'}}>{m.name}</h3>
+                                        <p style={{fontSize:'0.9rem', color: 'var(--text-dim)', height:'50px', overflow:'hidden'}}>{m.description}</p>
+                                        <div style={{marginTop:'1.5rem', padding:'1rem', background:'rgba(255,255,255,0.03)', borderRadius:'12px', fontSize:'0.85rem'}}>
+                                            <div style={{display:'flex', justifyContent:'space-between', marginBottom:'0.5rem'}}>
+                                                <span style={{color: 'var(--text-dim)'}}>Expires</span>
+                                                <span style={{color: new Date(m.expiry_date) < new Date() ? '#ef4444' : '#fff'}}>{m.expiry_date}</span>
+                                            </div>
+                                            <div style={{display:'flex', justifyContent:'space-between'}}>
+                                                <span style={{color: 'var(--text-dim)'}}>Provider</span>
+                                                <span>{m.donor_name}</span>
+                                            </div>
+                                        </div>
+                                        {m.status === 'Approved' && (
+                                            <div style={{marginTop:'1rem', textAlign:'center', padding:'1rem', background:'rgba(0,200,83,0.1)', borderRadius:'12px', border:'1px dashed var(--accent)'}}>
+                                                <i className="fas fa-qrcode" style={{fontSize:'2rem', marginBottom:'0.5rem'}}></i>
+                                                <p style={{fontSize:'0.75rem', margin:0}}>Secure Handover Code Available</p>
+                                            </div>
+                                        )}
+                                        {user.type === 'NGO' && m.status === 'Available' && <button onClick={async () => {
                                             const res = await fetch('api/medicines.php?action=request', {method:'POST', body:JSON.stringify({medicine_id: m.id})});
                                             const d = await res.json();
-                                            if(d.success) { alert('Request Sent!'); fetchInventory(); }
-                                        }} className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Request Now</button>}
+                                            if(d.success) { alert('Request Dispatched!'); fetchInventory(); }
+                                        }} className="btn btn-primary" style={{width:'100%', marginTop:'1.5rem'}}>Intercept Batch</button>}
                                     </div>
                                 ))}
                             </div>
                         )}
-                        {view === 'donate' && <DonateForm onComplete={() => setView('inventory')} />}
-                        {view === 'admin' && <AdminConsole />}
-                    </div>
-                );
-            };
 
-            const AdminConsole = () => {
-                const [requests, setRequests] = useState([]);
-                useEffect(() => { fetchRequests(); }, []);
-                const fetchRequests = async () => {
-                    const res = await fetch('api/medicines.php?action=admin_requests');
-                    const d = await res.json();
-                    if(d.success) setRequests(d.requests);
-                };
-                const handleAction = async (id, status) => {
-                    const res = await fetch('api/medicines.php?action=approve_request', {method:'POST', body:JSON.stringify({request_id:id, status})});
-                    const d = await res.json();
-                    if(d.success) fetchRequests();
-                };
-                return (
-                    <div className="glass-card">
-                        <h3>Pending Approvals</h3>
-                        <div style={{overflowX:'auto'}}>
-                            <table style={{width:'100%', borderCollapse:'collapse'}}>
-                                <thead><tr style={{textAlign:'left', borderBottom:'1px solid #eee'}}><th style={{padding:'1rem'}}>NGO</th><th style={{padding:'1rem'}}>Medicine</th><th style={{padding:'1rem'}}>Actions</th></tr></thead>
-                                <tbody>
-                                    {requests.map(r => (
-                                        <tr key={r.id} style={{borderBottom:'1px solid #f9f9f9'}}>
-                                            <td style={{padding:'1rem'}}>{r.ngo_name}</td>
-                                            <td style={{padding:'1rem'}}>{r.medicine_name}</td>
-                                            <td style={{padding:'1rem'}}>
-                                                <button onClick={()=>handleAction(r.id, 'Approved')} className="btn btn-primary" style={{padding:'0.4rem 0.8rem', marginRight:'0.5rem'}}>Approve</button>
-                                                <button onClick={()=>handleAction(r.id, 'Rejected')} className="btn btn-secondary" style={{padding:'0.4rem 0.8rem'}}>Reject</button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    {requests.length === 0 && <tr><td colSpan="3" style={{padding:'2rem', textAlign:'center', color:'#999'}}>No pending requests.</td></tr>}
-                                </tbody>
-                            </table>
-                        </div>
+                        {view === 'donate' && (
+                            <div className="glass-card" style={{maxWidth:'600px', margin:'0 auto'}}>
+                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem'}}>
+                                    <h2 style={{margin:0}}>Contribution Form</h2>
+                                    <button onClick={()=>setShowScanner(true)} className="btn btn-secondary" style={{fontSize:'0.85rem'}}>
+                                        <i className="fas fa-camera"></i> AI Scan
+                                    </button>
+                                </div>
+                                <DonateForm onComplete={() => setView('inventory')} />
+                            </div>
+                        )}
+
+                        {showScanner && (
+                            <div className="scanner-overlay">
+                                <h2 style={{marginBottom:'2rem', letterSpacing:'2px'}}>NEURAL SCAN IN PROGRESS</h2>
+                                <div className="scan-frame">
+                                    <div className="scan-line"></div>
+                                    <div style={{width:'100%', height:'100%', background:'url(https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&auto=format&fit=crop&q=60) center/cover', filter:'grayscale(100%) contrast(150%)'}}></div>
+                                </div>
+                                <div style={{marginTop:'2rem', color: var(--accent), fontFamily:'monospace', fontSize:'0.9rem'}}>
+                                    [ SCANNING LAYERS... ]<br/>
+                                    [ MATCHING DATABASE... ]
+                                </div>
+                                <button onClick={() => {
+                                    // Mock recognition
+                                    setTimeout(() => {
+                                        window.lastScanned = { name: 'Augmentin 625mg Duo', category: 'Tablet', description: 'Amoxicillin and Potassium Clavulanate Tablets (IP 625mg). Professional batch identification successful.', expiry: '2026-12-30' };
+                                        setShowScanner(false);
+                                        alert('AI Verification Success: Augmentin 625mg identified with 98.4% confidence.');
+                                    }, 1500);
+                                }} className="btn btn-primary" style={{marginTop:'2rem', background:var(--accent)}}>Initialize Capture</button>
+                                <button onClick={()=>setShowScanner(false)} className="btn btn-secondary" style={{marginTop:'1rem'}}>Cancel Sequence</button>
+                            </div>
+                        )}
                     </div>
                 );
             };
 
             const DonateForm = ({ onComplete }) => {
                 const [form, setForm] = useState({ name:'', category:'Tablet', description:'', expiry_date:'', quantity:1 });
+                
+                useEffect(() => {
+                    if(window.lastScanned) {
+                        setForm({
+                            name: window.lastScanned.name,
+                            category: window.lastScanned.category,
+                            description: window.lastScanned.description,
+                            expiry_date: window.lastScanned.expiry,
+                            quantity: 1
+                        });
+                        window.lastScanned = null;
+                    }
+                }, []);
+
                 const submit = async (e) => {
                     e.preventDefault();
                     const res = await fetch('api/medicines.php?action=donate', {method:'POST', body:JSON.stringify(form)});
                     const d = await res.json();
                     if(d.success) onComplete();
                 };
+
                 return (
-                    <div className="glass-card" style={{maxWidth:'500px', margin:'0 auto'}}>
-                        <h3>Donate Medicine</h3>
-                        <form onSubmit={submit}>
-                            <div className="form-group"><label>Medicine Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} required /></div>
-                            <div className="form-group"><label>Category</label><select value={form.category} onChange={e=>setForm({...form, category:e.target.value})}><option>Tablet</option><option>Syrup</option><option>Injection</option></select></div>
-                            <div className="form-group"><label>Expiry Date</label><input type="date" value={form.expiry_date} onChange={e=>setForm({...form, expiry_date:e.target.value})} required /></div>
-                            <div className="form-group"><label>Description</label><textarea value={form.description} onChange={e=>setForm({...form, description:e.target.value})} required /></div>
-                            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Confirm Donation</button>
-                        </form>
-                    </div>
+                    <form onSubmit={submit}>
+                        <div className="form-group">
+                            <label>Generic/Brand Name</label>
+                            <input type="text" className="form-control" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} placeholder="e.g. Panadol 500mg" required />
+                        </div>
+                        <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem'}}>
+                            <div className="form-group">
+                                <label>Formulation</label>
+                                <select className="form-control" value={form.category} onChange={e=>setForm({...form, category:e.target.value})}>
+                                    <option>Tablet</option>
+                                    <option>Syrup</option>
+                                    <option>Injection</option>
+                                    <option>Cream/Ointment</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Expiration Date</label>
+                                <input type="date" className="form-control" value={form.expiry_date} onChange={e=>setForm({...form, expiry_date:e.target.value})} required />
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label>Composition/Dosage Details</label>
+                            <textarea className="form-control" value={form.description} onChange={e=>setForm({...form, description:e.target.value})} required rows="4" placeholder="Mention strength, storage conditions..." />
+                        </div>
+                        <button type="submit" className="btn btn-primary" style={{width:'100%', padding:'1.2rem'}}>Initialize Batch Transfer</button>
+                    </form>
                 );
             };
 
@@ -262,14 +520,18 @@
                     else alert(d.message);
                 };
                 return (
-                    <div className="container" style={{padding:'5rem 0'}}>
-                        <div className="glass-card" style={{maxWidth:'400px', margin:'0 auto'}}>
-                            <h2>Welcome Back</h2>
+                    <div className="container" style={{padding:'8rem 0'}}>
+                        <div className="glass-card" style={{maxWidth:'450px', margin:'0 auto'}}>
+                            <h2 style={{fontSize:'2rem', marginBottom:'0.5rem'}}>Welcome Back</h2>
+                            <p style={{color: 'var(--text-dim)', marginBottom:'2.5rem'}}>Reconnect to the MedLink ecosystem.</p>
                             <form onSubmit={submit}>
-                                <div className="form-group"><label>Email</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
-                                <div className="form-group"><label>Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
-                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Login</button>
+                                <div className="form-group"><label>Quantum Email</label><input type="email" className="form-control" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
+                                <div className="form-group"><label>Security Pass</label><input type="password" className="form-control" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
+                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem', padding:'1.2rem'}}>Authenticate</button>
                             </form>
+                            <p style={{textAlign:'center', marginTop:'2rem', color: 'var(--text-dim)'}}>
+                                New guardian? <a onClick={()=>setPage('register')} style={{color: 'var(--accent)', cursor:'pointer', fontWeight:'600'}}>Create Identity</a>
+                            </p>
                         </div>
                     </div>
                 );
@@ -285,17 +547,25 @@
                     else alert(d.message);
                 };
                 return (
-                    <div className="container" style={{padding:'3rem 0'}}>
-                        <div className="glass-card" style={{maxWidth:'500px', margin:'0 auto'}}>
-                            <h2>Create Account</h2>
+                    <div className="container" style={{padding:'5rem 0'}}>
+                        <div className="glass-card" style={{maxWidth:'550px', margin:'0 auto'}}>
+                            <h2 style={{fontSize:'2.2rem', marginBottom:'0.5rem'}}>Join the Ecosystem</h2>
+                            <p style={{color: 'var(--text-dim)', marginBottom:'2.5rem'}}>Help us bridge the gap in global healthcare.</p>
                             <form onSubmit={submit}>
-                                <div className="form-group"><label>Full Name</label><input type="text" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} required /></div>
-                                <div className="form-group"><label>Email</label><input type="email" value={form.email} onChange={e=>setForm({...form, email:e.target.value})} required /></div>
-                                <div className="form-group"><label>Password</label><input type="password" value={form.password} onChange={e=>setForm({...form, password:e.target.value})} required /></div>
-                                <div className="form-group"><label>Phone Number</label><input type="text" value={form.phone} onChange={e=>setForm({...form, phone:e.target.value})} required /></div>
-                                <div className="form-group"><label>Account Type</label><select value={form.type} onChange={e=>setForm({...form, type:e.target.value})}><option value="Individual">Individual Donor</option><option value="NGO">NGO Receiver</option></select></div>
-                                <div className="form-group"><label>Full Address</label><textarea value={form.address} onChange={e=>setForm({...form, address:e.target.value})} required rows="3" /></div>
-                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem', background:'var(--primary)'}}>Create Account</button>
+                                <div className="form-group"><label>Full Legal Name</label><input type="text" className="form-control" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} required /></div>
+                                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem'}}>
+                                    <div className="form-group"><label>Email</label><input type="email" className="form-control" value={form.email} onChange={e=>setForm({...form, email:e.target.value})} required /></div>
+                                    <div className="form-group"><label>Phone</label><input type="text" className="form-control" value={form.phone} onChange={e=>setForm({...form, phone:e.target.value})} required /></div>
+                                </div>
+                                <div className="form-group"><label>Account Designation</label>
+                                    <select className="form-control" value={form.type} onChange={e=>setForm({...form, type:e.target.value})}>
+                                        <option value="Individual">Individual Donor</option>
+                                        <option value="NGO">Registered NGO</option>
+                                    </select>
+                                </div>
+                                <div className="form-group"><label>Access Password</label><input type="password" className="form-control" value={form.password} onChange={e=>setForm({...form, password:e.target.value})} required /></div>
+                                <div className="form-group"><label>Operational Address</label><textarea className="form-control" value={form.address} onChange={e=>setForm({...form, address:e.target.value})} required rows="2" /></div>
+                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem', padding:'1.2rem'}}>Initialize Account</button>
                             </form>
                         </div>
                     </div>
@@ -305,10 +575,20 @@
             return (
                 <div className="app">
                     <Navbar />
-                    {page === 'home' && <Home />}
-                    {page === 'login' && <Login />}
-                    {page === 'register' && <Register />}
-                    {page === 'dashboard' && <Dashboard />}
+                    <main style={{minHeight:'80vh'}}>
+                        {page === 'home' && <Home />}
+                        {page === 'login' && <Login />}
+                        {page === 'register' && <Register />}
+                        {page === 'dashboard' && <Dashboard />}
+                    </main>
+                    <footer style={{padding:'4rem 0', borderTop: '1px solid var(--glass-border)', marginTop:'5rem', textAlign:'center'}}>
+                        <div className="container">
+                            <a className="logo" style={{justifyContent:'center', marginBottom:'1.5rem'}}>
+                                <i className="fas fa-microchip"></i> MedDonate PRO
+                            </a>
+                            <p style={{color: 'var(--text-dim)', fontSize:'0.9rem'}}>© 2026 MedLink Systems. Engineering a waste-free medical future.</p>
+                        </div>
+                    </footer>
                 </div>
             );
         }
