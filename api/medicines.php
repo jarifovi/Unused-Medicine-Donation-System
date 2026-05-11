@@ -3,14 +3,18 @@ session_start();
 header('Content-Type: application/json');
 require_once 'db_config.php';
 
-if (!isset($_SESSION['user_id'])) {
+$action = $_GET['action'] ?? '';
+
+// Allow public access to stats and leaderboard
+$public_actions = ['stats', 'leaderboard'];
+
+if (!in_array($action, $public_actions) && !isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;
 }
 
-$action = $_GET['action'] ?? '';
-$user_id = $_SESSION['user_id'];
-$user_type = $_SESSION['user_type'];
+$user_id = $_SESSION['user_id'] ?? null;
+$user_type = $_SESSION['user_type'] ?? null;
 
 function notify($pdo, $uid, $msg) {
     $stmt = $pdo->prepare("INSERT INTO notifications (user_id, message) VALUES (?, ?)");
