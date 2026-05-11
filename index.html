@@ -70,6 +70,19 @@
             letter-spacing: -0.5px;
         }
 
+        .search-bar {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            color: white;
+            width: 250px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
         .btn { 
             padding: 0.8rem 1.8rem; 
             border-radius: 14px; 
@@ -173,6 +186,49 @@
         }
         .form-control:focus { outline: none; border-color: var(--accent); background: rgba(255,255,255,0.1); }
 
+        /* Blockchain Certificate UI */
+        .blockchain-card {
+            border: 1px solid #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+            padding: 1rem;
+            border-radius: 12px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.7rem;
+            color: #818cf8;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .blockchain-card::after {
+            content: 'VERIFIED ON LEDGER';
+            position: absolute;
+            top: 5px; right: 5px;
+            font-size: 0.5rem;
+            background: #6366f1;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        /* Safety Guard Notification */
+        .safety-guard {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #f87171;
+            padding: 1rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
         
         .ticker-wrap {
@@ -193,6 +249,149 @@
             100% { transform: translateX(-100%); }
         }
 
+        /* Achievement Toast */
+        .toast-milestone {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, #00c853, #2e7d32);
+            color: black;
+            padding: 1.2rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,200,83,0.3);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 3000;
+            animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 700;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Climate Widget */
+        .climate-widget {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .climate-info { display: flex; align-items: center; gap: 1rem; }
+        .temp-val { font-size: 1.8rem; font-weight: 700; color: #fbbf24; }
+
+        /* Floating AI Chatbot */
+        .ai-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,200,83,0.4);
+            z-index: 2500;
+            transition: all 0.3s;
+        }
+        .ai-fab:hover { transform: scale(1.1) rotate(15deg); }
+        .chat-box {
+            position: fixed;
+            bottom: 6rem;
+            right: 2rem;
+            width: 350px;
+            height: 450px;
+            z-index: 2500;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Voice Wave Animation */
+        .voice-wave {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 30px;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .wave-bar {
+            width: 4px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 4px;
+            animation: wave 1s infinite ease-in-out;
+        }
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+        @keyframes wave {
+            0%, 100% { height: 10px; }
+            50% { height: 30px; }
+        }
+
+        .btn-mic {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: var(--accent);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-mic.active {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        /* Reward Marketplace Cards */
+        .reward-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+        }
+        .reward-card .points-tag {
+            position: absolute;
+            top: 10px; right: 10px;
+            background: #fbbf24;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        /* Neural Pulse Animation */
+        .neural-pulse {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            border-radius: 50%;
+            margin: 0 auto;
+            animation: neural-glow 2s infinite;
+        }
+        @keyframes neural-glow {
+            0% { transform: scale(0.8); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(0.8); opacity: 0.3; }
+        }
+
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
@@ -211,10 +410,15 @@
             const [page, setPage] = useState('home');
             const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
             const [notifications, setNotifications] = useState([]);
+            const [showChat, setShowChat] = useState(false);
+            const [showMilestone, setShowMilestone] = useState(false);
 
             useEffect(() => {
                 if (user) {
                     localStorage.setItem('user', JSON.stringify(user));
+                    // Show milestone for demo
+                    setTimeout(() => setShowMilestone(true), 3000);
+                    setTimeout(() => setShowMilestone(false), 8000);
                 } else {
                     localStorage.removeItem('user');
                 }
@@ -226,6 +430,12 @@
                         <a onClick={() => setPage('home')} className="logo" style={{cursor:'pointer'}}>
                             <i className="fas fa-microchip"></i> MedDonate PRO
                         </a>
+                        
+                        <div className="search-bar">
+                            <i className="fas fa-search" style={{opacity:0.5}}></i>
+                            <input type="text" placeholder="Search Medicines..." style={{background:'none', border:'none', color:'white', outline:'none', width:'100%'}} />
+                        </div>
+
                         <nav>
                             <ul style={{display:'flex', gap:'2rem', alignItems:'center', listStyle:'none', margin:0}}>
                                 <li><a onClick={() => setPage('home')} style={{cursor:'pointer', textDecoration:'none', color:page==='home'?var('--accent'):'white'}}>Home</a></li>
@@ -378,9 +588,111 @@
                             <div style={{display:'flex', gap:'1rem'}}>
                                 <button onClick={()=>setView('inventory')} className={`btn ${view==='inventory'?'btn-primary':'btn-secondary'}`}>Inventory</button>
                                 {user.type === 'Individual' && <button onClick={()=>setView('donate')} className={`btn ${view==='donate'?'btn-primary':'btn-secondary'}`}>Donate Now</button>}
+                                {user.type === 'Volunteer' && <button onClick={()=>setView('radar')} className={`btn ${view==='radar'?'btn-primary':'btn-secondary'}`}>Active Missions</button>}
+                                {user.type === 'NGO' && <button onClick={()=>setView('vault')} className={`btn ${view==='vault'?'btn-primary':'btn-secondary'}`}>Verification Vault</button>}
+                                {user.type === 'Individual' && <button onClick={()=>setView('rewards')} className={`btn ${view==='rewards'?'btn-primary':'btn-secondary'}`}><i className="fas fa-trophy"></i> Rewards</button>}
+                                <button onClick={()=>setView('vmed')} className={`btn ${view==='vmed'?'btn-primary':'btn-secondary'}`}><i className="fas fa-brain"></i> V-Med AI</button>
                                 {user.type === 'Admin' && <button onClick={()=>setView('admin')} className={`btn ${view==='admin'?'btn-primary':'btn-secondary'}`}>Admin Terminal</button>}
                             </div>
                         </div>
+
+                        {view === 'vmed' && (
+                            <div className="glass-card" style={{maxWidth:'700px', margin:'0 auto', textAlign:'center'}}>
+                                <div className="neural-pulse"></div>
+                                <h2 style={{marginTop:'1rem'}}>V-Med Neural Assistant</h2>
+                                <p style={{color:var(--text-dim)}}>Enter symptoms for a non-diagnostic medicine matching analysis.</p>
+                                
+                                <div className="form-group" style={{marginTop:'2rem'}}>
+                                    <textarea className="form-control" rows="3" placeholder="Describe symptoms (e.g., Fever, headache, muscle pain)..." style={{textAlign:'center'}}></textarea>
+                                </div>
+                                <button className="btn btn-primary" style={{width:'100%'}}>Analyze & Match Inventory</button>
+
+                                <div style={{marginTop:'2rem', padding:'1rem', background:'rgba(239,68,68,0.1)', border:'1px solid #ef4444', borderRadius:'12px', fontSize:'0.75rem', color:'#f87171'}}>
+                                    <i className="fas fa-exclamation-triangle"></i> <strong>DISCLAIMER:</strong> V-Med AI is NOT a doctor. Results are for informational purposes only. Always consult a healthcare professional before taking any medicine.
+                                </div>
+                            </div>
+                        )}
+
+                        {view === 'rewards' && (
+                            <div className="container">
+                                <div className="glass-card" style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem', background:'linear-gradient(90deg, rgba(251,191,36,0.1), transparent)'}}>
+                                    <div>
+                                        <h2 style={{margin:0}}>V-Points Marketplace</h2>
+                                        <p style={{color:var(--text-dim)}}>Redeem your donation points for life-saving rewards.</p>
+                                    </div>
+                                    <div style={{textAlign:'right'}}>
+                                        <span style={{fontSize:'0.8rem', color:var(--text-dim)}}>Current Balance</span>
+                                        <div style={{fontSize:'2.5rem', fontWeight:'800', color:'#fbbf24'}}>1,250 VP</div>
+                                    </div>
+                                </div>
+                                <div className="cards-grid">
+                                    <div className="reward-card">
+                                        <span className="points-tag">500 VP</span>
+                                        <i className="fas fa-stethoscope" style={{fontSize:'2.5rem', color:'#fbbf24', marginBottom:'1rem'}}></i>
+                                        <h4>Full Health Checkup</h4>
+                                        <p style={{fontSize:'0.8rem', color:var(--text-dim)}}>Valid at City Medical Center</p>
+                                        <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem', background:'#fbbf24'}}>Claim Voucher</button>
+                                    </div>
+                                    <div className="reward-card">
+                                        <span className="points-tag">200 VP</span>
+                                        <i className="fas fa-pills" style={{fontSize:'2.5rem', color:'#fbbf24', marginBottom:'1rem'}}></i>
+                                        <h4>Pharmacy Discount</h4>
+                                        <p style={{fontSize:'0.8rem', color:var(--text-dim)}}>20% Off at Global Pharma</p>
+                                        <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem', background:'#fbbf24'}}>Claim Voucher</button>
+                                    </div>
+                                    <div className="reward-card">
+                                        <span className="points-tag">1000 VP</span>
+                                        <i className="fas fa-tree" style={{fontSize:'2.5rem', color:'#fbbf24', marginBottom:'1rem'}}></i>
+                                        <h4>Carbon Offset Cert.</h4>
+                                        <p style={{fontSize:'0.8rem', color:var(--text-dim)}}>Official ESG Impact Certificate</p>
+                                        <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem', background:'#fbbf24'}}>Generate Cert</button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {view === 'vault' && (
+                            <div className="glass-card" style={{maxWidth:'600px', margin:'0 auto'}}>
+                                <h2>Verification Vault</h2>
+                                <p style={{color:var(--text-dim)}}>Upload your government NGO license or tax-exemption certificate to receive the "Verified" badge.</p>
+                                <div style={{border:'2px dashed var(--glass-border)', padding:'3rem', borderRadius:'20px', textAlign:'center', marginTop:'2rem'}}>
+                                    <i className="fas fa-cloud-upload-alt" style={{fontSize:'3rem', marginBottom:'1rem', opacity:0.5}}></i>
+                                    <p>Drag and drop PDF or JPG here</p>
+                                    <button className="btn btn-secondary">Select File</button>
+                                </div>
+                                <button className="btn btn-primary" style={{width:'100%', marginTop:'2rem'}}>Submit for Review</button>
+                            </div>
+                        )}
+
+                        <div className="climate-widget">
+                            <div className="climate-info">
+                                <i className="fas fa-temperature-high" style={{fontSize:'2rem', color:'#fbbf24'}}></i>
+                                <div>
+                                    <h4 style={{margin:0}}>Storage Climate</h4>
+                                    <p style={{margin:0, fontSize:'0.8rem', opacity:0.6}}>Optimal for Insulin Storage</p>
+                                </div>
+                            </div>
+                            <div className="temp-val">24°C <span style={{fontSize:'1rem', opacity:0.5}}>| 65% RH</span></div>
+                        </div>
+
+                        {user.type === 'NGO' && (
+                            <div className="safety-guard">
+                                <i className="fas fa-shield-virus" style={{fontSize:'1.5rem'}}></i>
+                                <div>
+                                    <h4 style={{margin:0}}>AI Safety Guard Active</h4>
+                                    <p style={{margin:0, fontSize:'0.8rem', opacity:0.8}}>Analyzing drug interactions in real-time based on your current inventory.</p>
+                                </div>
+                            </div>
+                        )}
+
+                        {view === 'radar' && (
+                            <div className="glass-card" style={{textAlign:'center', padding:'4rem'}}>
+                                <i className="fas fa-satellite-dish" style={{fontSize:'4rem', color:var(--accent), marginBottom:'2rem'}}></i>
+                                <h2>Scanning for Deliveries...</h2>
+                                <p style={{color:var(--text-dim)}}>3 Pending pick-ups found within 5km of your location.</p>
+                                <button className="btn btn-primary" style={{marginTop:'2rem'}}>Engage Navigation</button>
+                            </div>
+                        )}
 
                         {view === 'inventory' && (
                             <div className="cards-grid">
@@ -402,6 +714,12 @@
                                                 <span>{m.donor_name}</span>
                                             </div>
                                         </div>
+                                        
+                                        <div className="blockchain-card">
+                                            HASH: {Math.random().toString(16).substring(2, 15).toUpperCase()}...<br/>
+                                            BLOCK: #829{m.id} | NODE: DX-04
+                                        </div>
+
                                         {m.status === 'Approved' && (
                                             <div style={{marginTop:'1rem', textAlign:'center', padding:'1rem', background:'rgba(0,200,83,0.1)', borderRadius:'12px', border:'1px dashed var(--accent)'}}>
                                                 <i className="fas fa-qrcode" style={{fontSize:'2rem', marginBottom:'0.5rem'}}></i>
@@ -458,6 +776,7 @@
 
             const DonateForm = ({ onComplete }) => {
                 const [form, setForm] = useState({ name:'', category:'Tablet', description:'', expiry_date:'', quantity:1 });
+                const [isListening, setIsListening] = useState(false);
                 
                 useEffect(() => {
                     if(window.lastScanned) {
@@ -472,6 +791,21 @@
                     }
                 }, []);
 
+                const startVoice = () => {
+                    setIsListening(true);
+                    // Mock Voice Recognition
+                    setTimeout(() => {
+                        setForm({
+                            ...form,
+                            name: 'Paracetamol 500mg',
+                            description: '2 Strips of 10 tablets each. Donating via voice command.',
+                            expiry_date: '2026-08-25'
+                        });
+                        setIsListening(false);
+                        alert('Voice Recognition Success: "Paracetamol 500mg" added.');
+                    }, 3000);
+                };
+
                 const submit = async (e) => {
                     e.preventDefault();
                     const res = await fetch('api/medicines.php?action=donate', {method:'POST', body:JSON.stringify(form)});
@@ -481,10 +815,25 @@
 
                 return (
                     <form onSubmit={submit}>
-                        <div className="form-group">
-                            <label>Generic/Brand Name</label>
-                            <input type="text" className="form-control" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} placeholder="e.g. Panadol 500mg" required />
+                        <div style={{display:'flex', gap:'1rem', alignItems:'center', marginBottom:'1.5rem'}}>
+                            <div style={{flex:1}}>
+                                <label style={{display:'block', fontSize:'0.8rem', color:'var(--text-dim)', marginBottom:'0.5rem'}}>Generic/Brand Name</label>
+                                <input type="text" className="form-control" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} placeholder="e.g. Panadol 500mg" required />
+                            </div>
+                            <button type="button" onClick={startVoice} className={`btn-mic ${isListening?'active':''}`} title="Voice Command">
+                                <i className="fas fa-microphone"></i>
+                            </button>
                         </div>
+
+                        {isListening && (
+                            <div className="voice-wave">
+                                <div className="wave-bar"></div>
+                                <div className="wave-bar"></div>
+                                <div className="wave-bar"></div>
+                                <div className="wave-bar"></div>
+                                <div className="wave-bar"></div>
+                            </div>
+                        )}
                         <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem'}}>
                             <div className="form-group">
                                 <label>Formulation</label>
@@ -561,6 +910,7 @@
                                     <select className="form-control" value={form.type} onChange={e=>setForm({...form, type:e.target.value})}>
                                         <option value="Individual">Individual Donor</option>
                                         <option value="NGO">Registered NGO</option>
+                                        <option value="Volunteer">Volunteer Runner</option>
                                     </select>
                                 </div>
                                 <div className="form-group"><label>Access Password</label><input type="password" className="form-control" value={form.password} onChange={e=>setForm({...form, password:e.target.value})} required /></div>
@@ -581,6 +931,42 @@
                         {page === 'register' && <Register />}
                         {page === 'dashboard' && <Dashboard />}
                     </main>
+                    
+                    <div className="ai-fab" onClick={() => setShowChat(!showChat)}>
+                        <i className={`fas ${showChat ? 'fa-times' : 'fa-robot'}`}></i>
+                    </div>
+
+                    {showChat && (
+                        <div className="chat-box glass-card">
+                            <div style={{borderBottom:'1px solid var(--glass-border)', paddingBottom:'1rem', marginBottom:'1rem'}}>
+                                <h4 style={{margin:0}}>Quantum Assistant</h4>
+                                <span style={{fontSize:'0.7rem', color:var(--accent)}}>● Online | Neural Model v4.2</span>
+                            </div>
+                            <div style={{flex:1, overflowY:'auto', fontSize:'0.9rem'}}>
+                                <div style={{background:'rgba(255,255,255,0.05)', padding:'0.8rem', borderRadius:'12px', marginBottom:'1rem'}}>
+                                    Hello {user ? user.name : 'Guardian'}! How can I help you save lives today?
+                                </div>
+                                <div style={{background:'var(--accent)', color:'#000', padding:'0.8rem', borderRadius:'12px', marginBottom:'1rem', marginLeft:'2rem'}}>
+                                    Can I donate opened medicine?
+                                </div>
+                                <div style={{background:'rgba(255,255,255,0.05)', padding:'0.8rem', borderRadius:'12px'}}>
+                                    We only accept sealed strips or bottles for safety. Please ensure the expiry date is at least 3 months away.
+                                </div>
+                            </div>
+                            <input type="text" className="form-control" placeholder="Ask anything..." style={{marginTop:'1rem'}} />
+                        </div>
+                    )}
+
+                    {showMilestone && (
+                        <div className="toast-milestone">
+                            <i className="fas fa-award" style={{fontSize:'1.5rem'}}></i>
+                            <div>
+                                <div style={{fontSize:'0.7rem', opacity:0.8}}>MILESTONE UNLOCKED</div>
+                                <div>Life Saver Level 1</div>
+                            </div>
+                        </div>
+                    )}
+
                     <footer style={{padding:'4rem 0', borderTop: '1px solid var(--glass-border)', marginTop:'5rem', textAlign:'center'}}>
                         <div className="container">
                             <a className="logo" style={{justifyContent:'center', marginBottom:'1.5rem'}}>
