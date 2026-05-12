@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedDonate Pro - The Future of Medicine Redistribution</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>MedDonate Pro — Intelligent Medicine Redistribution</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -12,45 +12,51 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root { 
-            --primary: #2e7d32; 
-            --primary-light: #4caf50;
-            --accent: #00c853;
-            --bg: #0f172a; 
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
+            --primary: #7c3aed; 
+            --primary-light: #a78bfa;
+            --accent: #06b6d4;
+            --accent2: #f472b6;
+            --bg: #06050f; 
+            --glass: rgba(124, 58, 237, 0.06);
+            --glass-border: rgba(124, 58, 237, 0.15);
+            --text-main: #f0eeff;
+            --text-dim: #8b83b0;
         }
 
+        * { box-sizing: border-box; }
+
         body { 
-            font-family: 'Outfit', sans-serif; 
+            font-family: 'Space Grotesk', sans-serif; 
             background: var(--bg); 
             color: var(--text-main);
             margin: 0; 
             overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+            background-image: 
+                radial-gradient(ellipse at 20% 0%, rgba(124,58,237,0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(6,182,212,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(244,114,182,0.05) 0%, transparent 70%);
         }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* Glassmorphism System */
         .glass-card { 
             background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 2rem;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .glass-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-4px);
+            background: rgba(124, 58, 237, 0.1);
+            border-color: rgba(124, 58, 237, 0.3);
+            box-shadow: 0 20px 60px rgba(124, 58, 237, 0.1);
         }
 
         .navbar { 
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(6, 5, 15, 0.85);
             backdrop-filter: blur(20px);
             padding: 1rem 0; 
             border-bottom: 1px solid var(--glass-border); 
@@ -62,7 +68,7 @@
         .logo { 
             font-size: 1.5rem; 
             font-weight: 700; 
-            color: var(--accent); 
+            color: var(--primary-light); 
             text-decoration: none; 
             display: flex; 
             align-items: center; 
@@ -71,12 +77,12 @@
         }
 
         .search-bar {
-            background: rgba(255,255,255,0.05);
+            background: rgba(124,58,237,0.08);
             border: 1px solid var(--glass-border);
             padding: 0.5rem 1rem;
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
-            width: 250px;
+            width: 260px;
             font-size: 0.8rem;
             display: flex;
             align-items: center;
@@ -85,7 +91,7 @@
 
         .btn { 
             padding: 0.8rem 1.8rem; 
-            border-radius: 14px; 
+            border-radius: 12px; 
             border: none; 
             cursor: pointer; 
             font-weight: 600; 
@@ -95,10 +101,10 @@
             align-items: center;
             gap: 0.5rem;
         }
-        .btn-primary { background: var(--accent); color: #000; }
-        .btn-primary:hover { background: #69f0ae; transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 200, 83, 0.4); }
-        .btn-secondary { background: var(--glass); color: white; border: 1px solid var(--glass-border); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; }
+        .btn-primary:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(124,58,237,0.4); }
+        .btn-secondary { background: rgba(124,58,237,0.1); color: var(--primary-light); border: 1px solid var(--glass-border); }
+        .btn-secondary:hover { background: rgba(124,58,237,0.2); }
 
         /* Impact Map Simulation */
         .impact-map {
@@ -107,7 +113,8 @@
             background: url('https://raw.githubusercontent.com/jarifovi/Unused-Medicine-Donation-System/main/assets/world-map-dark.svg') center/contain no-repeat;
             position: relative;
             margin: 4rem 0;
-            opacity: 0.6;
+            opacity: 0.5;
+            filter: hue-rotate(260deg);
         }
         .pulse {
             position: absolute;
@@ -115,13 +122,13 @@
             height: 12px;
             background: var(--accent);
             border-radius: 50%;
-            box-shadow: 0 0 0 rgba(0, 200, 83, 0.4);
+            box-shadow: 0 0 0 rgba(6,182,212,0.4);
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(0, 200, 83, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(6,182,212,0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(6,182,212,0); }
+            100% { box-shadow: 0 0 0 0 rgba(6,182,212,0); }
         }
 
         /* Leaderboard Styling */
@@ -131,10 +138,12 @@
             align-items: center;
             padding: 1rem;
             margin-bottom: 0.8rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(124,58,237,0.05);
+            border-radius: 14px;
+            border: 1px solid rgba(124,58,237,0.1);
+            transition: background 0.3s;
         }
+        .leaderboard-item:hover { background: rgba(124,58,237,0.1); }
         .rank-num { width: 30px; font-weight: 700; color: var(--accent); }
         .points { margin-left: auto; font-weight: 600; color: var(--accent); }
 
@@ -142,7 +151,7 @@
         .scanner-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.9);
+            background: rgba(6,5,15,0.95);
             z-index: 2000;
             display: flex;
             flex-direction: column;
@@ -152,7 +161,7 @@
         .scan-frame {
             width: 280px;
             height: 280px;
-            border: 2px solid var(--accent);
+            border: 2px solid var(--primary);
             border-radius: 20px;
             position: relative;
             overflow: hidden;
@@ -161,7 +170,7 @@
             position: absolute;
             width: 100%;
             height: 2px;
-            background: var(--accent);
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
             box-shadow: 0 0 15px var(--accent);
             top: 0;
             animation: scan 2s linear infinite;
@@ -173,28 +182,29 @@
         }
 
         .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem; font-weight: 500; }
         .form-control {
             width: 100%;
             padding: 1rem;
-            background: rgba(255,255,255,0.05);
+            background: rgba(124,58,237,0.06);
             border: 1px solid var(--glass-border);
             border-radius: 12px;
             color: white;
             font-family: inherit;
             box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
-        .form-control:focus { outline: none; border-color: var(--accent); background: rgba(255,255,255,0.1); }
+        .form-control:focus { outline: none; border-color: var(--primary); background: rgba(124,58,237,0.1); box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
 
         /* Blockchain Certificate UI */
         .blockchain-card {
-            border: 1px solid #6366f1;
-            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(6,182,212,0.3);
+            background: rgba(6,182,212,0.05);
             padding: 1rem;
             border-radius: 12px;
             font-family: 'Monaco', 'Consolas', monospace;
             font-size: 0.7rem;
-            color: #818cf8;
+            color: var(--accent);
             margin-top: 1rem;
             position: relative;
             overflow: hidden;
@@ -204,17 +214,17 @@
             position: absolute;
             top: 5px; right: 5px;
             font-size: 0.5rem;
-            background: #6366f1;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
-            padding: 2px 5px;
+            padding: 2px 6px;
             border-radius: 4px;
         }
 
         /* Safety Guard Notification */
         .safety-guard {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid #ef4444;
-            color: #f87171;
+            background: rgba(244,114,182,0.08);
+            border: 1px solid rgba(244,114,182,0.3);
+            color: var(--accent2);
             padding: 1rem;
             border-radius: 12px;
             display: flex;
@@ -232,12 +242,12 @@
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
         
         .ticker-wrap {
-            background: var(--accent);
-            color: #000;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: #fff;
             padding: 0.5rem 0;
             overflow: hidden;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .ticker {
             display: flex;
@@ -254,11 +264,11 @@
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            background: linear-gradient(135deg, #00c853, #2e7d32);
-            color: black;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
             padding: 1.2rem 2rem;
             border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,200,83,0.3);
+            box-shadow: 0 10px 40px rgba(124,58,237,0.3);
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -283,7 +293,7 @@
             margin-bottom: 2rem;
         }
         .climate-info { display: flex; align-items: center; gap: 1rem; }
-        .temp-val { font-size: 1.8rem; font-weight: 700; color: #fbbf24; }
+        .temp-val { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
 
         /* Floating AI Chatbot */
         .ai-fab {
@@ -292,19 +302,19 @@
             right: 2rem;
             width: 60px;
             height: 60px;
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #000;
+            color: #fff;
             font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,200,83,0.4);
+            box-shadow: 0 10px 30px rgba(124,58,237,0.4);
             z-index: 2500;
             transition: all 0.3s;
         }
-        .ai-fab:hover { transform: scale(1.1) rotate(15deg); }
+        .ai-fab:hover { transform: scale(1.1) rotate(15deg); box-shadow: 0 15px 40px rgba(124,58,237,0.5); }
         .chat-box {
             position: fixed;
             bottom: 6rem;
@@ -352,36 +362,38 @@
             transition: all 0.3s;
         }
         .btn-mic.active {
-            background: var(--accent);
-            color: #000;
-            box-shadow: 0 0 20px var(--accent);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
+            box-shadow: 0 0 25px rgba(124,58,237,0.5);
         }
 
         /* Reward Marketplace Cards */
         .reward-card {
-            background: rgba(255,255,255,0.03);
+            background: rgba(124,58,237,0.05);
             border: 1px solid var(--glass-border);
             padding: 1.5rem;
             border-radius: 20px;
             text-align: center;
             position: relative;
+            transition: all 0.3s;
         }
+        .reward-card:hover { transform: translateY(-4px); border-color: rgba(124,58,237,0.3); }
         .reward-card .points-tag {
             position: absolute;
             top: 10px; right: 10px;
-            background: #fbbf24;
-            color: #000;
-            padding: 2px 8px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
+            padding: 3px 10px;
             border-radius: 8px;
             font-size: 0.7rem;
-            font-weight: 800;
+            font-weight: 700;
         }
 
         /* Neural Pulse Animation */
         .neural-pulse {
             width: 100px;
             height: 100px;
-            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
             border-radius: 50%;
             margin: 0 auto;
             animation: neural-glow 2s infinite;
@@ -398,8 +410,8 @@
 <body>
     <div id="root">
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
-            <div style="border: 4px solid var(--glass); border-top: 4px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;"></div>
-            <p style="margin-top: 15px; color: var(--text-dim);">Initializing Quantum MedLink...</p>
+            <div style="border: 4px solid var(--glass); border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;"></div>
+            <p style="margin-top: 15px; color: var(--text-dim);">Initializing MedDonate Pro...</p>
         </div>
     </div>
 
@@ -477,8 +489,8 @@
                         </div>
 
                         <div className="container" style={{padding:'5rem 0', textAlign:'center'}}>
-                            <h1 style={{fontSize:'4.5rem', fontWeight:'800', lineHeight:'1.1', background:'linear-gradient(to right, #fff, #94a3b8)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>
-                                AI-Driven Medicine <br/>Redistribution Network.
+                            <h1 style={{fontSize:'4.5rem', fontWeight:'800', lineHeight:'1.1', background:'linear-gradient(135deg, #f0eeff, var(--primary-light), var(--accent))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>
+                                Intelligent Medicine <br/>Redistribution Network.
                             </h1>
                             <p style={{fontSize:'1.3rem', color: 'var(--text-dim)', maxWidth:'750px', margin:'1.5rem auto'}}>
                                 We use decentralized tracking and AI logistics to ensure zero-waste medicine cycles across the globe.
@@ -491,22 +503,22 @@
 
                             <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))', gap:'2rem', marginTop:'6rem'}}>
                                 <div className="glass-card">
-                                    <i className="fas fa-capsules" style={{fontSize:'2.5rem', color: 'var(--accent)', marginBottom:'1rem'}}></i>
+                                    <i className="fas fa-capsules" style={{fontSize:'2.5rem', color: 'var(--primary-light)', marginBottom:'1rem'}}></i>
                                     <h3 style={{fontSize:'2.5rem', margin:'0'}}>{stats.total}</h3>
                                     <p style={{color: 'var(--text-dim)'}}>Units Donated</p>
                                 </div>
                                 <div className="glass-card">
-                                    <i className="fas fa-leaf" style={{fontSize:'2.5rem', color: '#818cf8', marginBottom:'1rem'}}></i>
+                                    <i className="fas fa-leaf" style={{fontSize:'2.5rem', color: 'var(--accent)', marginBottom:'1rem'}}></i>
                                     <h3 style={{fontSize:'2.5rem', margin:'0'}}>{(stats.total * 0.45).toFixed(1)}kg</h3>
                                     <p style={{color: 'var(--text-dim)'}}>CO2 Offset</p>
                                 </div>
                                 <div className="glass-card">
-                                    <i className="fas fa-users" style={{fontSize:'2.5rem', color: 'var(--accent)', marginBottom:'1rem'}}></i>
+                                    <i className="fas fa-users" style={{fontSize:'2.5rem', color: 'var(--primary-light)', marginBottom:'1rem'}}></i>
                                     <h3 style={{fontSize:'2.5rem', margin:'0'}}>{stats.users}</h3>
                                     <p style={{color: 'var(--text-dim)'}}>Active Guardians</p>
                                 </div>
                                 <div className="glass-card">
-                                    <i className="fas fa-hand-holding-heart" style={{fontSize:'2.5rem', color: '#f472b6', marginBottom:'1rem'}}></i>
+                                    <i className="fas fa-hand-holding-heart" style={{fontSize:'2.5rem', color: 'var(--accent2)', marginBottom:'1rem'}}></i>
                                     <h3 style={{fontSize:'2.5rem', margin:'0'}}>{stats.total * 6}</h3>
                                     <p style={{color: 'var(--text-dim)'}}>Lives Touched</p>
                                 </div>
@@ -526,7 +538,7 @@
                             <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(350px, 1fr))', gap:'3rem', marginTop:'6rem', textAlign:'left'}}>
                                 <div className="glass-card">
                                     <h3 style={{display:'flex', alignItems:'center', gap:'0.8rem'}}>
-                                        <i className="fas fa-trophy" style={{color:'#ffd700'}}></i> Top Donors
+                                        <i className="fas fa-trophy" style={{color:'var(--accent)'}}></i> Top Donors
                                     </h3>
                                     <ul className="leaderboard-list">
                                         {(leaderboard.donors.length > 0 ? leaderboard.donors : [
@@ -608,7 +620,7 @@
                                 </div>
                                 <button className="btn btn-primary" style={{width:'100%'}}>Analyze & Match Inventory</button>
 
-                                <div style={{marginTop:'2rem', padding:'1rem', background:'rgba(239,68,68,0.1)', border:'1px solid #ef4444', borderRadius:'12px', fontSize:'0.75rem', color:'#f87171'}}>
+                                <div style={{marginTop:'2rem', padding:'1rem', background:'rgba(244,114,182,0.08)', border:'1px solid rgba(244,114,182,0.3)', borderRadius:'12px', fontSize:'0.75rem', color:'var(--accent2)'}}>
                                     <i className="fas fa-exclamation-triangle"></i> <strong>DISCLAIMER:</strong> V-Med AI is NOT a doctor. Results are for informational purposes only. Always consult a healthcare professional before taking any medicine.
                                 </div>
                             </div>
@@ -616,37 +628,37 @@
 
                         {view === 'rewards' && (
                             <div className="container">
-                                <div className="glass-card" style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem', background:'linear-gradient(90deg, rgba(251,191,36,0.1), transparent)'}}>
+                                <div className="glass-card" style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem', background:'linear-gradient(90deg, rgba(124,58,237,0.1), transparent)'}}>
                                     <div>
                                         <h2 style={{margin:0}}>V-Points Marketplace</h2>
                                         <p style={{color:'var(--text-dim)'}}>Redeem your donation points for life-saving rewards.</p>
                                     </div>
                                     <div style={{textAlign:'right'}}>
                                         <span style={{fontSize:'0.8rem', color:'var(--text-dim)'}}>Current Balance</span>
-                                        <div style={{fontSize:'2.5rem', fontWeight:'800', color:'#fbbf24'}}>1,250 VP</div>
+                                        <div style={{fontSize:'2.5rem', fontWeight:'800', color:'var(--accent)'}}>1,250 VP</div>
                                     </div>
                                 </div>
                                 <div className="cards-grid">
                                     <div className="reward-card">
                                         <span className="points-tag">500 VP</span>
-                                        <i className="fas fa-stethoscope" style={{fontSize:'2.5rem', color:'#fbbf24', marginBottom:'1rem'}}></i>
+                                        <i className="fas fa-stethoscope" style={{fontSize:'2.5rem', color:'var(--accent)', marginBottom:'1rem'}}></i>
                                         <h4>Full Health Checkup</h4>
                                         <p style={{fontSize:'0.8rem', color:'var(--text-dim)'}}>Valid at City Medical Center</p>
-                                        <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem', background:'#fbbf24'}}>Claim Voucher</button>
+                                        <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Claim Voucher</button>
                                     </div>
                                     <div className="reward-card">
                                         <span className="points-tag">200 VP</span>
-                                        <i className="fas fa-pills" style={{fontSize:'2.5rem', color:'#fbbf24', marginBottom:'1rem'}}></i>
+                                        <i className="fas fa-pills" style={{fontSize:'2.5rem', color:'var(--accent)', marginBottom:'1rem'}}></i>
                                         <h4>Pharmacy Discount</h4>
                                         <p style={{fontSize:'0.8rem', color:'var(--text-dim)'}}>20% Off at Global Pharma</p>
-                                        <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem', background:'#fbbf24'}}>Claim Voucher</button>
+                                        <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Claim Voucher</button>
                                     </div>
                                     <div className="reward-card">
                                         <span className="points-tag">1000 VP</span>
-                                        <i className="fas fa-tree" style={{fontSize:'2.5rem', color:'#fbbf24', marginBottom:'1rem'}}></i>
+                                        <i className="fas fa-tree" style={{fontSize:'2.5rem', color:'var(--accent)', marginBottom:'1rem'}}></i>
                                         <h4>Carbon Offset Cert.</h4>
                                         <p style={{fontSize:'0.8rem', color:'var(--text-dim)'}}>Official ESG Impact Certificate</p>
-                                        <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem', background:'#fbbf24'}}>Generate Cert</button>
+                                        <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Generate Cert</button>
                                     </div>
                                 </div>
                             </div>
@@ -667,7 +679,7 @@
 
                         <div className="climate-widget">
                             <div className="climate-info">
-                                <i className="fas fa-temperature-high" style={{fontSize:'2rem', color:'#fbbf24'}}></i>
+                                <i className="fas fa-temperature-high" style={{fontSize:'2rem', color:'var(--accent)'}}></i>
                                 <div>
                                     <h4 style={{margin:0}}>Storage Climate</h4>
                                     <p style={{margin:0, fontSize:'0.8rem', opacity:0.6}}>Optimal for Insulin Storage</p>
@@ -767,7 +779,7 @@
                                         setShowScanner(false);
                                         alert('AI Verification Success: Augmentin 625mg identified with 98.4% confidence.');
                                     }, 1500);
-                                }} className="btn btn-primary" style={{marginTop:'2rem', background:'var(--accent)'}}>Initialize Capture</button>
+                                }} className="btn btn-primary" style={{marginTop:'2rem'}}>Initialize Capture</button>
                                 <button onClick={()=>setShowScanner(false)} className="btn btn-secondary" style={{marginTop:'1rem'}}>Cancel Sequence</button>
                             </div>
                         )}
