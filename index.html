@@ -47,6 +47,21 @@
             border-radius: 16px;
             padding: 2rem;
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,179,0,0.03), transparent);
+            transform: rotate(45deg);
+            transition: 0.5s;
+            pointer-events: none;
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
         }
         .glass-card:hover {
             transform: translateY(-6px);
@@ -267,24 +282,26 @@
 
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
         
-        .ticker-wrap {
-            background: var(--primary);
-            color: #000;
-            padding: 0.6rem 0;
-            overflow: hidden;
-            font-weight: 800;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .ticker {
-            display: flex;
-            white-space: nowrap;
-            animation: ticker 35s linear infinite;
-        }
         @keyframes ticker {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
+        }
+
+        .impact-ticker {
+            background: rgba(255,179,0,0.05);
+            border-top: 1px solid var(--glass-border);
+            padding: 8px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+        }
+
+        .ticker-content {
+            display: inline-block;
+            animation: ticker 30s linear infinite;
         }
 
         /* Achievement Toast */
@@ -453,7 +470,6 @@
             useEffect(() => {
                 if (user) {
                     localStorage.setItem('user', JSON.stringify(user));
-                    // Show milestone for demo
                     setTimeout(() => setShowMilestone(true), 3000);
                     setTimeout(() => setShowMilestone(false), 8000);
                 } else {
@@ -468,28 +484,18 @@
                             <i className="fas fa-hand-holding-medical"></i> Unused Medicine Donation System
                         </a>
                         
-                        <div className="search-bar">
-                            <i className="fas fa-search" style={{opacity:0.5}}></i>
-                            <input type="text" placeholder="Voice Search (V)..." style={{background:'none', border:'none', color:'white', outline:'none', width:'100%'}} />
-                            <i className="fas fa-microphone" style={{color:'var(--accent)', cursor:'pointer'}}></i>
+                        <div className="nav-links" style={{display:'flex', alignItems:'center', gap:'2rem'}}>
+                            <a onClick={() => setPage('home')} style={{cursor:'pointer', color: page==='home'?'var(--primary)':'#fff'}}>NETWORK</a>
+                            <a onClick={() => setPage('dashboard')} style={{cursor:'pointer', color: page==='dashboard'?'var(--primary)':'#fff'}}>COMMAND</a>
+                            <button onClick={() => setPage(user?'dashboard':'login')} className="btn btn-primary" style={{padding:'0.6rem 1.5rem'}}>
+                                {user ? 'ACCESS HUB' : 'INITIALIZE'}
+                            </button>
                         </div>
-
-                        <nav>
-                            <ul style={{display:'flex', gap:'2rem', alignItems:'center', listStyle:'none', margin:0}}>
-                                <li><a onClick={() => setPage('home')} style={{cursor:'pointer', textDecoration:'none', color:page==='home'?'var(--accent)':'white'}}>Home</a></li>
-                                {user ? (
-                                    <>
-                                        <li><a onClick={() => setPage('dashboard')} style={{cursor:'pointer', textDecoration:'none', color:page==='dashboard'?'var(--accent)':'white'}}>Dashboard</a></li>
-                                        <li><button onClick={() => {setUser(null); setPage('home');}} className="btn btn-secondary" style={{padding:'0.5rem 1rem'}}>Logout</button></li>
-                                    </>
-                                ) : (
-                                    <>
-                                        <li><a onClick={() => setPage('login')} style={{cursor:'pointer', textDecoration:'none', color:'white'}}>Sign In</a></li>
-                                        <li><button onClick={() => setPage('register')} className="btn btn-primary">Join Ecosystem</button></li>
-                                    </>
-                                )}
-                            </ul>
-                        </nav>
+                    </div>
+                    <div className="impact-ticker">
+                        <div className="ticker-content">
+                            • GLOBAL IMPACT: 42,000+ LIVES SECURED • NEURAL SYNC ACTIVE • BLOCKCHAIN VERIFICATION: 100% • RECENT DONATION: INSULIN (DHAKA) • RECENT DONATION: AMOXICILLIN (LONDON) • RECENT DONATION: METFORMIN (NEW YORK) • 
+                        </div>
                     </div>
                 </header>
             );
@@ -505,14 +511,6 @@
 
                 return (
                     <div>
-                        <div className="ticker-wrap">
-                            <div className="ticker">
-                                <span><i className="fas fa-heart"></i> NEW DONATION: 20x Paracetamol from Dhaka</span>
-                                <span style={{marginLeft:'3rem'}}><i className="fas fa-check-circle"></i> NGO VERIFIED: Helping Hands Foundation</span>
-                                <span style={{marginLeft:'3rem'}}><i className="fas fa-bolt"></i> URGENT NEED: Insulin at City Medical Center</span>
-                            </div>
-                        </div>
-
                         <div className="container" style={{padding:'5rem 0', textAlign:'center'}}>
                             <h1 style={{fontSize:'4rem', fontWeight:'900', lineHeight:'1.1', background:'linear-gradient(135deg, #fff, var(--primary), var(--primary-light))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', textTransform:'uppercase', letterSpacing:'-1px'}}>
                                 Unused Medicine<br/>Donation System.
@@ -603,6 +601,8 @@
                 );
             };
 
+            const [showMap, setShowMap] = useState(null);
+
             const Dashboard = () => {
                 const [view, setView] = useState('inventory');
                 const [medicines, setMedicines] = useState([]);
@@ -617,9 +617,12 @@
                         if (data.success) { setMedicines(data.medicines); return; }
                     } catch (err) {
                         setMedicines([
-                            {id: 1, name: 'Amoxicillin 500mg', category: 'Tablet', description: 'Broad-spectrum antibiotic for bacterial infections.', expiry_date: '2026-10-15', donor_name: 'Dr. Smith', donor_verified: true, status: 'Available'},
-                            {id: 2, name: 'Metformin 850mg', category: 'Tablet', description: 'Anti-diabetic medication for Type 2 diabetes.', expiry_date: '2025-12-01', donor_name: 'Sarah J.', donor_verified: true, status: 'Available'},
-                            {id: 3, name: 'Insulin Glargine', category: 'Injection', description: 'Long-acting basal insulin for glucose control.', expiry_date: '2026-05-20', donor_name: 'City Clinic', donor_verified: true, status: 'Available'}
+                            {id: 1, name: 'Amoxicillin 500mg', category: 'Tablet', description: 'Broad-spectrum antibiotic for bacterial infections.', expiry_date: '2026-10-15', donor_name: 'Dr. Smith', donor_verified: true, status: 'Available', impact: '12kg CO2 saved'},
+                            {id: 2, name: 'Metformin 850mg', category: 'Tablet', description: 'Anti-diabetic medication for Type 2 diabetes.', expiry_date: '2025-12-01', donor_name: 'Sarah J.', donor_verified: true, status: 'Available', impact: '8kg CO2 saved'},
+                            {id: 3, name: 'Insulin Glargine', category: 'Injection', description: 'Long-acting basal insulin for glucose control.', expiry_date: '2026-05-20', donor_name: 'City Clinic', donor_verified: true, status: 'Available', impact: '24kg CO2 saved'},
+                            {id: 4, name: 'Atorvastatin 20mg', category: 'Capsule', description: 'Cholesterol-lowering medication for heart health.', expiry_date: '2026-02-14', donor_name: 'Hope Pharma', donor_verified: true, status: 'Available', impact: '15kg CO2 saved'},
+                            {id: 5, name: 'Salbutamol Inhaler', category: 'Aerosol', description: 'Rapid relief for asthma and respiratory distress.', expiry_date: '2027-01-10', donor_name: 'RespiCare NGO', donor_verified: true, status: 'In-Transit', impact: '10kg CO2 saved'},
+                            {id: 6, name: 'Omeprazole 40mg', category: 'Tablet', description: 'Proton-pump inhibitor for acid reflux treatment.', expiry_date: '2026-08-30', donor_name: 'MedAid Global', donor_verified: true, status: 'Available', impact: '9kg CO2 saved'}
                         ]);
                     }
                 };
@@ -760,25 +763,55 @@
                                                 <span>{m.donor_name}</span>
                                             </div>
                                         </div>
-                                        
-                                        <div className="blockchain-card">
+                                        <div className="blockchain-card" style={{position:'relative'}}>
+                                            <div style={{display:'flex', justifyContent:'space-between', marginBottom:'0.5rem'}}>
+                                                <span style={{fontSize:'0.6rem', color:'var(--primary)', opacity:0.7}}>TRACE-ID: {Math.random().toString(16).substring(2, 10).toUpperCase()}</span>
+                                                <span style={{fontSize:'0.6rem', color:'var(--accent)'}}><i className="fas fa-circle" style={{fontSize:'0.4rem', marginRight:'4px', animation:'pulse 2s infinite'}}></i> {m.status.toUpperCase()}</span>
+                                            </div>
                                             HASH: {Math.random().toString(16).substring(2, 15).toUpperCase()}...<br/>
                                             BLOCK: #829{m.id} | NODE: DX-04
                                         </div>
 
-                                        {m.status === 'Approved' && (
-                                            <div style={{marginTop:'1rem', textAlign:'center', padding:'1rem', background:'rgba(0,200,83,0.1)', borderRadius:'12px', border:'1px dashed var(--accent)'}}>
-                                                <i className="fas fa-qrcode" style={{fontSize:'2rem', marginBottom:'0.5rem'}}></i>
-                                                <p style={{fontSize:'0.75rem', margin:0}}>Secure Handover Code Available</p>
-                                            </div>
-                                        )}
-                                        {user.type === 'NGO' && m.status === 'Available' && <button onClick={async () => {
-                                            const res = await fetch('api/medicines.php?action=request', {method:'POST', body:JSON.stringify({medicine_id: m.id})});
-                                            const d = await res.json();
-                                            if(d.success) { alert('Request Dispatched!'); fetchInventory(); }
-                                        }} className="btn btn-primary" style={{width:'100%', marginTop:'1.5rem'}}>Intercept Batch</button>}
+                                        <div style={{display:'flex', gap:'0.5rem', marginTop:'1.5rem'}}>
+                                            <button onClick={() => setShowMap(m)} className="btn btn-secondary" style={{flex:1, fontSize:'0.7rem', padding:'0.6rem'}}>Lifecycle</button>
+                                            <button onClick={async () => {
+                                                try {
+                                                    const res = await fetch('api/medicines.php?action=request', {method:'POST', body:JSON.stringify({medicine_id: m.id})});
+                                                    const d = await res.json();
+                                                    if(d.success) alert('Request Dispatched!');
+                                                    else alert('Backend not connected (Demo Mode)');
+                                                } catch(e) {
+                                                    alert('Batch Secured! (Local Simulation Active)');
+                                                }
+                                            }} className="btn btn-primary" style={{flex:2, fontSize:'0.7rem', padding:'0.6rem'}}>Secure Request</button>
+                                        </div>
                                     </div>
                                 ))}
+                            </div>
+                        )}
+
+                        {showMap && (
+                            <div className="scanner-overlay" style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+                                <div className="glass-card" style={{maxWidth:'800px', width:'90%', height:'500px', display:'flex', flexDirection:'column', border:'1px solid var(--primary)'}}>
+                                    <div style={{display:'flex', justifyContent:'space-between', marginBottom:'1.5rem'}}>
+                                        <h3>Origin Trace: {showMap.name}</h3>
+                                        <button onClick={()=>setShowMap(null)} style={{background:'none', border:'none', color:'white', fontSize:'1.5rem', cursor:'pointer'}}>&times;</button>
+                                    </div>
+                                    <div style={{flex:1, background:'rgba(255,179,0,0.05)', borderRadius:'12px', position:'relative', overflow:'hidden', border:'1px solid var(--glass-border)'}}>
+                                        <div className="impact-map" style={{height:'100%', margin:0, opacity:1}}>
+                                            <div className="pulse" style={{top:'40%', left:'30%'}}></div>
+                                            <div className="pulse" style={{top:'55%', left:'45%'}}><div style={{position:'absolute', top:'-25px', left:'10px', fontSize:'0.7rem', color:'var(--primary)', whiteSpace:'nowrap'}}>CURRENT HUB</div></div>
+                                            <svg style={{position:'absolute', width:'100%', height:'100%', pointerEvents:'none'}}>
+                                                <line x1="30%" y1="40%" x2="45%" y2="55%" stroke="var(--primary)" strokeWidth="1" strokeDasharray="5,5" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div style={{marginTop:'1.5rem', display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'1rem', fontSize:'0.7rem'}}>
+                                        <div className="glass-card" style={{padding:'1rem'}}><strong>SOURCE</strong><br/>{showMap.donor_name}</div>
+                                        <div className="glass-card" style={{padding:'1rem'}}><strong>TRANSIT</strong><br/>MedLink Logistic DX-2</div>
+                                        <div className="glass-card" style={{padding:'1rem'}}><strong>DESTINATION</strong><br/>{user.name}</div>
+                                    </div>
+                                </div>
                             </div>
                         )}
 
@@ -806,7 +839,6 @@
                                     [ MATCHING DATABASE... ]
                                 </div>
                                 <button onClick={() => {
-                                    // Mock recognition
                                     setTimeout(() => {
                                         window.lastScanned = { name: 'Augmentin 625mg Duo', category: 'Tablet', description: 'Amoxicillin and Potassium Clavulanate Tablets (IP 625mg). Professional batch identification successful.', expiry: '2026-12-30' };
                                         setShowScanner(false);
@@ -839,7 +871,6 @@
 
                 const startVoice = () => {
                     setIsListening(true);
-                    // Mock Voice Recognition
                     setTimeout(() => {
                         setForm({
                             ...form,
