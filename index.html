@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unused-Medicine-Donation-System - Global Redistribution Network</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Unused Medicine Donation System - Global Redistribution Network</title>
+    <style>@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap");</style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -26,7 +26,7 @@
         * { box-sizing: border-box; }
 
         body { 
-            font-family: 'Outfit', sans-serif; 
+            --font-main: "Outfit", sans-serif; 
             background: var(--bg); 
             color: var(--text-main);
             margin: 0; 
@@ -436,7 +436,7 @@
     <div id="root">
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
             <div style="border: 4px solid var(--glass); border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;"></div>
-            <p style="margin-top: 15px; color: var(--text-dim);">Initializing Unused-Medicine-Donation-System...</p>
+            <p style="margin-top: 15px; color: var(--text-dim);">Initializing Unused Medicine Donation System...</p>
         </div>
     </div>
 
@@ -465,7 +465,7 @@
                 <header className="navbar">
                     <div className="container" style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
                         <a onClick={() => setPage('home')} className="logo" style={{cursor:'pointer', fontSize:'1.1rem'}}>
-                            <i className="fas fa-hand-holding-medical"></i> Unused-Medicine-Donation-System
+                            <i className="fas fa-hand-holding-medical"></i> Unused Medicine Donation System
                         </a>
                         
                         <div className="search-bar">
@@ -515,7 +515,7 @@
 
                         <div className="container" style={{padding:'5rem 0', textAlign:'center'}}>
                             <h1 style={{fontSize:'4rem', fontWeight:'900', lineHeight:'1.1', background:'linear-gradient(135deg, #fff, var(--primary), var(--primary-light))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', textTransform:'uppercase', letterSpacing:'-1px'}}>
-                                Unused-Medicine-<br/>Donation-System.
+                                Unused Medicine<br/>Donation System.
                             </h1>
                             <p style={{fontSize:'1.4rem', color: 'var(--text-dim)', maxWidth:'800px', margin:'2rem auto', lineHeight:'1.6'}}>
                                 Elite redistribution logistics and AI-driven synchronization for a zero-waste medical future.

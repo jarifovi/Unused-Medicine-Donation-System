@@ -2,7 +2,7 @@
 /* ==========================================================================
    TITAN-GRADE GLASSMORPHISM THEME
    ========================================================================== */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap");
 
 :root {
     /* Modern Frost Glass Theme (Light) */
@@ -23,7 +23,7 @@
     --accent-green-hover: #047857;
     --accent-red: #e11d48; /* Rose */
     
-    --font-main: "Inter", sans-serif;
+    --font-main: "Outfit", sans-serif;
 }
 
 html {
