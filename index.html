@@ -31,6 +31,7 @@
             color: var(--text-main);
             margin: 0; 
             overflow-x: hidden;
+            font-family: 'Outfit', sans-serif;
             background-image: 
                 radial-gradient(ellipse at 10% 0%, rgba(255,179,0,0.12) 0%, transparent 40%),
                 radial-gradient(ellipse at 90% 100%, rgba(255,112,67,0.08) 0%, transparent 40%),
@@ -59,15 +60,63 @@
             transition: 0.5s;
             pointer-events: none;
         }
-
-        .glass-card:hover::before {
-            left: 100%;
-        }
+        .glass-card:hover::before { left: 100%; }
         .glass-card:hover {
             transform: translateY(-6px);
             background: rgba(20, 20, 20, 0.8);
             border-color: rgba(255, 179, 0, 0.3);
             box-shadow: 0 25px 50px -12px rgba(255, 179, 0, 0.15);
+        }
+
+        .climate-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            z-index: 100;
+            box-shadow: 0 0 30px rgba(255,179,0,0.1);
+            transition: 0.3s;
+        }
+        .climate-widget:hover { border-color: var(--primary); transform: translateY(-5px); }
+
+        .temp-val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: 'monospace';
+        }
+
+        .ai-fab {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 65px; height: 65px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(255,179,0,0.4);
+            z-index: 1000;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .ai-fab:hover { transform: scale(1.15) rotate(15deg); }
+        .ai-waves {
+            position: absolute;
+            width: 100%; height: 100%;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
 
         .navbar { 
@@ -81,69 +130,32 @@
         }
 
         .logo { 
-            font-size: 1.6rem; 
+            font-size: 1.4rem; 
             font-weight: 800; 
             color: var(--primary); 
             text-decoration: none; 
             display: flex; 
             align-items: center; 
             gap: 0.6rem; 
-            letter-spacing: -1px;
             text-transform: uppercase;
         }
 
-        .search-bar {
-            background: rgba(255,179,0,0.04);
-            border: 1px solid var(--glass-border);
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            color: white;
-            width: 280px;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-        }
-        .search-bar:focus-within {
-            border-color: var(--primary);
-            background: rgba(255,179,0,0.08);
-        }
-
         .btn { 
-            padding: 0.9rem 2rem; 
+            padding: 0.8rem 1.8rem; 
             border-radius: 8px; 
             border: none; 
             cursor: pointer; 
             font-weight: 700; 
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); 
+            transition: 0.3s; 
             font-family: inherit;
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
-        .btn-primary { 
-            background: linear-gradient(135deg, var(--primary), #ffa000); 
-            color: #000; 
-            box-shadow: 0 4px 15px rgba(255, 179, 0, 0.2);
-        }
-        .btn-primary:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 25px rgba(255, 179, 0, 0.4); 
-        }
-        .btn-secondary { 
-            background: transparent; 
-            color: var(--primary); 
-            border: 1px solid var(--glass-border); 
-        }
-        .btn-secondary:hover { 
-            background: rgba(255,179,0,0.05); 
-            border-color: var(--primary);
-        }
+        .btn-primary { background: var(--primary); color: #000; }
+        .btn-secondary { background: transparent; color: var(--primary); border: 1px solid var(--glass-border); }
 
-        /* Impact Map Simulation */
         .impact-map {
             width: 100%;
             height: 400px;
@@ -155,90 +167,47 @@
         }
         .pulse {
             position: absolute;
-            width: 14px;
-            height: 14px;
+            width: 12px; height: 12px;
             background: var(--primary);
             border-radius: 50%;
-            box-shadow: 0 0 15px var(--primary);
-            animation: pulse 2.5s infinite;
+            animation: pulse 2s infinite;
         }
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 179, 0, 0.6); }
-            70% { box-shadow: 0 0 0 20px rgba(255, 179, 0, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(255, 179, 0, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 179, 0, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 179, 0, 0); }
         }
 
-        /* Leaderboard Styling */
-        .leaderboard-list { list-style: none; padding: 0; }
+        .impact-ticker {
+            background: rgba(255,179,0,0.05);
+            border-top: 1px solid var(--glass-border);
+            padding: 8px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+        }
+        .ticker-content { display: inline-block; animation: ticker 30s linear infinite; }
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
         .leaderboard-item {
             display: flex;
+            justify-content: space-between;
             align-items: center;
             padding: 1.2rem;
-            margin-bottom: 1rem;
-            background: rgba(255,179,0,0.02);
+            margin-bottom: 0.8rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
             border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s;
-        }
-        .leaderboard-item:hover { 
-            background: rgba(255,179,0,0.06);
-            border-color: var(--primary);
-            transform: scale(1.02);
-        }
-        .rank-num { width: 35px; font-weight: 800; color: var(--primary); }
-        .points { margin-left: auto; font-weight: 700; color: var(--primary); }
-
-        /* Scanner Modal */
-        .scanner-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(5,5,5,0.98);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .scan-frame {
-            width: 300px;
-            height: 300px;
-            border: 1px solid var(--primary);
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 40px rgba(255, 179, 0, 0.15);
-        }
-        .scan-line {
-            position: absolute;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            box-shadow: 0 0 20px var(--primary);
-            top: 0;
-            animation: scan 2.5s ease-in-out infinite;
-        }
-        @keyframes scan {
-            0% { top: 0; }
-            50% { top: 100%; }
-            100% { top: 0; }
         }
 
-        .form-group { margin-bottom: 1.8rem; }
-        .form-group label { display: block; margin-bottom: 0.6rem; color: var(--primary); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        .form-control {
-            width: 100%;
-            padding: 1.1rem;
-            background: rgba(255,179,0,0.02);
-            border: 1px solid var(--glass-border);
-            border-radius: 6px;
-            color: white;
-            font-family: inherit;
-            box-sizing: border-box;
-            transition: all 0.3s;
-        }
-        .form-control:focus { outline: none; border-color: var(--primary); background: rgba(255,179,0,0.05); box-shadow: 0 0 15px rgba(255, 179, 0, 0.1); }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
 
-        /* Blockchain Certificate UI */
         .blockchain-card {
             border: 1px solid rgba(255, 179, 0, 0.2);
             background: rgba(255, 179, 0, 0.03);
@@ -262,210 +231,81 @@
             font-weight: 900;
         }
 
-        /* Safety Guard Notification */
-        .safety-guard {
-            background: rgba(255, 112, 67, 0.05);
-            border: 1px solid rgba(255, 112, 67, 0.2);
-            color: #ff7043;
-            padding: 1.2rem;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
-        
-        @keyframes ticker {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .impact-ticker {
-            background: rgba(255,179,0,0.05);
-            border-top: 1px solid var(--glass-border);
-            padding: 8px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--primary);
-        }
-
-        .ticker-content {
-            display: inline-block;
-            animation: ticker 30s linear infinite;
-        }
-
-        /* Achievement Toast */
-        .toast-milestone {
+        .scanner-overlay {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--primary);
-            color: #000;
-            padding: 1.2rem 2.2rem;
-            border-radius: 8px;
-            box-shadow: 0 10px 40px rgba(255, 179, 0, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            z-index: 3000;
-            animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        /* Climate Widget */
-        .climate-widget {
-            background: rgba(255,179,0,0.03);
-            border: 1px solid var(--glass-border);
-            padding: 1.8rem;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2.5rem;
-        }
-        .climate-info { display: flex; align-items: center; gap: 1.2rem; }
-        .temp-val { font-size: 2rem; font-weight: 800; color: var(--primary); }
-
-        /* Floating AI Chatbot */
-        .ai-fab {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 65px;
-            height: 65px;
-            background: var(--primary);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-size: 1.8rem;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255, 179, 0, 0.3);
-            z-index: 2500;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        .ai-fab:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 15px 40px rgba(255, 179, 0, 0.4); }
-        .chat-box {
-            position: fixed;
-            bottom: 7rem;
-            right: 2rem;
-            width: 380px;
-            height: 520px;
-            z-index: 2500;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(5,5,5,0.98);
+            z-index: 2000;
             display: flex;
             flex-direction: column;
-            background: #0a0a0a;
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
         }
+        .scan-frame {
+            width: 300px; height: 300px;
+            border: 1px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+        .scan-line {
+            position: absolute;
+            width: 100%; height: 2px;
+            background: var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+            animation: scan 2s infinite ease-in-out;
+        }
+        @keyframes scan { 0%, 100% { top: 0; } 50% { top: 100%; } }
 
-        /* Voice Wave Animation */
-        .voice-wave {
+        .toast-milestone {
+            position: fixed;
+            bottom: 120px;
+            left: 30px;
+            background: var(--primary);
+            color: #000;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            height: 35px;
-            justify-content: center;
-            margin-top: 1.5rem;
+            gap: 1rem;
+            z-index: 2000;
+            animation: slideUp 0.5s ease-out;
+            font-weight: 800;
         }
-        .wave-bar {
-            width: 4px;
-            height: 12px;
-            background: var(--primary);
-            border-radius: 2px;
-            animation: wave 1s infinite ease-in-out;
-        }
-        @keyframes wave {
-            0%, 100% { height: 12px; }
-            50% { height: 35px; }
-        }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        .btn-mic {
-            background: rgba(255,179,0,0.05);
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.8rem; text-transform: uppercase; }
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
             border: 1px solid var(--glass-border);
-            width: 55px;
-            height: 55px;
             border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+        }
+        .btn-mic {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: rgba(255,179,0,0.1);
+            border: 1px solid var(--primary);
             color: var(--primary);
             cursor: pointer;
-            transition: all 0.3s;
         }
-        .btn-mic.active {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 30px rgba(255, 179, 0, 0.4);
-        }
-
-        /* Reward Marketplace Cards */
-        .reward-card {
-            background: rgba(255,179,0,0.02);
-            border: 1px solid var(--glass-border);
-            padding: 2rem;
-            border-radius: 8px;
-            text-align: center;
-            position: relative;
-            transition: all 0.3s;
-        }
-        .reward-card:hover { transform: translateY(-5px); border-color: var(--primary); background: rgba(255,179,0,0.04); }
-        .reward-card .points-tag {
-            position: absolute;
-            top: 12px; right: 12px;
-            background: var(--primary);
-            color: #000;
-            padding: 4px 10px;
-            border-radius: 2px;
-            font-size: 0.75rem;
-            font-weight: 900;
-        }
-
-        /* Neural Pulse Animation */
-        .neural-pulse {
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            border-radius: 50%;
-            margin: 0 auto;
-            animation: neural-glow 2s infinite;
-        }
-        @keyframes neural-glow {
-            0% { transform: scale(0.8); opacity: 0.3; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(0.8); opacity: 0.3; }
-        }
-
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .btn-mic.active { background: var(--primary); color: #000; }
     </style>
 </head>
 <body>
-    <div id="root">
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
-            <div style="border: 4px solid var(--glass); border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;"></div>
-            <p style="margin-top: 15px; color: var(--text-dim);">Initializing Unused Medicine Donation System...</p>
-        </div>
-    </div>
+    <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+        const { useState, useEffect } = React;
 
-        function App() {
+        const App = () => {
             const [page, setPage] = useState('home');
             const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
-            const [notifications, setNotifications] = useState([]);
-            const [showChat, setShowChat] = useState(false);
             const [showMilestone, setShowMilestone] = useState(false);
+            const [showMapModal, setShowMapModal] = useState(null);
 
             useEffect(() => {
                 if (user) {
@@ -480,539 +320,154 @@
             const Navbar = () => (
                 <header className="navbar">
                     <div className="container" style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                        <a onClick={() => setPage('home')} className="logo" style={{cursor:'pointer', fontSize:'1.1rem'}}>
+                        <a onClick={() => setPage('home')} className="logo" style={{cursor:'pointer'}}>
                             <i className="fas fa-hand-holding-medical"></i> Unused Medicine Donation System
                         </a>
-                        
-                        <div className="nav-links" style={{display:'flex', alignItems:'center', gap:'2rem'}}>
+                        <div className="nav-links" style={{display:'flex', gap:'2rem', alignItems:'center'}}>
                             <a onClick={() => setPage('home')} style={{cursor:'pointer', color: page==='home'?'var(--primary)':'#fff'}}>NETWORK</a>
                             <a onClick={() => setPage('dashboard')} style={{cursor:'pointer', color: page==='dashboard'?'var(--primary)':'#fff'}}>COMMAND</a>
-                            <button onClick={() => setPage(user?'dashboard':'login')} className="btn btn-primary" style={{padding:'0.6rem 1.5rem'}}>
+                            <button onClick={() => setPage(user?'dashboard':'login')} className="btn btn-primary">
                                 {user ? 'ACCESS HUB' : 'INITIALIZE'}
                             </button>
                         </div>
                     </div>
                     <div className="impact-ticker">
                         <div className="ticker-content">
-                            • GLOBAL IMPACT: 42,000+ LIVES SECURED • NEURAL SYNC ACTIVE • BLOCKCHAIN VERIFICATION: 100% • RECENT DONATION: INSULIN (DHAKA) • RECENT DONATION: AMOXICILLIN (LONDON) • RECENT DONATION: METFORMIN (NEW YORK) • 
+                            • GLOBAL IMPACT: 45,000+ LIVES SECURED • NEURAL SYNC ACTIVE • BLOCKCHAIN VERIFICATION: 100% • RECENT DONATION: INSULIN (DHAKA) • RECENT DONATION: AMOXICILLIN (LONDON) • 
                         </div>
                     </div>
                 </header>
             );
 
-            const Home = () => {
-                const [stats, setStats] = useState({ total: 1240, users: 450, categories: [] });
-                const [leaderboard, setLeaderboard] = useState({ donors: [], ngos: [] });
-
-                useEffect(() => {
-                    fetch('api/medicines.php?action=stats').then(r=>r.json()).then(d => d.success && setStats(d.stats));
-                    fetch('api/medicines.php?action=leaderboard').then(r=>r.json()).then(d => d.success && setLeaderboard(d));
-                }, []);
-
-                return (
-                    <div>
-                        <div className="container" style={{padding:'5rem 0', textAlign:'center'}}>
-                            <h1 style={{fontSize:'4rem', fontWeight:'900', lineHeight:'1.1', background:'linear-gradient(135deg, #fff, var(--primary), var(--primary-light))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', textTransform:'uppercase', letterSpacing:'-1px'}}>
-                                Unused Medicine<br/>Donation System.
-                            </h1>
-                            <p style={{fontSize:'1.4rem', color: 'var(--text-dim)', maxWidth:'800px', margin:'2rem auto', lineHeight:'1.6'}}>
-                                Elite redistribution logistics and AI-driven synchronization for a zero-waste medical future.
-                            </p>
-                            
-                            <div style={{display:'flex', gap:'1.5rem', justifyContent:'center', marginTop:'3rem'}}>
-                                <button onClick={() => setPage('register')} className="btn btn-primary" style={{padding:'1.2rem 2.5rem', fontSize:'1.1rem'}}>Start Donating</button>
-                                <button className="btn btn-secondary" style={{padding:'1.2rem 2.5rem', fontSize:'1.1rem'}}>Learn More</button>
-                            </div>
-
-                            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))', gap:'2rem', marginTop:'6rem'}}>
-                                <div className="glass-card">
-                                    <i className="fas fa-capsules" style={{fontSize:'2.5rem', color: 'var(--primary)', marginBottom:'1rem'}}></i>
-                                    <h3 style={{fontSize:'2.8rem', margin:'0', fontWeight:'900'}}>{stats.total}</h3>
-                                    <p style={{color: 'var(--text-dim)', textTransform:'uppercase', fontSize:'0.75rem', letterSpacing:'1px'}}>Units Donated</p>
-                                </div>
-                                <div className="glass-card">
-                                    <i className="fas fa-bolt" style={{fontSize:'2.5rem', color: 'var(--primary)', marginBottom:'1rem'}}></i>
-                                    <h3 style={{fontSize:'2.8rem', margin:'0', fontWeight:'900'}}>{(stats.total * 0.45).toFixed(1)}kg</h3>
-                                    <p style={{color: 'var(--text-dim)', textTransform:'uppercase', fontSize:'0.75rem', letterSpacing:'1px'}}>Energy Offset</p>
-                                </div>
-                                <div className="glass-card">
-                                    <i className="fas fa-shield-alt" style={{fontSize:'2.5rem', color: 'var(--primary)', marginBottom:'1rem'}}></i>
-                                    <h3 style={{fontSize:'2.8rem', margin:'0', fontWeight:'900'}}>{stats.users}</h3>
-                                    <p style={{color: 'var(--text-dim)', textTransform:'uppercase', fontSize:'0.75rem', letterSpacing:'1px'}}>Active Guardians</p>
-                                </div>
-                                <div className="glass-card">
-                                    <i className="fas fa-gem" style={{fontSize:'2.5rem', color: 'var(--accent2)', marginBottom:'1rem'}}></i>
-                                    <h3 style={{fontSize:'2.8rem', margin:'0', fontWeight:'900'}}>{stats.total * 6}</h3>
-                                    <p style={{color: 'var(--text-dim)', textTransform:'uppercase', fontSize:'0.75rem', letterSpacing:'1px'}}>Lives Secured</p>
-                                </div>
-                            </div>
-
-                            <div style={{marginTop:'8rem', textAlign:'left'}}>
-                                <h2 style={{fontSize:'2.5rem', marginBottom:'3rem', textAlign:'center'}}>Global Live Impact</h2>
-                                <div className="impact-map">
-                                    <div className="pulse" style={{top:'30%', left:'45%'}}></div>
-                                    <div className="pulse" style={{top:'50%', left:'70%'}}></div>
-                                    <div className="pulse" style={{top:'65%', left:'25%'}}></div>
-                                    <div className="pulse" style={{top:'40%', left:'80%'}}></div>
-                                    <div className="pulse" style={{top:'55%', left:'15%'}}></div>
-                                </div>
-                            </div>
-
-                            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(350px, 1fr))', gap:'3rem', marginTop:'6rem', textAlign:'left'}}>
-                                <div className="glass-card">
-                                    <h3 style={{display:'flex', alignItems:'center', gap:'0.8rem'}}>
-                                        <i className="fas fa-trophy" style={{color:'var(--accent)'}}></i> Top Donors
-                                    </h3>
-                                    <ul className="leaderboard-list">
-                                        {(leaderboard.donors.length > 0 ? leaderboard.donors : [
-                                            {name: "Alexander Pierce", donations_made: 42},
-                                            {name: "Sarah Jenkins", donations_made: 38},
-                                            {name: "Michael Chen", donations_made: 25}
-                                        ]).map((d, i) => (
-                                            <li key={i} className="leaderboard-item">
-                                                <span className="rank-num">#{i+1}</span>
-                                                <span>{d.name}</span>
-                                                <span className="points">{d.donations_made} Units</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                <div className="glass-card">
-                                    <h3 style={{display:'flex', alignItems:'center', gap:'0.8rem'}}>
-                                        <i className="fas fa-hospital" style={{color: 'var(--accent)'}}></i> Top Receiving NGOs
-                                    </h3>
-                                    <ul className="leaderboard-list">
-                                        {(leaderboard.ngos.length > 0 ? leaderboard.ngos : [
-                                            {name: "Global Health Aid", requests_completed: 156},
-                                            {name: "Red Cross Intl", requests_completed: 142},
-                                            {name: "Community Care", requests_completed: 98}
-                                        ]).map((n, i) => (
-                                            <li key={i} className="leaderboard-item">
-                                                <span className="rank-num">#{i+1}</span>
-                                                <span>{n.name}</span>
-                                                <span className="points">{n.requests_completed} Served</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+            const Home = () => (
+                <div className="container" style={{padding:'6rem 0', textAlign:'center'}}>
+                    <h1 style={{fontSize:'4.5rem', fontWeight:'900', letterSpacing:'-2px', textTransform:'uppercase', background:'linear-gradient(to right, #fff, var(--primary))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>
+                        Unused Medicine<br/>Redistribution.
+                    </h1>
+                    <p style={{fontSize:'1.3rem', color:'var(--text-dim)', maxWidth:'800px', margin:'2rem auto'}}>
+                        Elite medical logistics powered by blockchain and AI. Bridging the gap between waste and life.
+                    </p>
+                    <div style={{display:'flex', gap:'1.5rem', justifyContent:'center', marginTop:'3rem'}}>
+                        <button onClick={() => setPage('register')} className="btn btn-primary" style={{padding:'1.2rem 3rem'}}>Join Ecosystem</button>
+                        <button className="btn btn-secondary" style={{padding:'1.2rem 3rem'}}>View Network</button>
                     </div>
-                );
-            };
-
-            const [showMap, setShowMap] = useState(null);
+                    <div className="impact-map">
+                        <div className="pulse" style={{top:'30%', left:'45%'}}></div>
+                        <div className="pulse" style={{top:'60%', left:'30%'}}></div>
+                        <div className="pulse" style={{top:'45%', left:'75%'}}></div>
+                    </div>
+                </div>
+            );
 
             const Dashboard = () => {
                 const [view, setView] = useState('inventory');
-                const [medicines, setMedicines] = useState([]);
-                const [showScanner, setShowScanner] = useState(false);
-
-                useEffect(() => { if(view==='inventory') fetchInventory(); }, [view]);
-
-                const fetchInventory = async () => {
-                    try {
-                        const res = await fetch('api/medicines.php?action=list');
-                        const data = await res.json();
-                        if (data.success) { setMedicines(data.medicines); return; }
-                    } catch (err) {
-                        setMedicines([
-                            {id: 1, name: 'Amoxicillin 500mg', category: 'Tablet', description: 'Broad-spectrum antibiotic for bacterial infections.', expiry_date: '2026-10-15', donor_name: 'Dr. Smith', donor_verified: true, status: 'Available', impact: '12kg CO2 saved'},
-                            {id: 2, name: 'Metformin 850mg', category: 'Tablet', description: 'Anti-diabetic medication for Type 2 diabetes.', expiry_date: '2025-12-01', donor_name: 'Sarah J.', donor_verified: true, status: 'Available', impact: '8kg CO2 saved'},
-                            {id: 3, name: 'Insulin Glargine', category: 'Injection', description: 'Long-acting basal insulin for glucose control.', expiry_date: '2026-05-20', donor_name: 'City Clinic', donor_verified: true, status: 'Available', impact: '24kg CO2 saved'},
-                            {id: 4, name: 'Atorvastatin 20mg', category: 'Capsule', description: 'Cholesterol-lowering medication for heart health.', expiry_date: '2026-02-14', donor_name: 'Hope Pharma', donor_verified: true, status: 'Available', impact: '15kg CO2 saved'},
-                            {id: 5, name: 'Salbutamol Inhaler', category: 'Aerosol', description: 'Rapid relief for asthma and respiratory distress.', expiry_date: '2027-01-10', donor_name: 'RespiCare NGO', donor_verified: true, status: 'In-Transit', impact: '10kg CO2 saved'},
-                            {id: 6, name: 'Omeprazole 40mg', category: 'Tablet', description: 'Proton-pump inhibitor for acid reflux treatment.', expiry_date: '2026-08-30', donor_name: 'MedAid Global', donor_verified: true, status: 'Available', impact: '9kg CO2 saved'}
-                        ]);
-                    }
-                };
+                const [medicines, setMedicines] = useState([
+                    {id: 1, name: 'Amoxicillin 500mg', category: 'Tablet', description: 'Broad-spectrum antibiotic.', expiry_date: '2026-10-15', donor_name: 'Dr. Smith', status: 'Available'},
+                    {id: 2, name: 'Metformin 850mg', category: 'Tablet', description: 'Anti-diabetic medication.', expiry_date: '2025-12-01', donor_name: 'Sarah J.', status: 'Available'},
+                    {id: 3, name: 'Insulin Glargine', category: 'Injection', description: 'Basal insulin for glucose control.', expiry_date: '2026-05-20', donor_name: 'City Clinic', status: 'Available'}
+                ]);
 
                 return (
-                    <div className="container" style={{padding:'3rem 0'}}>
-                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'3rem'}}>
+                    <div className="container" style={{padding:'4rem 0'}}>
+                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'4rem'}}>
                             <div>
-                                <h1 style={{fontSize:'2.5rem', margin:0}}>Management Dashboard</h1>
-                                <p style={{color: 'var(--text-dim)'}}>Logged in as {user.name} ({user.type})</p>
+                                <h1 style={{fontSize:'2.5rem', margin:0}}>Command Center</h1>
+                                <p style={{color:'var(--text-dim)'}}>Logged in as {user.name} ({user.type})</p>
                             </div>
                             <div style={{display:'flex', gap:'1rem'}}>
                                 <button onClick={()=>setView('inventory')} className={`btn ${view==='inventory'?'btn-primary':'btn-secondary'}`}>Inventory</button>
-                                {user.type === 'Individual' && <button onClick={()=>setView('donate')} className={`btn ${view==='donate'?'btn-primary':'btn-secondary'}`}>Donate Now</button>}
-                                {user.type === 'Volunteer' && <button onClick={()=>setView('radar')} className={`btn ${view==='radar'?'btn-primary':'btn-secondary'}`}>Delivery Radar</button>}
-                                {user.type === 'NGO' && <button onClick={()=>setView('vault')} className={`btn ${view==='vault'?'btn-primary':'btn-secondary'}`}>NGO Verification</button>}
-                                {user.type === 'Individual' && <button onClick={()=>setView('rewards')} className={`btn ${view==='rewards'?'btn-primary':'btn-secondary'}`}><i className="fas fa-trophy"></i> Rewards</button>}
-                                <button onClick={()=>setView('vmed')} className={`btn ${view==='vmed'?'btn-primary':'btn-secondary'}`}><i className="fas fa-brain"></i> V-Med AI</button>
-                                {user.type === 'Admin' && <button onClick={()=>setView('admin')} className={`btn ${view==='admin'?'btn-primary':'btn-secondary'}`}>Admin Terminal</button>}
+                                <button onClick={()=>setView('analytics')} className={`btn ${view==='analytics'?'btn-primary':'btn-secondary'}`}>Analytics</button>
+                                <button onClick={()=>setView('leaderboard')} className={`btn ${view==='leaderboard'?'btn-primary':'btn-secondary'}`}>Guardians</button>
+                                {user.type === 'Individual' && <button onClick={()=>setView('donate')} className="btn btn-primary">Donate Now</button>}
                             </div>
                         </div>
-
-                        {view === 'vmed' && (
-                            <div className="glass-card" style={{maxWidth:'700px', margin:'0 auto', textAlign:'center', border:'1px solid var(--primary)'}}>
-                                <div className="neural-pulse"></div>
-                                <h2 style={{marginTop:'1.5rem', textTransform:'uppercase', letterSpacing:'2px'}}>V-Med AI Assistant</h2>
-                                <p style={{color:'var(--text-dim)'}}>Neural symptom analysis for inventory synchronization.</p>
-                                
-                                <div className="form-group" style={{marginTop:'2.5rem'}}>
-                                    <textarea className="form-control" rows="4" placeholder="Describe symptoms (e.g., Fever, headache, muscle pain)..." style={{textAlign:'center'}}></textarea>
-                                </div>
-                                <button className="btn btn-primary" style={{width:'100%'}}>Analyze & Match Inventory</button>
-
-                                <div style={{marginTop:'2rem', padding:'1rem', background:'rgba(244,114,182,0.08)', border:'1px solid rgba(244,114,182,0.3)', borderRadius:'12px', fontSize:'0.75rem', color:'var(--accent2)'}}>
-                                    <i className="fas fa-exclamation-triangle"></i> <strong>DISCLAIMER:</strong> V-Med AI is NOT a doctor. Results are for informational purposes only. Always consult a healthcare professional before taking any medicine.
-                                </div>
-                            </div>
-                        )}
-
-                        {view === 'rewards' && (
-                            <div className="container">
-                                <div className="glass-card" style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem', background:'linear-gradient(90deg, rgba(255,179,0,0.1), transparent)'}}>
-                                    <div>
-                                        <h2 style={{margin:0}}>V-Points Marketplace</h2>
-                                        <p style={{color:'var(--text-dim)'}}>Redeem your donation points for life-saving rewards.</p>
-                                    </div>
-                                    <div style={{textAlign:'right'}}>
-                                        <span style={{fontSize:'0.8rem', color:'var(--text-dim)'}}>Current Balance</span>
-                                        <div style={{fontSize:'2.5rem', fontWeight:'800', color:'var(--accent)'}}>1,250 VP</div>
-                                    </div>
-                                </div>
-                                <div className="cards-grid">
-                                    <div className="reward-card">
-                                        <span className="points-tag">500 VP</span>
-                                        <i className="fas fa-stethoscope" style={{fontSize:'2.5rem', color:'var(--accent)', marginBottom:'1rem'}}></i>
-                                        <h4>Full Health Checkup</h4>
-                                        <p style={{fontSize:'0.8rem', color:'var(--text-dim)'}}>Valid at City Medical Center</p>
-                                        <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Claim Voucher</button>
-                                    </div>
-                                    <div className="reward-card">
-                                        <span className="points-tag">200 VP</span>
-                                        <i className="fas fa-pills" style={{fontSize:'2.5rem', color:'var(--accent)', marginBottom:'1rem'}}></i>
-                                        <h4>Pharmacy Discount</h4>
-                                        <p style={{fontSize:'0.8rem', color:'var(--text-dim)'}}>20% Off at Global Pharma</p>
-                                        <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Claim Voucher</button>
-                                    </div>
-                                    <div className="reward-card">
-                                        <span className="points-tag">1000 VP</span>
-                                        <i className="fas fa-tree" style={{fontSize:'2.5rem', color:'var(--accent)', marginBottom:'1rem'}}></i>
-                                        <h4>Carbon Offset Cert.</h4>
-                                        <p style={{fontSize:'0.8rem', color:'var(--text-dim)'}}>Official ESG Impact Certificate</p>
-                                        <button className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Generate Cert</button>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {view === 'vault' && (
-                            <div className="glass-card" style={{maxWidth:'600px', margin:'0 auto'}}>
-                                <h2>Verification Vault</h2>
-                                <p style={{color:'var(--text-dim)'}}>Upload your government NGO license or tax-exemption certificate to receive the "Verified" badge.</p>
-                                <div style={{border:'2px dashed var(--glass-border)', padding:'3rem', borderRadius:'20px', textAlign:'center', marginTop:'2rem'}}>
-                                    <i className="fas fa-cloud-upload-alt" style={{fontSize:'3rem', marginBottom:'1rem', opacity:0.5}}></i>
-                                    <p>Drag and drop PDF or JPG here</p>
-                                    <button className="btn btn-secondary">Select File</button>
-                                </div>
-                                <button className="btn btn-primary" style={{width:'100%', marginTop:'2rem'}}>Submit for Review</button>
-                            </div>
-                        )}
-
-                        <div className="climate-widget">
-                            <div className="climate-info">
-                                <i className="fas fa-temperature-high" style={{fontSize:'2rem', color:'var(--accent)'}}></i>
-                                <div>
-                                    <h4 style={{margin:0}}>Storage Climate</h4>
-                                    <p style={{margin:0, fontSize:'0.8rem', opacity:0.6}}>Optimal for Insulin Storage</p>
-                                </div>
-                            </div>
-                            <div className="temp-val">24°C <span style={{fontSize:'1rem', opacity:0.5}}>| 65% RH</span></div>
-                        </div>
-
-                        {user.type === 'NGO' && (
-                            <div className="safety-guard">
-                                <i className="fas fa-shield-virus" style={{fontSize:'1.5rem'}}></i>
-                                <div>
-                                    <h4 style={{margin:0}}>AI Safety Guard Active</h4>
-                                    <p style={{margin:0, fontSize:'0.8rem', opacity:0.8}}>Analyzing drug interactions in real-time based on your current inventory.</p>
-                                </div>
-                            </div>
-                        )}
-
-                        {view === 'radar' && (
-                            <div className="glass-card" style={{textAlign:'center', padding:'4rem'}}>
-                                <i className="fas fa-satellite-dish" style={{fontSize:'4rem', color:'var(--accent)', marginBottom:'2rem'}}></i>
-                                <h2>Scanning for Deliveries...</h2>
-                                <p style={{color:'var(--text-dim)'}}>3 Pending pick-ups found within 5km of your location.</p>
-                                <button className="btn btn-primary" style={{marginTop:'2rem'}}>Engage Navigation</button>
-                            </div>
-                        )}
 
                         {view === 'inventory' && (
                             <div className="cards-grid">
                                 {medicines.map(m => (
                                     <div key={m.id} className="glass-card">
-                                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1.5rem'}}>
-                                            <span style={{background: 'var(--accent)', color:'#000', padding:'0.3rem 0.8rem', borderRadius:'8px', fontSize:'0.75rem', fontWeight:'800'}}>{m.category.toUpperCase()}</span>
-                                            {m.donor_verified && <i className="fas fa-check-circle" style={{color: 'var(--accent)'}} title="Verified Donor"></i>}
+                                        <div style={{display:'flex', justifyContent:'space-between', marginBottom:'1.5rem'}}>
+                                            <span style={{background:'var(--primary)', color:'#000', padding:'0.3rem 0.8rem', borderRadius:'6px', fontSize:'0.7rem', fontWeight:'900'}}>{m.category.toUpperCase()}</span>
+                                            <i className="fas fa-check-circle" style={{color:'var(--primary)'}}></i>
                                         </div>
                                         <h3 style={{margin:'0 0 0.5rem 0'}}>{m.name}</h3>
-                                        <p style={{fontSize:'0.9rem', color: 'var(--text-dim)', height:'50px', overflow:'hidden'}}>{m.description}</p>
-                                        <div style={{marginTop:'1.5rem', padding:'1rem', background:'rgba(255,255,255,0.03)', borderRadius:'12px', fontSize:'0.85rem'}}>
-                                            <div style={{display:'flex', justifyContent:'space-between', marginBottom:'0.5rem'}}>
-                                                <span style={{color: 'var(--text-dim)'}}>Expires</span>
-                                                <span style={{color: new Date(m.expiry_date) < new Date() ? '#ef4444' : '#fff'}}>{m.expiry_date}</span>
-                                            </div>
-                                            <div style={{display:'flex', justifyContent:'space-between'}}>
-                                                <span style={{color: 'var(--text-dim)'}}>Provider</span>
-                                                <span>{m.donor_name}</span>
-                                            </div>
+                                        <p style={{fontSize:'0.9rem', color:'var(--text-dim)', height:'50px'}}>{m.description}</p>
+                                        <div className="blockchain-card">
+                                            TRACE-ID: {Math.random().toString(16).substring(2, 10).toUpperCase()}<br/>
+                                            STATUS: {m.status.toUpperCase()}
                                         </div>
-                                        <div className="blockchain-card" style={{position:'relative'}}>
-                                            <div style={{display:'flex', justifyContent:'space-between', marginBottom:'0.5rem'}}>
-                                                <span style={{fontSize:'0.6rem', color:'var(--primary)', opacity:0.7}}>TRACE-ID: {Math.random().toString(16).substring(2, 10).toUpperCase()}</span>
-                                                <span style={{fontSize:'0.6rem', color:'var(--accent)'}}><i className="fas fa-circle" style={{fontSize:'0.4rem', marginRight:'4px', animation:'pulse 2s infinite'}}></i> {m.status.toUpperCase()}</span>
-                                            </div>
-                                            HASH: {Math.random().toString(16).substring(2, 15).toUpperCase()}...<br/>
-                                            BLOCK: #829{m.id} | NODE: DX-04
-                                        </div>
-
                                         <div style={{display:'flex', gap:'0.5rem', marginTop:'1.5rem'}}>
-                                            <button onClick={() => setShowMap(m)} className="btn btn-secondary" style={{flex:1, fontSize:'0.7rem', padding:'0.6rem'}}>Lifecycle</button>
-                                            <button onClick={async () => {
-                                                try {
-                                                    const res = await fetch('api/medicines.php?action=request', {method:'POST', body:JSON.stringify({medicine_id: m.id})});
-                                                    const d = await res.json();
-                                                    if(d.success) alert('Request Dispatched!');
-                                                    else alert('Backend not connected (Demo Mode)');
-                                                } catch(e) {
-                                                    alert('Batch Secured! (Local Simulation Active)');
-                                                }
-                                            }} className="btn btn-primary" style={{flex:2, fontSize:'0.7rem', padding:'0.6rem'}}>Secure Request</button>
+                                            <button onClick={()=>setShowMapModal(m)} className="btn btn-secondary" style={{flex:1, fontSize:'0.7rem'}}>Lifecycle</button>
+                                            <button className="btn btn-primary" style={{flex:2, fontSize:'0.7rem'}}>Secure Request</button>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         )}
 
-                        {showMap && (
-                            <div className="scanner-overlay" style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-                                <div className="glass-card" style={{maxWidth:'800px', width:'90%', height:'500px', display:'flex', flexDirection:'column', border:'1px solid var(--primary)'}}>
-                                    <div style={{display:'flex', justifyContent:'space-between', marginBottom:'1.5rem'}}>
-                                        <h3>Origin Trace: {showMap.name}</h3>
-                                        <button onClick={()=>setShowMap(null)} style={{background:'none', border:'none', color:'white', fontSize:'1.5rem', cursor:'pointer'}}>&times;</button>
-                                    </div>
-                                    <div style={{flex:1, background:'rgba(255,179,0,0.05)', borderRadius:'12px', position:'relative', overflow:'hidden', border:'1px solid var(--glass-border)'}}>
-                                        <div className="impact-map" style={{height:'100%', margin:0, opacity:1}}>
-                                            <div className="pulse" style={{top:'40%', left:'30%'}}></div>
-                                            <div className="pulse" style={{top:'55%', left:'45%'}}><div style={{position:'absolute', top:'-25px', left:'10px', fontSize:'0.7rem', color:'var(--primary)', whiteSpace:'nowrap'}}>CURRENT HUB</div></div>
-                                            <svg style={{position:'absolute', width:'100%', height:'100%', pointerEvents:'none'}}>
-                                                <line x1="30%" y1="40%" x2="45%" y2="55%" stroke="var(--primary)" strokeWidth="1" strokeDasharray="5,5" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div style={{marginTop:'1.5rem', display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'1rem', fontSize:'0.7rem'}}>
-                                        <div className="glass-card" style={{padding:'1rem'}}><strong>SOURCE</strong><br/>{showMap.donor_name}</div>
-                                        <div className="glass-card" style={{padding:'1rem'}}><strong>TRANSIT</strong><br/>MedLink Logistic DX-2</div>
-                                        <div className="glass-card" style={{padding:'1rem'}}><strong>DESTINATION</strong><br/>{user.name}</div>
-                                    </div>
+                        {view === 'analytics' && (
+                            <div className="glass-card" style={{padding:'3rem', textAlign:'center'}}>
+                                <h2>Neural Analytics Feed</h2>
+                                <p style={{color:'var(--text-dim)'}}>System-wide redistribution metrics synchronized.</p>
+                                <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'2rem', marginTop:'3rem'}}>
+                                    <div className="glass-card"><h4>98.4%</h4><p style={{fontSize:'0.7rem'}}>MATCH RATE</p></div>
+                                    <div className="glass-card"><h4>2.4m</h4><p style={{fontSize:'0.7rem'}}>WASTE REDUCED</p></div>
+                                    <div className="glass-card"><h4>14.2k</h4><p style={{fontSize:'0.7rem'}}>ACTIVE NODES</p></div>
                                 </div>
+                            </div>
+                        )}
+
+                        {view === 'leaderboard' && (
+                            <div className="glass-card" style={{padding:'3rem'}}>
+                                <h2 style={{textAlign:'center', marginBottom:'3rem'}}>Global Guardian Leaderboard</h2>
+                                {[
+                                    {rank:1, name:'MedAid Global', score:12500},
+                                    {rank:2, name:'Hope Foundation', score:9800},
+                                    {rank:3, name:'City Clinic', score:7400}
+                                ].map(g => (
+                                    <div key={g.rank} className="leaderboard-item">
+                                        <span style={{fontWeight:'900', color:'var(--primary)'}}>#0{g.rank}</span>
+                                        <span>{g.name}</span>
+                                        <span style={{fontWeight:'700'}}>{g.score} VP</span>
+                                    </div>
+                                ))}
                             </div>
                         )}
 
                         {view === 'donate' && (
                             <div className="glass-card" style={{maxWidth:'600px', margin:'0 auto'}}>
-                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem'}}>
-                                    <h2 style={{margin:0}}>Contribution Form</h2>
-                                    <button onClick={()=>setShowScanner(true)} className="btn btn-secondary" style={{fontSize:'0.85rem'}}>
-                                        <i className="fas fa-camera"></i> AI Scan
-                                    </button>
-                                </div>
-                                <DonateForm onComplete={() => setView('inventory')} />
-                            </div>
-                        )}
-
-                        {showScanner && (
-                            <div className="scanner-overlay">
-                                <h2 style={{marginBottom:'2rem', letterSpacing:'2px'}}>NEURAL SCAN IN PROGRESS</h2>
-                                <div className="scan-frame">
-                                    <div className="scan-line"></div>
-                                    <div style={{width:'100%', height:'100%', background:'url(https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&auto=format&fit=crop&q=60) center/cover', filter:'grayscale(100%) contrast(150%)'}}></div>
-                                </div>
-                                <div style={{marginTop:'2rem', color: 'var(--accent)', fontFamily:'monospace', fontSize:'0.9rem'}}>
-                                    [ SCANNING LAYERS... ]<br/>
-                                    [ MATCHING DATABASE... ]
-                                </div>
-                                <button onClick={() => {
-                                    setTimeout(() => {
-                                        window.lastScanned = { name: 'Augmentin 625mg Duo', category: 'Tablet', description: 'Amoxicillin and Potassium Clavulanate Tablets (IP 625mg). Professional batch identification successful.', expiry: '2026-12-30' };
-                                        setShowScanner(false);
-                                        alert('AI Verification Success: Augmentin 625mg identified with 98.4% confidence.');
-                                    }, 1500);
-                                }} className="btn btn-primary" style={{marginTop:'2rem'}}>Initialize Capture</button>
-                                <button onClick={()=>setShowScanner(false)} className="btn btn-secondary" style={{marginTop:'1rem'}}>Cancel Sequence</button>
+                                <h2 style={{marginBottom:'2rem'}}>Donation Batch Form</h2>
+                                <div className="form-group"><label>Medicine Name</label><input type="text" className="form-control" placeholder="e.g. Augmentin 625mg" /></div>
+                                <div className="form-group"><label>Quantity</label><input type="number" className="form-control" defaultValue="1" /></div>
+                                <div className="form-group"><label>Expiry Date</label><input type="date" className="form-control" /></div>
+                                <button className="btn btn-primary" style={{width:'100%', padding:'1.2rem'}}>Initialize Batch</button>
                             </div>
                         )}
                     </div>
-                );
-            };
-
-            const DonateForm = ({ onComplete }) => {
-                const [form, setForm] = useState({ name:'', category:'Tablet', description:'', expiry_date:'', quantity:1 });
-                const [isListening, setIsListening] = useState(false);
-                
-                useEffect(() => {
-                    if(window.lastScanned) {
-                        setForm({
-                            name: window.lastScanned.name,
-                            category: window.lastScanned.category,
-                            description: window.lastScanned.description,
-                            expiry_date: window.lastScanned.expiry,
-                            quantity: 1
-                        });
-                        window.lastScanned = null;
-                    }
-                }, []);
-
-                const startVoice = () => {
-                    setIsListening(true);
-                    setTimeout(() => {
-                        setForm({
-                            ...form,
-                            name: 'Paracetamol 500mg',
-                            description: '2 Strips of 10 tablets each. Donating via voice command.',
-                            expiry_date: '2026-08-25'
-                        });
-                        setIsListening(false);
-                        alert('Voice Recognition Success: "Paracetamol 500mg" added.');
-                    }, 3000);
-                };
-
-                const submit = async (e) => {
-                    e.preventDefault();
-                    const res = await fetch('api/medicines.php?action=donate', {method:'POST', body:JSON.stringify(form)});
-                    const d = await res.json();
-                    if(d.success) onComplete();
-                };
-
-                return (
-                    <form onSubmit={submit}>
-                        <div style={{display:'flex', gap:'1rem', alignItems:'center', marginBottom:'1.5rem'}}>
-                            <div style={{flex:1}}>
-                                <label style={{display:'block', fontSize:'0.8rem', color:'var(--text-dim)', marginBottom:'0.5rem'}}>Generic/Brand Name</label>
-                                <input type="text" className="form-control" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} placeholder="e.g. Panadol 500mg" required />
-                            </div>
-                            <button type="button" onClick={startVoice} className={`btn-mic ${isListening?'active':''}`} title="Voice Command">
-                                <i className="fas fa-microphone"></i>
-                            </button>
-                        </div>
-
-                        {isListening && (
-                            <div className="voice-wave">
-                                <div className="wave-bar"></div>
-                                <div className="wave-bar"></div>
-                                <div className="wave-bar"></div>
-                                <div className="wave-bar"></div>
-                                <div className="wave-bar"></div>
-                            </div>
-                        )}
-                        <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem'}}>
-                            <div className="form-group">
-                                <label>Formulation</label>
-                                <select className="form-control" value={form.category} onChange={e=>setForm({...form, category:e.target.value})}>
-                                    <option>Tablet</option>
-                                    <option>Syrup</option>
-                                    <option>Injection</option>
-                                    <option>Cream/Ointment</option>
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label>Expiration Date</label>
-                                <input type="date" className="form-control" value={form.expiry_date} onChange={e=>setForm({...form, expiry_date:e.target.value})} required />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label>Composition/Dosage Details</label>
-                            <textarea className="form-control" value={form.description} onChange={e=>setForm({...form, description:e.target.value})} required rows="4" placeholder="Mention strength, storage conditions..." />
-                        </div>
-                        <button type="submit" className="btn btn-primary" style={{width:'100%', padding:'1.2rem'}}>Initialize Batch Transfer</button>
-                    </form>
                 );
             };
 
             const Login = () => {
                 const [email, setEmail] = useState('');
                 const [password, setPassword] = useState('');
-                const submit = async (e) => {
+                const submit = (e) => {
                     e.preventDefault();
-                    try {
-                        const res = await fetch('api/auth.php?action=login', {method:'POST', body:JSON.stringify({email, password})});
-                        const d = await res.json();
-                        if(d.success) { setUser(d.user); setPage('dashboard'); return; }
-                        alert(d.message);
-                    } catch (err) {
-                        // LocalStorage Fallback for Prototyping
-                        const users = JSON.parse(localStorage.getItem('users') || '[]');
-                        const found = users.find(u => u.email === email && u.password === password);
-                        if(found) { setUser(found); setPage('dashboard'); }
-                        else if(email === 'admin@meddonate.pro' && password === 'admin') {
-                            const adminUser = {name:'System Admin', email:'admin@meddonate.pro', type:'Admin', balance:5000};
-                            setUser(adminUser); setPage('dashboard');
-                        } else alert('Invalid credentials. (Note: Using local fallback mode)');
+                    if(email === 'admin@meddonate.com' && password === 'admin') {
+                        setUser({name:'Admin', email, type:'Admin'});
+                        setPage('dashboard');
+                    } else {
+                        setUser({name:'Guest Guardian', email, type:'Individual'});
+                        setPage('dashboard');
                     }
                 };
                 return (
                     <div className="container" style={{padding:'8rem 0'}}>
                         <div className="glass-card" style={{maxWidth:'450px', margin:'0 auto'}}>
-                            <h2 style={{fontSize:'2rem', marginBottom:'0.5rem'}}>Welcome Back</h2>
-                            <p style={{color: 'var(--text-dim)', marginBottom:'2.5rem'}}>Reconnect to the Donation-System ecosystem.</p>
+                            <h2 style={{fontSize:'2rem', marginBottom:'2rem'}}>Access Terminal</h2>
                             <form onSubmit={submit}>
-                                <div className="form-group"><label>Email Address</label><input type="email" className="form-control" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
-                                <div className="form-group"><label>Password</label><input type="password" className="form-control" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
-                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem', padding:'1.2rem'}}>Login</button>
-                            </form>
-                            <p style={{textAlign:'center', marginTop:'2rem', color: 'var(--text-dim)'}}>
-                                New guardian? <a onClick={()=>setPage('register')} style={{color: 'var(--accent)', cursor:'pointer', fontWeight:'600'}}>Create Identity</a>
-                            </p>
-                        </div>
-                    </div>
-                );
-            };
-
-            const Register = () => {
-                const [form, setForm] = useState({ name:'', email:'', password:'', type:'Individual', phone:'', address:'' });
-                const submit = async (e) => {
-                    e.preventDefault();
-                    try {
-                        const res = await fetch('api/auth.php?action=register', {method:'POST', body:JSON.stringify(form)});
-                        const d = await res.json();
-                        if(d.success) { setPage('login'); return; }
-                        alert(d.message);
-                    } catch (err) {
-                        // LocalStorage Fallback
-                        let users = JSON.parse(localStorage.getItem('users') || '[]');
-                        users.push({...form, id: Date.now()});
-                        localStorage.setItem('users', JSON.stringify(users));
-                        setPage('login');
-                        alert('Registration successful (Local storage mode)');
-                    }
-                };
-                return (
-                    <div className="container" style={{padding:'5rem 0'}}>
-                        <div className="glass-card" style={{maxWidth:'550px', margin:'0 auto'}}>
-                            <h2 style={{fontSize:'2.2rem', marginBottom:'0.5rem'}}>Join the Ecosystem</h2>
-                            <p style={{color: 'var(--text-dim)', marginBottom:'2.5rem'}}>Help us bridge the gap in global healthcare.</p>
-                            <form onSubmit={submit}>
-                                <div className="form-group"><label>Full Legal Name</label><input type="text" className="form-control" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} required /></div>
-                                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem'}}>
-                                    <div className="form-group"><label>Email</label><input type="email" className="form-control" value={form.email} onChange={e=>setForm({...form, email:e.target.value})} required /></div>
-                                    <div className="form-group"><label>Phone</label><input type="text" className="form-control" value={form.phone} onChange={e=>setForm({...form, phone:e.target.value})} required /></div>
-                                </div>
-                                <div className="form-group"><label>User Type</label>
-                                    <select className="form-control" value={form.type} onChange={e=>setForm({...form, type:e.target.value})}>
-                                        <option value="Individual">Individual Donor</option>
-                                        <option value="NGO">Registered NGO</option>
-                                        <option value="Volunteer">Volunteer Runner</option>
-                                    </select>
-                                </div>
-                                <div className="form-group"><label>Access Password</label><input type="password" className="form-control" value={form.password} onChange={e=>setForm({...form, password:e.target.value})} required /></div>
-                                <div className="form-group"><label>Operational Address</label><textarea className="form-control" value={form.address} onChange={e=>setForm({...form, address:e.target.value})} required rows="2" /></div>
-                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem', padding:'1.2rem'}}>Initialize Account</button>
+                                <div className="form-group"><label>Identity (Email)</label><input type="email" className="form-control" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
+                                <div className="form-group"><label>Access Key</label><input type="password" className="form-control" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
+                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Initialize Session</button>
                             </form>
                         </div>
                     </div>
@@ -1025,58 +480,55 @@
                     <main style={{minHeight:'80vh'}}>
                         {page === 'home' && <Home />}
                         {page === 'login' && <Login />}
-                        {page === 'register' && <Register />}
                         {page === 'dashboard' && <Dashboard />}
+                        {page === 'register' && <Login />}
                     </main>
-                    
-                    <div className="ai-fab" onClick={() => setShowChat(!showChat)}>
-                        <i className={`fas ${showChat ? 'fa-times' : 'fa-robot'}`}></i>
-                    </div>
-
-                    {showChat && (
-                        <div className="chat-box glass-card">
-                            <div style={{borderBottom:'1px solid var(--glass-border)', paddingBottom:'1rem', marginBottom:'1rem'}}>
-                                <h4 style={{margin:0}}>Quantum Assistant</h4>
-                                <span style={{fontSize:'0.7rem', color:'var(--accent)'}}>● Online | Neural Model v4.2</span>
-                            </div>
-                            <div style={{flex:1, overflowY:'auto', fontSize:'0.9rem'}}>
-                                <div style={{background:'rgba(255,255,255,0.05)', padding:'0.8rem', borderRadius:'12px', marginBottom:'1rem'}}>
-                                    Hello {user ? user.name : 'Guardian'}! How can I help you save lives today?
-                                </div>
-                                <div style={{background:'var(--accent)', color:'#000', padding:'0.8rem', borderRadius:'12px', marginBottom:'1rem', marginLeft:'2rem'}}>
-                                    Can I donate opened medicine?
-                                </div>
-                                <div style={{background:'rgba(255,255,255,0.05)', padding:'0.8rem', borderRadius:'12px'}}>
-                                    We only accept sealed strips or bottles for safety. Please ensure the expiry date is at least 3 months away.
-                                </div>
-                            </div>
-                            <input type="text" className="form-control" placeholder="Ask anything..." style={{marginTop:'1rem'}} />
-                        </div>
-                    )}
 
                     {showMilestone && (
                         <div className="toast-milestone">
-                            <i className="fas fa-award" style={{fontSize:'1.5rem'}}></i>
-                            <div>
-                                <div style={{fontSize:'0.7rem', opacity:0.8}}>MILESTONE UNLOCKED</div>
-                                <div>Life Saver Level 1</div>
+                            <i className="fas fa-award"></i>
+                            <span>ACHIEVEMENT: Life Saver Level 1</span>
+                        </div>
+                    )}
+
+                    <div className="climate-widget">
+                        <i className="fas fa-temperature-low" style={{color:'var(--primary)'}}></i>
+                        <span className="temp-val">18.4°C</span>
+                        <div style={{width:'1px', height:'20px', background:'var(--glass-border)'}}></div>
+                        <span style={{fontSize:'0.8rem', opacity:0.8}}>STORAGE STABLE</span>
+                    </div>
+
+                    <div className="ai-fab" onClick={() => {
+                        const s = new SpeechSynthesisUtterance("V-Med AI Online. Standing by for donation batch data.");
+                        window.speechSynthesis.speak(s);
+                        alert("V-Med AI Activated. [LISTENING...]");
+                    }}>
+                        <div className="ai-waves"></div>
+                        <i className="fas fa-robot"></i>
+                    </div>
+
+                    {showMapModal && (
+                        <div className="scanner-overlay" onClick={()=>setShowMapModal(null)}>
+                            <div className="glass-card" style={{maxWidth:'600px', width:'90%', height:'400px'}} onClick={e=>e.stopPropagation()}>
+                                <h3>Lifecycle Trace: {showMapModal.name}</h3>
+                                <div className="impact-map" style={{height:'250px', opacity:1, margin:'1rem 0'}}>
+                                    <div className="pulse" style={{top:'40%', left:'30%'}}></div>
+                                    <div className="pulse" style={{top:'55%', left:'45%'}}></div>
+                                </div>
+                                <p style={{fontSize:'0.8rem', opacity:0.6, textAlign:'center'}}>Geographical journey verified via blockchain nodes.</p>
                             </div>
                         </div>
                     )}
 
-                    <footer style={{padding:'4rem 0', borderTop: '1px solid var(--glass-border)', marginTop:'5rem', textAlign:'center'}}>
-                        <div className="container">
-                            <a className="logo" style={{justifyContent:'center', marginBottom:'1.5rem'}}>
-                                <i className="fas fa-microchip"></i> MedDonate PRO
-                            </a>
-                            <p style={{color: 'var(--text-dim)', fontSize:'0.9rem'}}>© 2026 MedLink Systems. Engineering a waste-free medical future.</p>
-                        </div>
+                    <footer style={{padding:'4rem 0', borderTop:'1px solid var(--glass-border)', textAlign:'center'}}>
+                        <p style={{color:'var(--text-dim)', fontSize:'0.9rem'}}>© 2026 Unused Medicine Donation System. Global Redistribution Network.</p>
                     </footer>
                 </div>
             );
-        }
+        };
 
-        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
