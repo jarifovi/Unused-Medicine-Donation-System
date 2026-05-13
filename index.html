@@ -324,11 +324,18 @@
                             <i className="fas fa-hand-holding-medical"></i> Unused Medicine Donation System
                         </a>
                         <div className="nav-links" style={{display:'flex', gap:'2rem', alignItems:'center'}}>
-                            <a onClick={() => setPage('home')} style={{cursor:'pointer', color: page==='home'?'var(--primary)':'#fff'}}>NETWORK</a>
-                            <a onClick={() => setPage('dashboard')} style={{cursor:'pointer', color: page==='dashboard'?'var(--primary)':'#fff'}}>COMMAND</a>
-                            <button onClick={() => setPage(user?'dashboard':'login')} className="btn btn-primary">
-                                {user ? 'ACCESS HUB' : 'INITIALIZE'}
-                            </button>
+                            <a onClick={() => setPage('home')} style={{cursor:'pointer', color: page==='home'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>NETWORK</a>
+                            {user ? (
+                                <>
+                                    <a onClick={() => setPage('dashboard')} style={{cursor:'pointer', color: page==='dashboard'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>COMMAND</a>
+                                    <button onClick={() => {setUser(null); setPage('home');}} className="btn btn-secondary" style={{padding:'0.5rem 1.2rem', fontSize:'0.75rem'}}>LOGOUT</button>
+                                </>
+                            ) : (
+                                <>
+                                    <a onClick={() => setPage('login')} style={{cursor:'pointer', color: page==='login'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>SIGN IN</a>
+                                    <button onClick={() => setPage('register')} className="btn btn-primary" style={{padding:'0.6rem 1.5rem', fontSize:'0.75rem'}}>JOIN NETWORK</button>
+                                </>
+                            )}
                         </div>
                     </div>
                     <div className="impact-ticker">
@@ -349,7 +356,7 @@
                     </p>
                     <div style={{display:'flex', gap:'1.5rem', justifyContent:'center', marginTop:'3rem'}}>
                         <button onClick={() => setPage('register')} className="btn btn-primary" style={{padding:'1.2rem 3rem'}}>Join Ecosystem</button>
-                        <button className="btn btn-secondary" style={{padding:'1.2rem 3rem'}}>View Network</button>
+                        <button onClick={() => setPage(user ? 'dashboard' : 'login')} className="btn btn-secondary" style={{padding:'1.2rem 3rem'}}>View Network</button>
                     </div>
                     <div className="impact-map">
                         <div className="pulse" style={{top:'30%', left:'45%'}}></div>
@@ -378,6 +385,7 @@
                                 <button onClick={()=>setView('inventory')} className={`btn ${view==='inventory'?'btn-primary':'btn-secondary'}`}>Inventory</button>
                                 <button onClick={()=>setView('analytics')} className={`btn ${view==='analytics'?'btn-primary':'btn-secondary'}`}>Analytics</button>
                                 <button onClick={()=>setView('leaderboard')} className={`btn ${view==='leaderboard'?'btn-primary':'btn-secondary'}`}>Guardians</button>
+                                {user.type === 'Admin' && <button onClick={()=>setView('admin')} className={`btn ${view==='admin'?'btn-primary':'btn-secondary'}`}>Admin Terminal</button>}
                                 {user.type === 'Individual' && <button onClick={()=>setView('donate')} className="btn btn-primary">Donate Now</button>}
                             </div>
                         </div>
@@ -441,6 +449,42 @@
                                 <div className="form-group"><label>Quantity</label><input type="number" className="form-control" defaultValue="1" /></div>
                                 <div className="form-group"><label>Expiry Date</label><input type="date" className="form-control" /></div>
                                 <button className="btn btn-primary" style={{width:'100%', padding:'1.2rem'}}>Initialize Batch</button>
+                            </div>
+                        )}
+
+                        {view === 'admin' && (
+                            <div className="glass-card">
+                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'3rem'}}>
+                                    <h2 style={{margin:0}}>System Oversight Terminal</h2>
+                                    <span style={{color:'var(--accent)', fontSize:'0.7rem', border:'1px solid var(--accent)', padding:'4px 10px', borderRadius:'4px'}}>SECURE SESSION ACTIVE</span>
+                                </div>
+                                <div style={{display:'grid', gridTemplateColumns:'1fr 2fr', gap:'2rem'}}>
+                                    <div className="glass-card" style={{background:'rgba(255,255,255,0.02)'}}>
+                                        <h4>User Verification Queue</h4>
+                                        <div style={{marginTop:'1.5rem'}}>
+                                            {[
+                                                {name:'Hope Hospital', type:'NGO', status:'Pending'},
+                                                {name:'John Doe', type:'Individual', status:'Flagged'},
+                                                {name:'RespiCare Intl', type:'NGO', status:'Pending'}
+                                            ].map((u, i) => (
+                                                <div key={i} style={{display:'flex', justifyContent:'space-between', padding:'1rem 0', borderBottom:'1px solid var(--glass-border)'}}>
+                                                    <div><div style={{fontSize:'0.85rem'}}>{u.name}</div><div style={{fontSize:'0.65rem', color:'var(--text-dim)'}}>{u.type}</div></div>
+                                                    <button className="btn btn-secondary" style={{fontSize:'0.6rem', padding:'0.4rem 0.8rem'}}>Verify</button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="glass-card" style={{background:'rgba(255,255,255,0.02)'}}>
+                                        <h4>Global Activity Log</h4>
+                                        <div style={{marginTop:'1.5rem', fontFamily:'monospace', fontSize:'0.7rem', color:'var(--text-dim)', height:'200px', overflowY:'auto'}}>
+                                            <div>[17:15:22] <span style={{color:'var(--primary)'}}>SYS</span>: Batch #42901 Verified via Node DX-04</div>
+                                            <div>[17:16:01] <span style={{color:'var(--accent2)'}}>AUTH</span>: Failed login attempt from IP 192.168.1.45</div>
+                                            <div>[17:16:10] <span style={{color:'var(--primary)'}}>SYS</span>: Inventory Sync Complete (14,204 records)</div>
+                                            <div>[17:16:12] <span style={{color:'var(--accent)'}}>USER</span>: NGO 'Hope Foundation' uploaded tax license</div>
+                                            <div>[17:16:15] <span style={{color:'var(--primary)'}}>SYS</span>: Neural model v4.2 calibration successful</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>
