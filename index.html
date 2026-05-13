@@ -324,16 +324,16 @@
                             <i className="fas fa-hand-holding-medical"></i> Unused Medicine Donation System
                         </a>
                         <div className="nav-links" style={{display:'flex', gap:'2rem', alignItems:'center'}}>
-                            <a onClick={() => setPage('home')} style={{cursor:'pointer', color: page==='home'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>NETWORK</a>
+                            <a onClick={() => setPage('home')} style={{cursor:'pointer', color: page==='home'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>HOME</a>
                             {user ? (
                                 <>
-                                    <a onClick={() => setPage('dashboard')} style={{cursor:'pointer', color: page==='dashboard'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>COMMAND</a>
+                                    <a onClick={() => setPage('dashboard')} style={{cursor:'pointer', color: page==='dashboard'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>DASHBOARD</a>
                                     <button onClick={() => {setUser(null); setPage('home');}} className="btn btn-secondary" style={{padding:'0.5rem 1.2rem', fontSize:'0.75rem'}}>LOGOUT</button>
                                 </>
                             ) : (
                                 <>
-                                    <a onClick={() => setPage('login')} style={{cursor:'pointer', color: page==='login'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>SIGN IN</a>
-                                    <button onClick={() => setPage('register')} className="btn btn-primary" style={{padding:'0.6rem 1.5rem', fontSize:'0.75rem'}}>JOIN NETWORK</button>
+                                    <a onClick={() => setPage('login')} style={{cursor:'pointer', color: page==='login'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>LOGIN</a>
+                                    <button onClick={() => setPage('register')} className="btn btn-primary" style={{padding:'0.6rem 1.5rem', fontSize:'0.75rem'}}>REGISTER</button>
                                 </>
                             )}
                         </div>
@@ -348,15 +348,15 @@
 
             const Home = () => (
                 <div className="container" style={{padding:'6rem 0', textAlign:'center'}}>
-                    <h1 style={{fontSize:'4.5rem', fontWeight:'900', letterSpacing:'-2px', textTransform:'uppercase', background:'linear-gradient(to right, #fff, var(--primary))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>
-                        Unused Medicine<br/>Redistribution.
+                    <h1 style={{fontSize:'4rem', fontWeight:'900', letterSpacing:'-2px', textTransform:'uppercase', background:'linear-gradient(to right, #fff, var(--primary))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>
+                        Donating Unused<br/>Medicine Made Simple.
                     </h1>
-                    <p style={{fontSize:'1.3rem', color:'var(--text-dim)', maxWidth:'800px', margin:'2rem auto'}}>
-                        Elite medical logistics powered by blockchain and AI. Bridging the gap between waste and life.
+                    <p style={{fontSize:'1.2rem', color:'var(--text-dim)', maxWidth:'800px', margin:'2rem auto'}}>
+                        Donate your surplus medicine to those in need. We track every batch to ensure safety and efficiency.
                     </p>
                     <div style={{display:'flex', gap:'1.5rem', justifyContent:'center', marginTop:'3rem'}}>
-                        <button onClick={() => setPage('register')} className="btn btn-primary" style={{padding:'1.2rem 3rem'}}>Join Ecosystem</button>
-                        <button onClick={() => setPage(user ? 'dashboard' : 'login')} className="btn btn-secondary" style={{padding:'1.2rem 3rem'}}>View Network</button>
+                        <button onClick={() => setPage('register')} className="btn btn-primary" style={{padding:'1.2rem 3rem'}}>Donate Now</button>
+                        <button onClick={() => setPage(user ? 'dashboard' : 'login')} className="btn btn-secondary" style={{padding:'1.2rem 3rem'}}>Browse Medicine</button>
                     </div>
                     <div className="impact-map">
                         <div className="pulse" style={{top:'30%', left:'45%'}}></div>
@@ -378,14 +378,19 @@
                     <div className="container" style={{padding:'4rem 0'}}>
                         <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'4rem'}}>
                             <div>
-                                <h1 style={{fontSize:'2.5rem', margin:0}}>Command Center</h1>
-                                <p style={{color:'var(--text-dim)'}}>Logged in as {user.name} ({user.type})</p>
+                                <h1 style={{fontSize:'2.5rem', margin:0}}>Medicine Dashboard</h1>
+                                <div style={{display:'flex', gap:'1.5rem', marginTop:'0.5rem', alignItems:'center'}}>
+                                    <p style={{color:'var(--text-dim)', margin:0}}>Hello, {user.name}! (ID: {user.email})</p>
+                                    <div style={{width:'1px', height:'15px', background:'var(--glass-border)'}}></div>
+                                    <span style={{fontSize:'0.7rem', color:'var(--primary)', fontWeight:'800', border:'1px solid var(--primary)', padding:'2px 8px', borderRadius:'4px'}}>{user.type.toUpperCase()} ACCOUNT</span>
+                                    <span style={{fontSize:'0.7rem', color:'var(--accent)', fontWeight:'800'}}><i className="fas fa-star" style={{marginRight:'4px'}}></i> 1,250 POINTS</span>
+                                </div>
                             </div>
                             <div style={{display:'flex', gap:'1rem'}}>
                                 <button onClick={()=>setView('inventory')} className={`btn ${view==='inventory'?'btn-primary':'btn-secondary'}`}>Inventory</button>
-                                <button onClick={()=>setView('analytics')} className={`btn ${view==='analytics'?'btn-primary':'btn-secondary'}`}>Analytics</button>
-                                <button onClick={()=>setView('leaderboard')} className={`btn ${view==='leaderboard'?'btn-primary':'btn-secondary'}`}>Guardians</button>
-                                {user.type === 'Admin' && <button onClick={()=>setView('admin')} className={`btn ${view==='admin'?'btn-primary':'btn-secondary'}`}>Admin Terminal</button>}
+                                <button onClick={()=>setView('analytics')} className={`btn ${view==='analytics'?'btn-primary':'btn-secondary'}`}>Statistics</button>
+                                <button onClick={()=>setView('leaderboard')} className={`btn ${view==='leaderboard'?'btn-primary':'btn-secondary'}`}>Top Donors</button>
+                                {user.type === 'Admin' && <button onClick={()=>setView('admin')} className={`btn ${view==='admin'?'btn-primary':'btn-secondary'}`}>Admin Panel</button>}
                                 {user.type === 'Individual' && <button onClick={()=>setView('donate')} className="btn btn-primary">Donate Now</button>}
                             </div>
                         </div>
@@ -507,11 +512,11 @@
                 return (
                     <div className="container" style={{padding:'8rem 0'}}>
                         <div className="glass-card" style={{maxWidth:'450px', margin:'0 auto'}}>
-                            <h2 style={{fontSize:'2rem', marginBottom:'2rem'}}>Access Terminal</h2>
+                            <h2 style={{fontSize:'2rem', marginBottom:'2rem'}}>Login</h2>
                             <form onSubmit={submit}>
-                                <div className="form-group"><label>Identity (Email)</label><input type="email" className="form-control" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
-                                <div className="form-group"><label>Access Key</label><input type="password" className="form-control" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
-                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Initialize Session</button>
+                                <div className="form-group"><label>Email Address</label><input type="email" className="form-control" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
+                                <div className="form-group"><label>Password</label><input type="password" className="form-control" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
+                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Login</button>
                             </form>
                         </div>
                     </div>
