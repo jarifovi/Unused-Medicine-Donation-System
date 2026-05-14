@@ -323,12 +323,34 @@
                         <a onClick={() => setPage('home')} className="logo" style={{cursor:'pointer'}}>
                             <i className="fas fa-hand-holding-medical"></i> Unused Medicine Donation System
                         </a>
+                        <div style={{display:'flex', alignItems:'center', gap:'1rem', background:'rgba(255,179,0,0.1)', padding:'4px 12px', borderRadius:'20px', border:'1px solid var(--glass-border)'}}>
+                            <i className="fas fa-globe" style={{fontSize:'0.7rem', color:'var(--primary)'}}></i>
+                            <select style={{background:'transparent', border:'none', color:'#fff', fontSize:'0.7rem', cursor:'pointer', outline:'none', fontWeight:'700'}}>
+                                <option style={{background:'#000'}}>NEURAL TRANSLATE: EN</option>
+                                <option style={{background:'#000'}}>NEURAL TRANSLATE: ES</option>
+                                <option style={{background:'#000'}}>NEURAL TRANSLATE: BN</option>
+                                <option style={{background:'#000'}}>NEURAL TRANSLATE: AR</option>
+                            </select>
+                        </div>
                         <div className="nav-links" style={{display:'flex', gap:'2rem', alignItems:'center'}}>
-                            <a onClick={() => setPage('home')} style={{cursor:'pointer', color: page==='home'?'var(--primary)':'#fff'}}>NETWORK</a>
-                            <a onClick={() => setPage('dashboard')} style={{cursor:'pointer', color: page==='dashboard'?'var(--primary)':'#fff'}}>COMMAND</a>
-                            <button onClick={() => setPage(user?'dashboard':'login')} className="btn btn-primary">
-                                {user ? 'ACCESS HUB' : 'INITIALIZE'}
-                            </button>
+                            <a onClick={() => setPage('home')} style={{cursor:'pointer', color: page==='home'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>HOME</a>
+                            {user && (
+                                <div style={{position:'relative', cursor:'pointer'}} onClick={() => alert('New donation accepted by City Hope NGO!')}>
+                                    <i className="fas fa-bell" style={{color:'var(--primary)', fontSize:'1.1rem'}}></i>
+                                    <span style={{position:'absolute', top:'-8px', right:'-8px', background:'#ef4444', color:'#fff', fontSize:'0.6rem', padding:'2px 5px', borderRadius:'50%', fontWeight:'900'}}>3</span>
+                                </div>
+                            )}
+                            {user ? (
+                                <>
+                                    <a onClick={() => setPage('dashboard')} style={{cursor:'pointer', color: page==='dashboard'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>DASHBOARD</a>
+                                    <button onClick={() => {setUser(null); setPage('home');}} className="btn btn-secondary" style={{padding:'0.5rem 1.2rem', fontSize:'0.75rem'}}>LOGOUT</button>
+                                </>
+                            ) : (
+                                <>
+                                    <a onClick={() => setPage('login')} style={{cursor:'pointer', color: page==='login'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>LOGIN</a>
+                                    <button onClick={() => setPage('register')} className="btn btn-primary" style={{padding:'0.6rem 1.5rem', fontSize:'0.75rem'}}>REGISTER</button>
+                                </>
+                            )}
                         </div>
                     </div>
                     <div className="impact-ticker">
@@ -341,15 +363,15 @@
 
             const Home = () => (
                 <div className="container" style={{padding:'6rem 0', textAlign:'center'}}>
-                    <h1 style={{fontSize:'4.5rem', fontWeight:'900', letterSpacing:'-2px', textTransform:'uppercase', background:'linear-gradient(to right, #fff, var(--primary))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>
-                        Unused Medicine<br/>Redistribution.
+                    <h1 style={{fontSize:'4rem', fontWeight:'900', letterSpacing:'-2px', textTransform:'uppercase', background:'linear-gradient(to right, #fff, var(--primary))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>
+                        Donating Unused<br/>Medicine Made Simple.
                     </h1>
-                    <p style={{fontSize:'1.3rem', color:'var(--text-dim)', maxWidth:'800px', margin:'2rem auto'}}>
-                        Elite medical logistics powered by blockchain and AI. Bridging the gap between waste and life.
+                    <p style={{fontSize:'1.2rem', color:'var(--text-dim)', maxWidth:'800px', margin:'2rem auto'}}>
+                        Donate your surplus medicine to those in need. We track every batch to ensure safety and efficiency.
                     </p>
                     <div style={{display:'flex', gap:'1.5rem', justifyContent:'center', marginTop:'3rem'}}>
-                        <button onClick={() => setPage('register')} className="btn btn-primary" style={{padding:'1.2rem 3rem'}}>Join Ecosystem</button>
-                        <button className="btn btn-secondary" style={{padding:'1.2rem 3rem'}}>View Network</button>
+                        <button onClick={() => setPage('register')} className="btn btn-primary" style={{padding:'1.2rem 3rem'}}>Donate Now</button>
+                        <button onClick={() => setPage(user ? 'dashboard' : 'login')} className="btn btn-secondary" style={{padding:'1.2rem 3rem'}}>Browse Medicine</button>
                     </div>
                     <div className="impact-map">
                         <div className="pulse" style={{top:'30%', left:'45%'}}></div>
@@ -371,14 +393,39 @@
                     <div className="container" style={{padding:'4rem 0'}}>
                         <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'4rem'}}>
                             <div>
-                                <h1 style={{fontSize:'2.5rem', margin:0}}>Command Center</h1>
-                                <p style={{color:'var(--text-dim)'}}>Logged in as {user.name} ({user.type})</p>
+                                <h1 style={{fontSize:'2.5rem', margin:0}}>{user.type} Dashboard</h1>
+                                <div style={{display:'flex', gap:'1.5rem', marginTop:'0.5rem', alignItems:'center'}}>
+                                    <p style={{color:'var(--text-dim)', margin:0}}>Hello, {user.name}! (ID: {user.email})</p>
+                                    <div style={{width:'1px', height:'15px', background:'var(--glass-border)'}}></div>
+                                    <span style={{fontSize:'0.7rem', color:'var(--primary)', fontWeight:'800', border:'1px solid var(--primary)', padding:'2px 8px', borderRadius:'4px'}}>{user.type.toUpperCase()} ACCOUNT</span>
+                                    <span style={{fontSize:'0.7rem', color:'var(--accent)', fontWeight:'800'}}><i className="fas fa-star" style={{marginRight:'4px'}}></i> 1,250 POINTS</span>
+                                </div>
                             </div>
                             <div style={{display:'flex', gap:'1rem'}}>
+                                {/* COMMON BUTTONS */}
                                 <button onClick={()=>setView('inventory')} className={`btn ${view==='inventory'?'btn-primary':'btn-secondary'}`}>Inventory</button>
-                                <button onClick={()=>setView('analytics')} className={`btn ${view==='analytics'?'btn-primary':'btn-secondary'}`}>Analytics</button>
-                                <button onClick={()=>setView('leaderboard')} className={`btn ${view==='leaderboard'?'btn-primary':'btn-secondary'}`}>Guardians</button>
-                                {user.type === 'Individual' && <button onClick={()=>setView('donate')} className="btn btn-primary">Donate Now</button>}
+                                <button onClick={()=>setView('analytics')} className={`btn ${view==='analytics'?'btn-primary':'btn-secondary'}`}>Statistics</button>
+                                <button onClick={()=>setView('safety')} className={`btn ${view==='safety'?'btn-primary':'btn-secondary'}`}><i className="fas fa-shield-virus"></i> Safety Check</button>
+
+                                {/* ROLE SPECIFIC BUTTONS */}
+                                {user.type === 'Admin' && (
+                                    <>
+                                        <button onClick={()=>setView('admin')} className={`btn ${view==='admin'?'btn-primary':'btn-secondary'}`}><i className="fas fa-terminal"></i> Terminal</button>
+                                        <button onClick={()=>setView('users')} className={`btn ${view==='users'?'btn-primary':'btn-secondary'}`}>Users</button>
+                                    </>
+                                )}
+                                {user.type === 'NGO' && (
+                                    <>
+                                        <button onClick={()=>setView('wishlist')} className={`btn ${view==='wishlist'?'btn-primary':'btn-secondary'}`}>Wishlist</button>
+                                        <button onClick={()=>setView('verify')} className={`btn ${view==='verify'?'btn-primary':'btn-secondary'}`}>Verify Status</button>
+                                    </>
+                                )}
+                                {user.type === 'Individual' && (
+                                    <>
+                                        <button onClick={()=>setView('impact')} className={`btn ${view==='impact'?'btn-primary':'btn-secondary'}`}>My Impact</button>
+                                        <button onClick={()=>setView('donate')} className="btn btn-primary">Donate Now</button>
+                                    </>
+                                )}
                             </div>
                         </div>
 
@@ -396,6 +443,10 @@
                                             TRACE-ID: {Math.random().toString(16).substring(2, 10).toUpperCase()}<br/>
                                             STATUS: {m.status.toUpperCase()}
                                         </div>
+                                        <div style={{marginTop:'1rem', display:'flex', alignItems:'center', gap:'0.5rem', color:'#ff7043', fontSize:'0.7rem', fontWeight:'900'}}>
+                                            <i className="fas fa-clock"></i>
+                                            EXPIRES IN: {Math.floor((new Date(m.expiry_date) - new Date()) / (1000 * 60 * 60 * 24))} DAYS
+                                        </div>
                                         <div style={{display:'flex', gap:'0.5rem', marginTop:'1.5rem'}}>
                                             <button onClick={()=>setShowMapModal(m)} className="btn btn-secondary" style={{flex:1, fontSize:'0.7rem'}}>Lifecycle</button>
                                             <button className="btn btn-primary" style={{flex:2, fontSize:'0.7rem'}}>Secure Request</button>
@@ -409,28 +460,22 @@
                             <div className="glass-card" style={{padding:'3rem', textAlign:'center'}}>
                                 <h2>Neural Analytics Feed</h2>
                                 <p style={{color:'var(--text-dim)'}}>System-wide redistribution metrics synchronized.</p>
-                                <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'2rem', marginTop:'3rem'}}>
+                                <div style={{display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:'2rem', marginTop:'3rem'}}>
                                     <div className="glass-card"><h4>98.4%</h4><p style={{fontSize:'0.7rem'}}>MATCH RATE</p></div>
                                     <div className="glass-card"><h4>2.4m</h4><p style={{fontSize:'0.7rem'}}>WASTE REDUCED</p></div>
+                                    <div className="glass-card" style={{border:'1px solid var(--accent)'}}>
+                                        <h4 style={{color:'var(--accent)'}}>$142.8k</h4>
+                                        <p style={{fontSize:'0.6rem', fontWeight:'900'}}>SOCIAL ROI SAVED</p>
+                                    </div>
                                     <div className="glass-card"><h4>14.2k</h4><p style={{fontSize:'0.7rem'}}>ACTIVE NODES</p></div>
                                 </div>
-                            </div>
-                        )}
-
-                        {view === 'leaderboard' && (
-                            <div className="glass-card" style={{padding:'3rem'}}>
-                                <h2 style={{textAlign:'center', marginBottom:'3rem'}}>Global Guardian Leaderboard</h2>
-                                {[
-                                    {rank:1, name:'MedAid Global', score:12500},
-                                    {rank:2, name:'Hope Foundation', score:9800},
-                                    {rank:3, name:'City Clinic', score:7400}
-                                ].map(g => (
-                                    <div key={g.rank} className="leaderboard-item">
-                                        <span style={{fontWeight:'900', color:'var(--primary)'}}>#0{g.rank}</span>
-                                        <span>{g.name}</span>
-                                        <span style={{fontWeight:'700'}}>{g.score} VP</span>
+                                <div style={{marginTop:'3rem', padding:'1.5rem', background:'rgba(255,179,0,0.02)', borderRadius:'12px', border:'1px solid var(--glass-border)'}}>
+                                    <h4 style={{margin:0, fontSize:'0.8rem'}}>FINANCIAL IMPACT PROJECTION</h4>
+                                    <div style={{height:'8px', background:'var(--glass-border)', borderRadius:'4px', marginTop:'1rem', overflow:'hidden'}}>
+                                        <div style={{width:'72%', height:'100%', background:'linear-gradient(90deg, var(--primary), var(--accent))'}}></div>
                                     </div>
-                                ))}
+                                    <p style={{fontSize:'0.6rem', color:'var(--text-dim)', marginTop:'0.5rem'}}>SYSTEMED GLOBAL: 72% OF ANNUAL WASTE PREVENTION GOAL REACHED</p>
+                                </div>
                             </div>
                         )}
 
@@ -440,7 +485,171 @@
                                 <div className="form-group"><label>Medicine Name</label><input type="text" className="form-control" placeholder="e.g. Augmentin 625mg" /></div>
                                 <div className="form-group"><label>Quantity</label><input type="number" className="form-control" defaultValue="1" /></div>
                                 <div className="form-group"><label>Expiry Date</label><input type="date" className="form-control" /></div>
-                                <button className="btn btn-primary" style={{width:'100%', padding:'1.2rem'}}>Initialize Batch</button>
+                                <button className="btn btn-primary" style={{width:'100%', padding:'1.2rem'}} onClick={() => {
+                                    alert('Generating Quantum QR ID...');
+                                    setView('qr_ready');
+                                }}>Initialize Batch</button>
+                            </div>
+                        )}
+
+                        {view === 'qr_ready' && (
+                            <div className="glass-card" style={{maxWidth:'500px', margin:'0 auto', textAlign:'center'}}>
+                                <h2 style={{color:'var(--primary)'}}>Quantum QR ID Generated</h2>
+                                <p style={{color:'var(--text-dim)'}}>Batch #MT-{Math.floor(Math.random()*90000)} synchronized with blockchain.</p>
+                                <div style={{background:'#fff', width:'200px', height:'200px', margin:'2rem auto', padding:'1rem', borderRadius:'12px'}}>
+                                    <img src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=MED-${Math.random()}`} alt="QR" style={{width:'100%'}} />
+                                </div>
+                                <p style={{fontSize:'0.8rem', opacity:0.6}}>NGOs can scan this code to instantly verify batch metadata and origin lifecycle.</p>
+                                <button className="btn btn-secondary" style={{width:'100%'}} onClick={() => setView('inventory')}>Back to Hub</button>
+                            </div>
+                        )}
+
+                        {view === 'safety' && (
+                            <div className="glass-card" style={{maxWidth:'700px', margin:'0 auto'}}>
+                                <h2 style={{marginBottom:'2rem'}}><i className="fas fa-shield-virus" style={{marginRight:'10px', color:'var(--primary)'}}></i> AI Interaction Checker</h2>
+                                <p style={{color:'var(--text-dim)', marginBottom:'2rem'}}>Check for hazardous interactions between medicines before donating or requesting.</p>
+                                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1.5rem', marginBottom:'2rem'}}>
+                                    <input type="text" className="form-control" placeholder="Medicine A (e.g. Aspirin)" />
+                                    <input type="text" className="form-control" placeholder="Medicine B (e.g. Warfarin)" />
+                                </div>
+                                <button className="btn btn-primary" style={{width:'100%'}} onClick={() => {
+                                    alert('Analyzing Molecular Synergy...');
+                                    alert('⚠️ WARNING: Potential Interaction Detected. Increased risk of bleeding. Please verify with a medical professional.');
+                                }}>Analyze Safety Profile</button>
+                                <div className="blockchain-card" style={{marginTop:'2rem', background:'rgba(255,112,67,0.05)', borderColor:'rgba(255,112,67,0.2)'}}>
+                                    <i className="fas fa-info-circle" style={{marginRight:'10px'}}></i>
+                                    NEURAL ADVISORY: This tool uses predictive AI models to identify potential pharmacological conflicts. Always consult an MD.
+                                </div>
+                            </div>
+                        )}
+
+                        {view === 'wishlist' && (
+                            <div className="container">
+                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'3rem'}}>
+                                    <h2 style={{margin:0}}>Global Medicine Wishlist</h2>
+                                    <button className="btn btn-primary" style={{fontSize:'0.8rem'}}>+ Post Urgent Need</button>
+                                </div>
+                                <div className="cards-grid">
+                                    {[
+                                        {item: 'Insulin (Any Brand)', qty: '50 Units', requester: 'City Hope NGO', priority: 'High'},
+                                        {item: 'Pediatric Paracetamol', qty: '20 Bottles', requester: 'Village Care', priority: 'Medium'},
+                                        {item: 'Dialysis Kits', qty: '5 Sets', requester: 'General Hospital', priority: 'Urgent'}
+                                    ].map((w, i) => (
+                                        <div key={i} className="glass-card" style={{borderLeft: `4px solid ${w.priority === 'Urgent' ? '#ef4444' : w.priority === 'High' ? 'var(--primary)' : 'var(--accent)'}`}}>
+                                            <div style={{display:'flex', justifyContent:'space-between', marginBottom:'1rem'}}>
+                                                <span style={{fontSize:'0.6rem', color:'var(--text-dim)'}}>REQUESTED BY: {w.requester}</span>
+                                                <span style={{fontSize:'0.6rem', color: w.priority === 'Urgent' ? '#ef4444' : 'var(--primary)', fontWeight:'900'}}>{w.priority.toUpperCase()}</span>
+                                            </div>
+                                            <h3 style={{margin:0}}>{w.item}</h3>
+                                            <p style={{color:'var(--accent)', fontWeight:'800', margin:'0.5rem 0'}}>QTY NEEDED: {w.qty}</p>
+                                            <button className="btn btn-secondary" style={{width:'100%', marginTop:'1rem', fontSize:'0.7rem'}}>Donate This Item</button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {view === 'impact' && (
+                            <div className="container" style={{textAlign:'center'}}>
+                                <div className="glass-card" style={{maxWidth:'700px', margin:'0 auto', border:'2px solid var(--primary)', padding:'4rem', position:'relative'}}>
+                                    <div style={{position:'absolute', top:'20px', right:'20px', opacity:0.1, fontSize:'5rem'}}><i className="fas fa-medal"></i></div>
+                                    <h1 style={{color:'var(--primary)', letterSpacing:'4px', marginBottom:'2rem'}}>CERTIFICATE OF IMPACT</h1>
+                                    <p style={{fontSize:'1.2rem', color:'var(--text-dim)'}}>This certifies that</p>
+                                    <h2 style={{fontSize:'2.5rem', margin:'1.5rem 0', textTransform:'uppercase'}}>{user.name}</h2>
+                                    <p style={{maxWidth:'500px', margin:'0 auto', lineHeight:'1.8'}}>Has successfully contributed to the global medicine redistribution network, directly aiding in waste reduction and securing medical access for underprivileged communities.</p>
+                                    
+                                    <div style={{display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'2rem', marginTop:'3rem', borderTop:'1px solid var(--glass-border)', paddingTop:'2rem'}}>
+                                        <div><strong>42</strong><br/><span style={{fontSize:'0.6rem'}}>UNITS DONATED</span></div>
+                                        <div><strong>124kg</strong><br/><span style={{fontSize:'0.6rem'}}>CO2 OFFSET</span></div>
+                                        <div><strong>#8291</strong><br/><span style={{fontSize:'0.6rem'}}>HOLDER ID</span></div>
+                                    </div>
+                                    
+                                    <div style={{marginTop:'3rem', display:'flex', justifyContent:'center', gap:'1rem'}}>
+                                        <button className="btn btn-primary" onClick={() => window.print()}><i className="fas fa-download"></i> Download PDF</button>
+                                        <button className="btn btn-secondary"><i className="fas fa-share-alt"></i> Share to LinkedIn</button>
+                                    </div>
+                                    
+                                    <div style={{marginTop:'4rem', display:'flex', justifyContent:'center', gap:'2rem'}}>
+                                        <div title="Donated 10+ Units" style={{width:'60px', height:'60px', background:'rgba(255,179,0,0.1)', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', border:'1px solid var(--primary)'}}>
+                                            <i className="fas fa-seedling"></i>
+                                        </div>
+                                        <div title="Zero Waste Champion" style={{width:'60px', height:'60px', background:'rgba(255,179,0,0.1)', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', border:'1px solid var(--primary)'}}>
+                                            <i className="fas fa-leaf"></i>
+                                        </div>
+                                        <div title="Community Hero" style={{width:'60px', height:'60px', background:'rgba(255,179,0,0.1)', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--primary)', border:'1px solid var(--primary)'}}>
+                                            <i className="fas fa-heart"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {view === 'verify' && (
+                            <div className="glass-card" style={{maxWidth:'600px', margin:'0 auto', textAlign:'center'}}>
+                                <h2>AI NGO Verification</h2>
+                                <p style={{color:'var(--text-dim)', marginBottom:'2.5rem'}}>Upload your NGO registration license for AI-based authenticity analysis.</p>
+                                <div style={{border:'2px dashed var(--glass-border)', padding:'4rem', borderRadius:'20px', marginBottom:'2rem'}}>
+                                    <i className="fas fa-id-card" style={{fontSize:'3rem', color:'var(--primary)', opacity:0.5, marginBottom:'1rem'}}></i>
+                                    <p>Drop License PDF/JPG here</p>
+                                    <button className="btn btn-secondary" onClick={async () => {
+                                        alert('AI Scanning License...');
+                                        const res = await fetch('api/verification.php?action=verify_license');
+                                        const d = await res.json();
+                                        alert(`Success! License ${d.data.license_no} Verified with ${d.data.authenticity} authenticity.`);
+                                    }}>Simulate Upload</button>
+                                </div>
+                            </div>
+                        )}
+
+                        {view === 'users' && (
+                            <div className="glass-card">
+                                <h2>System User Directory</h2>
+                                <table style={{width:'100%', marginTop:'2rem', borderCollapse:'collapse'}}>
+                                    <thead>
+                                        <tr style={{color:'var(--primary)', fontSize:'0.7rem', borderBottom:'1px solid var(--glass-border)', textAlign:'left'}}>
+                                            <th style={{padding:'1rem'}}>NAME</th>
+                                            <th style={{padding:'1rem'}}>ROLE</th>
+                                            <th style={{padding:'1rem'}}>STATUS</th>
+                                            <th style={{padding:'1rem'}}>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {[
+                                            {name:'Sarah J.', type:'Individual', status:'Active'},
+                                            {name:'City Hope NGO', type:'NGO', status:'Verified'},
+                                            {name:'Michael Chen', type:'Individual', status:'Flagged'}
+                                        ].map((u, i) => (
+                                            <tr key={i} style={{borderBottom:'1px solid var(--glass-border)', fontSize:'0.9rem'}}>
+                                                <td style={{padding:'1rem'}}>{u.name}</td>
+                                                <td style={{padding:'1rem'}}>{u.type}</td>
+                                                <td style={{padding:'1rem'}}><span style={{color: u.status==='Flagged'?'#ef4444':'#4ade80'}}>{u.status}</span></td>
+                                                <td style={{padding:'1rem'}}><button className="btn btn-secondary" style={{fontSize:'0.6rem', padding:'0.4rem'}}>Manage</button></td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+
+                        {view === 'admin' && (
+                            <div className="glass-card">
+                                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'3rem'}}>
+                                    <h2 style={{margin:0}}>Security Terminal</h2>
+                                    <span style={{color:'var(--accent)', fontSize:'0.7rem', border:'1px solid var(--accent)', padding:'4px 10px', borderRadius:'4px'}}>ADMIN ENCRYPTION ON</span>
+                                </div>
+                                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'1.5rem', marginBottom:'2rem'}}>
+                                    <div className="glass-card" style={{textAlign:'center'}}><h4>142</h4><p style={{fontSize:'0.6rem'}}>LOGINS TODAY</p></div>
+                                    <div className="glass-card" style={{textAlign:'center'}}><h4>2</h4><p style={{fontSize:'0.6rem', color:'#ef4444'}}>THREATS BLOCKED</p></div>
+                                    <div className="glass-card" style={{textAlign:'center'}}><h4>99.9%</h4><p style={{fontSize:'0.6rem'}}>UPTIME</p></div>
+                                </div>
+                                <div className="glass-card" style={{background:'rgba(255,255,255,0.02)'}}>
+                                    <h4>Real-time Server Logs</h4>
+                                    <div style={{marginTop:'1.5rem', fontFamily:'monospace', fontSize:'0.7rem', color:'var(--text-dim)', height:'150px', overflowY:'auto'}}>
+                                        <div>[SYS] Database sync successful via Node-DX</div>
+                                        <div>[AUTH] Admin session re-validated</div>
+                                        <div>[API] 204 requests processed in last 60s</div>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -463,11 +672,11 @@
                 return (
                     <div className="container" style={{padding:'8rem 0'}}>
                         <div className="glass-card" style={{maxWidth:'450px', margin:'0 auto'}}>
-                            <h2 style={{fontSize:'2rem', marginBottom:'2rem'}}>Access Terminal</h2>
+                            <h2 style={{fontSize:'2rem', marginBottom:'2rem'}}>Login</h2>
                             <form onSubmit={submit}>
-                                <div className="form-group"><label>Identity (Email)</label><input type="email" className="form-control" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
-                                <div className="form-group"><label>Access Key</label><input type="password" className="form-control" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
-                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Initialize Session</button>
+                                <div className="form-group"><label>Email Address</label><input type="email" className="form-control" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
+                                <div className="form-group"><label>Password</label><input type="password" className="form-control" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
+                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Login</button>
                             </form>
                         </div>
                     </div>
