@@ -323,6 +323,15 @@
                         <a onClick={() => setPage('home')} className="logo" style={{cursor:'pointer'}}>
                             <i className="fas fa-hand-holding-medical"></i> Unused Medicine Donation System
                         </a>
+                        <div style={{display:'flex', alignItems:'center', gap:'1rem', background:'rgba(255,179,0,0.1)', padding:'4px 12px', borderRadius:'20px', border:'1px solid var(--glass-border)'}}>
+                            <i className="fas fa-globe" style={{fontSize:'0.7rem', color:'var(--primary)'}}></i>
+                            <select style={{background:'transparent', border:'none', color:'#fff', fontSize:'0.7rem', cursor:'pointer', outline:'none', fontWeight:'700'}}>
+                                <option style={{background:'#000'}}>NEURAL TRANSLATE: EN</option>
+                                <option style={{background:'#000'}}>NEURAL TRANSLATE: ES</option>
+                                <option style={{background:'#000'}}>NEURAL TRANSLATE: BN</option>
+                                <option style={{background:'#000'}}>NEURAL TRANSLATE: AR</option>
+                            </select>
+                        </div>
                         <div className="nav-links" style={{display:'flex', gap:'2rem', alignItems:'center'}}>
                             <a onClick={() => setPage('home')} style={{cursor:'pointer', color: page==='home'?'var(--primary)':'#fff', textDecoration:'none', fontSize:'0.8rem', fontWeight:'700'}}>HOME</a>
                             {user && (
@@ -451,10 +460,21 @@
                             <div className="glass-card" style={{padding:'3rem', textAlign:'center'}}>
                                 <h2>Neural Analytics Feed</h2>
                                 <p style={{color:'var(--text-dim)'}}>System-wide redistribution metrics synchronized.</p>
-                                <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'2rem', marginTop:'3rem'}}>
+                                <div style={{display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:'2rem', marginTop:'3rem'}}>
                                     <div className="glass-card"><h4>98.4%</h4><p style={{fontSize:'0.7rem'}}>MATCH RATE</p></div>
                                     <div className="glass-card"><h4>2.4m</h4><p style={{fontSize:'0.7rem'}}>WASTE REDUCED</p></div>
+                                    <div className="glass-card" style={{border:'1px solid var(--accent)'}}>
+                                        <h4 style={{color:'var(--accent)'}}>$142.8k</h4>
+                                        <p style={{fontSize:'0.6rem', fontWeight:'900'}}>SOCIAL ROI SAVED</p>
+                                    </div>
                                     <div className="glass-card"><h4>14.2k</h4><p style={{fontSize:'0.7rem'}}>ACTIVE NODES</p></div>
+                                </div>
+                                <div style={{marginTop:'3rem', padding:'1.5rem', background:'rgba(255,179,0,0.02)', borderRadius:'12px', border:'1px solid var(--glass-border)'}}>
+                                    <h4 style={{margin:0, fontSize:'0.8rem'}}>FINANCIAL IMPACT PROJECTION</h4>
+                                    <div style={{height:'8px', background:'var(--glass-border)', borderRadius:'4px', marginTop:'1rem', overflow:'hidden'}}>
+                                        <div style={{width:'72%', height:'100%', background:'linear-gradient(90deg, var(--primary), var(--accent))'}}></div>
+                                    </div>
+                                    <p style={{fontSize:'0.6rem', color:'var(--text-dim)', marginTop:'0.5rem'}}>SYSTEMED GLOBAL: 72% OF ANNUAL WASTE PREVENTION GOAL REACHED</p>
                                 </div>
                             </div>
                         )}
