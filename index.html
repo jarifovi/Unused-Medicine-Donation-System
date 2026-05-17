@@ -473,6 +473,7 @@
                                     <h4 style={{margin:0, fontSize:'0.8rem'}}>FINANCIAL IMPACT PROJECTION</h4>
                                     <div style={{height:'8px', background:'var(--glass-border)', borderRadius:'4px', marginTop:'1rem', overflow:'hidden'}}>
                                         <div style={{width:'72%', height:'100%', background:'linear-gradient(90deg, var(--primary), var(--accent))'}}></div>
+<<<<<<< HEAD
                                     </div>
                                     <p style={{fontSize:'0.6rem', color:'var(--text-dim)', marginTop:'0.5rem'}}>SYSTEMED GLOBAL: 72% OF ANNUAL WASTE PREVENTION GOAL REACHED</p>
                                 </div>
@@ -491,8 +492,11 @@
                                         <span style={{fontWeight:'900', color:'var(--primary)'}}>#0{g.rank}</span>
                                         <span>{g.name}</span>
                                         <span style={{fontWeight:'700'}}>{g.score} VP</span>
+=======
+>>>>>>> 98cee449a2b0152d998da74f7d4e94a8313ccd75
                                     </div>
-                                ))}
+                                    <p style={{fontSize:'0.6rem', color:'var(--text-dim)', marginTop:'0.5rem'}}>SYSTEMED GLOBAL: 72% OF ANNUAL WASTE PREVENTION GOAL REACHED</p>
+                                </div>
                             </div>
                         )}
 
@@ -674,27 +678,85 @@
             };
 
             const Login = () => {
+                const isRegister = page === 'register';
+                const [name, setName] = useState('');
                 const [email, setEmail] = useState('');
                 const [password, setPassword] = useState('');
+                const [type, setType] = useState('Individual');
+                const [phone, setPhone] = useState('');
+                const [address, setAddress] = useState('');
+
                 const submit = (e) => {
                     e.preventDefault();
-                    if(email === 'admin@meddonate.com' && password === 'admin') {
-                        setUser({name:'Admin', email, type:'Admin'});
-                        setPage('dashboard');
+                    if (isRegister) {
+                        setUser({ name: name || 'Guest Guardian', email, type });
                     } else {
-                        setUser({name:'Guest Guardian', email, type:'Individual'});
-                        setPage('dashboard');
+                        if (email === 'admin@meddonate.com' && password === 'admin') {
+                            setUser({ name: 'Admin', email, type: 'Admin' });
+                        } else {
+                            setUser({ name: 'Guest Guardian', email, type: 'Individual' });
+                        }
                     }
+                    setPage('dashboard');
                 };
+
                 return (
-                    <div className="container" style={{padding:'8rem 0'}}>
-                        <div className="glass-card" style={{maxWidth:'450px', margin:'0 auto'}}>
-                            <h2 style={{fontSize:'2rem', marginBottom:'2rem'}}>Login</h2>
+                    <div className="container" style={{padding:'6rem 0'}}>
+                        <div className="glass-card" style={{maxWidth: '500px', margin: '0 auto'}}>
+                            <h2 style={{fontSize:'2rem', marginBottom:'2rem'}}>{isRegister ? 'Create Account' : 'Login'}</h2>
                             <form onSubmit={submit}>
-                                <div className="form-group"><label>Email Address</label><input type="email" className="form-control" value={email} onChange={e=>setEmail(e.target.value)} required /></div>
-                                <div className="form-group"><label>Password</label><input type="password" className="form-control" value={password} onChange={e=>setPassword(e.target.value)} required /></div>
-                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem'}}>Login</button>
+                                {isRegister && (
+                                    <>
+                                        <div className="form-group">
+                                            <label>Full Name / Organization</label>
+                                            <input type="text" className="form-control" value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Hope Clinic" required />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Account Type</label>
+                                            <select className="form-control" value={type} onChange={e=>setType(e.target.value)} style={{background: '#0f0f0f', color: '#fff', border: '1px solid var(--glass-border)'}}>
+                                                <option value="Individual">Individual Donor</option>
+                                                <option value="NGO">NGO / Medical Facility</option>
+                                            </select>
+                                        </div>
+                                    </>
+                                )}
+                                <div className="form-group">
+                                    <label>Email Address</label>
+                                    <input type="email" className="form-control" value={email} onChange={e=>setEmail(e.target.value)} required />
+                                </div>
+                                <div className="form-group">
+                                    <label>Password</label>
+                                    <input type="password" className="form-control" value={password} onChange={e=>setPassword(e.target.value)} required />
+                                </div>
+                                {isRegister && (
+                                    <>
+                                        <div className="form-group">
+                                            <label>Phone Number</label>
+                                            <input type="tel" className="form-control" value={phone} onChange={e=>setPhone(e.target.value)} placeholder="+1 (555) 000-0000" />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Physical Address</label>
+                                            <textarea className="form-control" value={address} onChange={e=>setAddress(e.target.value)} placeholder="123 Care Ave, City, Country" style={{resize: 'none', height: '80px'}}></textarea>
+                                        </div>
+                                    </>
+                                )}
+                                <button type="submit" className="btn btn-primary" style={{width:'100%', marginTop:'1rem', padding: '1rem'}}>
+                                    {isRegister ? 'Register & Enter Hub' : 'Login'}
+                                </button>
                             </form>
+                            <div style={{marginTop: '2rem', textAlign: 'center', fontSize: '0.85rem'}}>
+                                {isRegister ? (
+                                    <p style={{color: 'var(--text-dim)'}}>
+                                        Already have an account?{' '}
+                                        <a onClick={() => setPage('login')} style={{color: 'var(--primary)', cursor: 'pointer', fontWeight: '700', textDecoration: 'underline'}}>Login here</a>
+                                    </p>
+                                ) : (
+                                    <p style={{color: 'var(--text-dim)'}}>
+                                        Don't have an account yet?{' '}
+                                        <a onClick={() => setPage('register')} style={{color: 'var(--primary)', cursor: 'pointer', fontWeight: '700', textDecoration: 'underline'}}>Register here</a>
+                                    </p>
+                                )}
+                            </div>
                         </div>
                     </div>
                 );
